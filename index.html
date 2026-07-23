@@ -1,0 +1,983 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>South Asian Street Food</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+/* ── TOKENS ───────────────────────────────────────────────────── */
+:root {
+  --terra:#C4501A; --terra-l:#E06B35; --terra-dim:rgba(196,80,26,.12);
+  --amber:#E8A020; --amber-l:#F7C948; --amber-dim:rgba(232,160,32,.15);
+  --herb:#2E7D32; --herb-l:#43A047; --herb-dim:rgba(46,125,50,.12);
+  --crimson:#9B1B1B; --crimson-dim:rgba(155,27,27,.12);
+  --ink:#1C1410; --ink-mid:#2E2218;
+  --cream:#FFFBF5; --cream-mid:#F5EDE0;
+  --muted:#7C6B5C; --border:rgba(28,20,16,.1);
+  --sh-sm:0 2px 10px rgba(28,20,16,.08);
+  --sh-md:0 8px 32px rgba(28,20,16,.14);
+  --sh-lg:0 24px 64px rgba(28,20,16,.22);
+  --bg:var(--cream); --bg-card:#fff; --text:var(--ink);
+  --text-muted:var(--muted); --surface:var(--cream-mid);
+  --nav-bg:rgba(255,251,245,.94);
+}
+:root[data-theme=dark] {
+  --bg:#1C1410; --bg-card:#2A1F14; --text:#FFF5E6;
+  --text-muted:#B8A090; --surface:#362A1C; --border:rgba(255,245,230,.1);
+  --nav-bg:rgba(28,20,16,.96);
+  --sh-sm:0 2px 10px rgba(0,0,0,.35);
+  --sh-md:0 8px 32px rgba(0,0,0,.45);
+  --sh-lg:0 24px 64px rgba(0,0,0,.55);
+  --cream-mid:#2A1F14;
+}
+@media(prefers-color-scheme:dark) {
+  :root {
+    --bg:#1C1410; --bg-card:#2A1F14; --text:#FFF5E6;
+    --text-muted:#B8A090; --surface:#362A1C; --border:rgba(255,245,230,.1);
+    --nav-bg:rgba(28,20,16,.96);
+    --sh-sm:0 2px 10px rgba(0,0,0,.35);
+    --sh-md:0 8px 32px rgba(0,0,0,.45);
+    --sh-lg:0 24px 64px rgba(0,0,0,.55);
+    --cream-mid:#2A1F14;
+  }
+}
+
+/* ── RESET ────────────────────────────────────────────────────── */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); font-size:16px; line-height:1.65; overflow-x:hidden; transition:background .3s,color .3s; }
+h1,h2,h3,h4 { font-family:'Playfair Display',Georgia,serif; line-height:1.15; text-wrap:balance; }
+a { color:var(--terra); text-decoration:none; }
+button { cursor:pointer; font-family:'Inter',sans-serif; border:none; }
+:focus-visible { outline:2px solid var(--terra); outline-offset:2px; }
+.container { max-width:1200px; margin:0 auto; padding:0 24px; }
+.section { padding:96px 0; }
+@media(prefers-reduced-motion:reduce) { * { animation-duration:.01ms!important; transition-duration:.01ms!important; } }
+
+/* ── SCROLL PROGRESS ──────────────────────────────────────────── */
+#scroll-progress {
+  position:fixed; top:0; left:0; right:0; height:3px; z-index:300;
+  background:linear-gradient(90deg,var(--terra),var(--amber),var(--amber-l));
+  transform-origin:left; transform:scaleX(0);
+  pointer-events:none;
+}
+
+/* ── NAV ──────────────────────────────────────────────────────── */
+nav { position:fixed; top:0; left:0; right:0; z-index:200; background:var(--nav-bg); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); border-bottom:1px solid var(--border); transition:background .3s,border-color .3s; }
+.nav-inner { display:flex; align-items:center; justify-content:space-between; height:64px; max-width:1200px; margin:0 auto; padding:0 24px; }
+.nav-logo { display:flex; align-items:center; gap:10px; }
+.nav-logo-icon { width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg,var(--terra),var(--amber)); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+.nav-logo-text { font-family:'Playfair Display',serif; font-weight:700; font-size:1rem; color:var(--text); line-height:1.1; }
+.nav-logo-text span { display:block; font-size:.62rem; font-family:'Inter',sans-serif; font-weight:400; color:var(--text-muted); letter-spacing:.07em; text-transform:uppercase; }
+.nav-links { display:flex; gap:2px; }
+.nav-links a { font-size:.82rem; font-weight:500; color:var(--text-muted); padding:6px 11px; border-radius:8px; transition:color .15s,background .15s; }
+.nav-links a:hover { color:var(--terra); background:var(--terra-dim); }
+.btn-theme { width:36px; height:36px; background:var(--surface); border:1px solid var(--border); border-radius:9px; display:flex; align-items:center; justify-content:center; transition:background .2s,color .2s; color:var(--text); font-size:1rem; }
+.btn-theme:hover { background:var(--terra-dim); color:var(--terra); }
+.hamburger { display:none; flex-direction:column; gap:4px; background:none; padding:8px; width:40px; }
+.hamburger span { display:block; height:2px; background:var(--text); border-radius:2px; transition:transform .3s,opacity .3s; }
+.mobile-menu { display:none; position:fixed; top:64px; left:0; right:0; background:var(--nav-bg); backdrop-filter:blur(18px); border-bottom:1px solid var(--border); padding:12px 24px 20px; flex-direction:column; gap:2px; z-index:199; }
+.mobile-menu a { display:block; padding:10px 12px; border-radius:9px; font-size:.9rem; color:var(--text); font-weight:500; }
+.mobile-menu a:hover { background:var(--terra-dim); color:var(--terra); }
+.mobile-menu.open { display:flex; }
+@media(max-width:768px) { .nav-links { display:none; } .hamburger { display:flex; } }
+
+/* ── RECIPE MODAL ─────────────────────────────────────────────── */
+.recipe-overlay { position:fixed; inset:0; background:rgba(28,20,16,.72); backdrop-filter:blur(8px); z-index:500; display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .3s; }
+.recipe-overlay.open { opacity:1; pointer-events:all; }
+.recipe-modal { background:var(--bg-card); border-radius:24px; box-shadow:var(--sh-lg); max-width:700px; width:100%; max-height:92vh; overflow-y:auto; transform:scale(.94) translateY(18px); transition:transform .35s cubic-bezier(.22,1,.36,1); position:relative; }
+.recipe-overlay.open .recipe-modal { transform:scale(1) translateY(0); }
+.recipe-modal-hero { height:220px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; border-radius:24px 24px 0 0; }
+.dish-mega-emoji { font-size:6rem; line-height:1; filter:drop-shadow(0 8px 24px rgba(0,0,0,.3)); position:relative; z-index:1; user-select:none; }
+.hero-pattern { position:absolute; inset:0; opacity:.18; background-image:url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='1'%3E%3Ccircle cx='2' cy='2' r='1'/%3E%3Ccircle cx='10' cy='2' r='1'/%3E%3Ccircle cx='18' cy='2' r='1'/%3E%3Ccircle cx='6' cy='6' r='1'/%3E%3Ccircle cx='14' cy='6' r='1'/%3E%3Ccircle cx='2' cy='10' r='1'/%3E%3Ccircle cx='10' cy='10' r='1'/%3E%3Ccircle cx='18' cy='10' r='1'/%3E%3Ccircle cx='6' cy='14' r='1'/%3E%3Ccircle cx='14' cy='14' r='1'/%3E%3C/g%3E%3C/svg%3E"); }
+.recipe-close { position:absolute; top:16px; right:16px; width:36px; height:36px; background:rgba(255,255,255,.2); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; color:#fff; transition:background .2s; z-index:2; }
+.recipe-close:hover { background:rgba(255,255,255,.38); }
+/* ── DISH CARD PHOTO ──────────────────────────────────────────── */
+.dish-img { height:175px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.dish-img--photo { display:block; }
+.dish-img--photo img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease; }
+.dish-card:hover .dish-img--photo img { transform:scale(1.06); }
+.recipe-modal-body { padding:28px 32px 32px; }
+.recipe-country-bar { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.recipe-flag { font-size:1.5rem; }
+.recipe-country-label { font-size:.78rem; font-weight:600; color:var(--text-muted); letter-spacing:.04em; text-transform:uppercase; }
+.recipe-name { font-size:clamp(1.9rem,4vw,2.5rem); font-weight:900; letter-spacing:-.03em; color:var(--text); margin-bottom:18px; }
+.recipe-badges { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:28px; }
+.rbadge { padding:5px 13px; border-radius:999px; font-size:.77rem; font-weight:600; }
+.rbadge.veg { background:var(--herb-dim); color:var(--herb-l); border:1px solid rgba(46,125,50,.22); }
+.rbadge.nonveg { background:var(--crimson-dim); color:var(--crimson); border:1px solid rgba(155,27,27,.2); }
+.rbadge.variant { background:var(--amber-dim); color:#9a6200; border:1px solid rgba(232,160,32,.25); }
+[data-theme=dark] .rbadge.variant { color:var(--amber); }
+.rs-title { font-size:.7rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--text-muted); margin:26px 0 14px; display:flex; align-items:center; gap:10px; }
+.rs-title::after { content:''; flex:1; height:1px; background:var(--border); }
+.ingredients-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(172px,1fr)); gap:9px; }
+.ingredient-item { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:9px 13px; display:flex; align-items:center; gap:8px; font-size:.85rem; color:var(--text); font-weight:500; }
+.ing-dot { width:7px; height:7px; border-radius:50%; background:var(--amber); flex-shrink:0; }
+.steps-list { display:flex; flex-direction:column; gap:16px; }
+.step-item { display:flex; gap:15px; align-items:flex-start; }
+.step-num { width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,var(--terra),var(--amber)); color:#fff; font-weight:700; font-size:.82rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:3px; }
+.step-text { font-size:.9rem; color:var(--text); line-height:1.7; padding-top:4px; }
+.technique-chips { display:flex; flex-wrap:wrap; gap:7px; }
+.technique-chip { padding:6px 14px; border-radius:8px; background:var(--surface); border:1px solid var(--border); color:var(--text); font-size:.82rem; font-weight:500; }
+.variant-links { display:flex; flex-wrap:wrap; gap:8px; }
+.variant-link-chip { padding:7px 16px; border-radius:10px; background:var(--amber-dim); border:1px solid rgba(232,160,32,.3); color:#9a6200; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .2s; }
+[data-theme=dark] .variant-link-chip { color:var(--amber); }
+.variant-link-chip:hover { background:rgba(232,160,32,.3); }
+.related-row { margin-top:28px; padding-top:24px; border-top:1px solid var(--border); }
+.related-title { font-size:.7rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-muted); margin-bottom:12px; }
+.related-grid { display:flex; flex-wrap:wrap; gap:8px; }
+.related-chip { padding:7px 14px; background:var(--surface); border:1px solid var(--border); border-radius:9px; font-size:.82rem; font-weight:500; color:var(--text); cursor:pointer; transition:border-color .2s,color .2s; }
+.related-chip:hover { border-color:var(--terra); color:var(--terra); }
+
+/* ── HERO ─────────────────────────────────────────────────────── */
+.hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:100px 24px 72px; text-align:center; }
+.hero-bg { position:absolute; inset:0; background:linear-gradient(160deg,#C4501A 0%,#8B2500 30%,#4A1500 65%,#1C1410 100%); }
+.hero-pattern-overlay { position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M30 0L60 30L30 60L0 30z'/%3E%3C/g%3E%3C/svg%3E"); will-change:transform; }
+.hero-glow { position:absolute; width:640px; height:640px; border-radius:50%; background:radial-gradient(circle,rgba(232,160,32,.24) 0%,transparent 65%); top:50%; left:50%; transform:translate(-50%,-50%); will-change:transform,opacity; }
+.hero-particles { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.particle { position:absolute; font-size:2rem; opacity:0; animation:floatP linear infinite; }
+@keyframes floatP { 0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:.45}90%{opacity:.28}100%{transform:translateY(-10vh) rotate(360deg);opacity:0} }
+.hero-content { position:relative; z-index:1; width:100%; max-width:820px; }
+/* Hero elements hidden until GSAP runs */
+.hero-eyebrow, .hero-title, .hero-sub, .search-wrap, .country-card, .hero-credits, .hero-scroll { opacity:0; }
+.hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,245,230,.65); margin-bottom:18px; display:flex; align-items:center; gap:10px; justify-content:center; }
+.hero-eyebrow::before,.hero-eyebrow::after { content:''; width:28px; height:1px; background:rgba(255,245,230,.35); }
+.hero-title { font-size:clamp(2.6rem,6vw,4.8rem); font-weight:900; letter-spacing:-.04em; color:#FFF5E6; margin:0 auto 18px; line-height:1.04; }
+.hero-title em { font-style:italic; color:var(--amber-l); }
+.hero-sub { font-size:clamp(.95rem,1.8vw,1.15rem); color:rgba(255,245,230,.62); max-width:500px; margin:0 auto 44px; font-weight:400; }
+.search-wrap { width:100%; max-width:600px; margin:0 auto 44px; position:relative; }
+.search-box { display:flex; background:rgba(255,245,230,.1); backdrop-filter:blur(12px); border:1.5px solid rgba(255,245,230,.25); border-radius:16px; overflow:hidden; transition:border-color .2s,box-shadow .2s; }
+.search-box:focus-within { border-color:var(--amber); box-shadow:0 0 0 4px rgba(232,160,32,.2); }
+.search-input { flex:1; padding:16px 20px; font-size:1rem; font-family:'Inter',sans-serif; background:none; border:none; color:#FFF5E6; outline:none; }
+.search-input::placeholder { color:rgba(255,245,230,.45); }
+.search-btn { padding:10px 22px; background:var(--amber); color:#1C1410; font-weight:700; font-size:.88rem; display:flex; align-items:center; gap:7px; transition:background .2s; flex-shrink:0; margin:7px; border-radius:10px; }
+.search-btn:hover { background:var(--amber-l); }
+.search-suggestions { position:absolute; top:calc(100% + 8px); left:0; right:0; background:var(--bg-card); border:1px solid var(--border); border-radius:14px; box-shadow:var(--sh-lg); z-index:50; overflow:hidden; display:none; }
+.search-suggestions.open { display:block; }
+.suggestion-item { padding:12px 18px; font-size:.9rem; color:var(--text); display:flex; align-items:center; gap:10px; cursor:pointer; transition:background .15s; }
+.suggestion-item:hover { background:var(--terra-dim); color:var(--terra); }
+.suggestion-meta { font-size:.74rem; color:var(--text-muted); margin-left:auto; white-space:nowrap; }
+.country-cards { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.country-card { background:rgba(255,245,230,.1); backdrop-filter:blur(10px); border:1px solid rgba(255,245,230,.2); border-radius:14px; padding:16px 22px; cursor:pointer; transition:transform .25s cubic-bezier(.22,1,.36,1),background .2s; text-align:center; min-width:140px; }
+.country-card:hover { transform:translateY(-5px); background:rgba(255,245,230,.18); }
+.country-card .flag { font-size:1.9rem; display:block; margin-bottom:6px; }
+.country-card .cname { font-family:'Playfair Display',serif; font-weight:700; font-size:.95rem; color:#FFF5E6; }
+.country-card .ccount { font-size:.72rem; color:rgba(255,245,230,.5); margin-top:2px; }
+.hero-credits { font-size:.75rem; color:rgba(255,245,230,.42); margin-top:44px; line-height:1.7; }
+.hero-credits strong { color:rgba(255,245,230,.7); font-weight:600; }
+.hero-scroll { position:absolute; bottom:28px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:5px; color:rgba(255,245,230,.4); font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; z-index:1; }
+.scroll-arrow { width:20px; height:20px; border-right:1.5px solid currentColor; border-bottom:1.5px solid currentColor; transform:rotate(45deg); animation:bounce 1.6s ease-in-out infinite; }
+@keyframes bounce { 0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)} }
+
+/* ── SECTION HEADERS ──────────────────────────────────────────── */
+.section-header { text-align:center; margin-bottom:56px; }
+.section-label { font-size:.7rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--terra); margin-bottom:10px; display:block; position:relative; }
+.section-label::after { content:''; display:block; height:1.5px; background:var(--terra); width:0; margin:6px auto 0; border-radius:1px; }
+.section-title { font-size:clamp(1.9rem,3.5vw,2.6rem); font-weight:700; letter-spacing:-.026em; color:var(--text); }
+.section-title em { font-style:italic; color:var(--terra); }
+.section-desc { margin-top:14px; color:var(--text-muted); max-width:520px; margin-left:auto; margin-right:auto; font-size:.98rem; }
+
+/* ── SPICE MARQUEE ────────────────────────────────────────────── */
+.spice-banner { background:var(--amber); padding:18px 0; overflow:hidden; white-space:nowrap; }
+.spice-scroll { display:inline-block; animation:marquee 22s linear infinite; font-size:.78rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:#1C1410; }
+.spice-scroll .sep { margin:0 24px; opacity:.55; }
+@keyframes marquee { 0%{transform:translateX(0)}100%{transform:translateX(-50%)} }
+
+/* ── STATS BAND ───────────────────────────────────────────────── */
+.stats-band { background:linear-gradient(135deg,var(--terra) 0%,#8B2500 100%); padding:72px 0; position:relative; overflow:hidden; }
+.stats-band::before { content:''; position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.05'%3E%3Ccircle cx='20' cy='20' r='1.5'/%3E%3C/g%3E%3C/svg%3E"); }
+.stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; position:relative; }
+@media(max-width:768px) { .stats-grid { grid-template-columns:repeat(2,1fr); } }
+.stat-card { text-align:center; padding:20px 12px; }
+.stat-icon { font-size:1.6rem; margin-bottom:10px; display:block; }
+.stat-number { font-family:'Playfair Display',serif; font-size:3rem; font-weight:900; color:#FFF5E6; letter-spacing:-.04em; line-height:1; font-variant-numeric:tabular-nums; }
+.stat-label { font-size:.78rem; color:rgba(255,245,230,.65); margin-top:8px; font-weight:500; text-transform:uppercase; letter-spacing:.07em; }
+
+/* ── BROWSE SECTION ───────────────────────────────────────────── */
+.explore-bg { background:var(--surface); }
+.explorer-controls { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:40px; }
+.filter-group { display:flex; gap:5px; flex-wrap:wrap; justify-content:center; }
+.pill-btn { padding:8px 20px; border-radius:999px; border:1.5px solid var(--border); background:var(--bg-card); color:var(--text-muted); font-size:.82rem; font-weight:500; transition:all .2s; }
+.pill-btn:hover { border-color:var(--terra); color:var(--terra); }
+.pill-btn.active { background:var(--terra); border-color:var(--terra); color:#fff; }
+.pill-btn.veg-btn.active { background:var(--herb); border-color:var(--herb); }
+.dishes-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:22px; }
+
+/* ── DISH CARDS ───────────────────────────────────────────────── */
+.dish-card { background:var(--bg-card); border:1px solid var(--border); border-radius:20px; overflow:hidden; box-shadow:var(--sh-sm); cursor:pointer; }
+.dish-card:hover { box-shadow:var(--sh-md); }
+.dish-img { height:175px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.big-emoji { font-size:5.5rem; line-height:1; filter:drop-shadow(0 6px 18px rgba(0,0,0,.28)); position:relative; z-index:1; user-select:none; transition:transform .35s cubic-bezier(.22,1,.36,1); }
+.dish-card:hover .big-emoji { transform:scale(1.12) translateY(-4px); }
+.img-pattern { position:absolute; inset:0; opacity:.14; background-image:url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Ccircle cx='2' cy='2' r='1'/%3E%3Ccircle cx='10' cy='2' r='1'/%3E%3Ccircle cx='18' cy='2' r='1'/%3E%3Ccircle cx='6' cy='6' r='1'/%3E%3Ccircle cx='14' cy='6' r='1'/%3E%3Ccircle cx='2' cy='10' r='1'/%3E%3Ccircle cx='10' cy='10' r='1'/%3E%3Ccircle cx='18' cy='10' r='1'/%3E%3C/g%3E%3C/svg%3E"); }
+.country-badge { position:absolute; bottom:10px; left:12px; background:rgba(0,0,0,.45); backdrop-filter:blur(6px); border-radius:8px; padding:4px 10px; font-size:.72rem; font-weight:600; color:#fff; display:flex; align-items:center; gap:5px; z-index:1; }
+.diet-dot { position:absolute; top:10px; right:12px; width:28px; height:28px; border-radius:50%; background:rgba(0,0,0,.4); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; font-size:.85rem; z-index:1; }
+.dish-card-body { padding:18px 20px; }
+.dish-name { font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--text); margin-bottom:10px; line-height:1.2; }
+.techniques-row { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:14px; }
+.technique-tag { padding:3px 8px; border-radius:6px; background:var(--surface); color:var(--text-muted); font-size:.72rem; font-weight:500; border:1px solid var(--border); }
+.view-recipe-btn { width:100%; padding:11px 18px; background:linear-gradient(135deg,var(--terra),var(--terra-l)); color:#fff; border-radius:11px; font-weight:600; font-size:.85rem; display:flex; align-items:center; justify-content:center; gap:8px; transition:opacity .2s,transform .2s; }
+.view-recipe-btn:hover { opacity:.88; transform:translateY(-1px); }
+
+/* ── STORY SECTION ────────────────────────────────────────────── */
+.story-section { padding:96px 0; background:var(--bg); }
+.story-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+@media(max-width:768px) { .story-grid { grid-template-columns:1fr; } }
+.story-text p { color:var(--text-muted); margin-bottom:16px; line-height:1.8; font-size:.98rem; }
+.story-text strong { color:var(--text); }
+.hierarchy-card { background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:28px; box-shadow:var(--sh-sm); }
+.hcard-title { font-size:.7rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--text-muted); margin-bottom:20px; }
+.h-node { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:11px 16px; display:flex; align-items:center; gap:9px; font-weight:500; font-size:.88rem; color:var(--text); }
+.h-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.h-connector { margin:6px 0 6px 20px; display:flex; align-items:center; gap:7px; }
+.h-line { width:1px; height:18px; background:var(--border); margin-left:4px; }
+.h-prop { font-size:.7rem; color:var(--terra); font-weight:600; letter-spacing:.04em; }
+.deco-card { position:absolute; background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:14px 18px; box-shadow:var(--sh-md); font-size:.82rem; color:var(--text); font-weight:500; display:flex; align-items:center; gap:8px; }
+.deco-card-emoji { font-size:1.3rem; }
+.deco-card.top-right { top:-20px; right:-20px; }
+.deco-card.bottom-left { bottom:-20px; left:-20px; }
+.story-visual { position:relative; }
+@media(max-width:768px) { .deco-card { display:none; } }
+
+/* ── ONTOLOGY ─────────────────────────────────────────────────── */
+.onto-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-bottom:44px; }
+@media(max-width:768px) { .onto-grid { grid-template-columns:1fr; } }
+.onto-card { background:var(--bg-card); border:1px solid var(--border); border-radius:18px; overflow:hidden; box-shadow:var(--sh-sm); }
+.onto-card-head { padding:18px 22px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:11px; }
+.onto-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+.onto-icon.pkg { background:rgba(121,192,255,.15); }
+.onto-icon.custom { background:var(--terra-dim); }
+.onto-card-title { font-weight:700; font-size:.93rem; color:var(--text); }
+.onto-card-sub { font-size:.72rem; color:var(--text-muted); margin-top:2px; }
+.onto-card-body { padding:18px 22px; }
+.ing-chip { display:inline-block; padding:4px 9px; border-radius:7px; font-size:.77rem; font-weight:500; margin:3px; }
+.ing-chip.pkg { background:rgba(121,192,255,.1); color:#79C0FF; border:1px solid rgba(121,192,255,.2); }
+.ing-chip.custom { background:var(--terra-dim); color:var(--terra); border:1px solid rgba(196,80,26,.2); }
+.sub-diagram { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:28px; text-align:center; }
+.sub-level { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:6px; }
+.sub-node { padding:7px 16px; border-radius:9px; font-size:.79rem; font-weight:600; border:1.5px solid; }
+.sub-node.root { background:var(--amber-dim); color:#9a6200; border-color:rgba(232,160,32,.3); }
+[data-theme=dark] .sub-node.root { color:var(--amber); }
+.sub-node.mid { background:rgba(121,192,255,.1); color:#79C0FF; border-color:rgba(121,192,255,.25); }
+.sub-node.leaf { background:var(--terra-dim); color:var(--terra); border-color:rgba(196,80,26,.2); font-size:.72rem; }
+.sub-arrow { color:var(--text-muted); font-size:1.1rem; margin:4px 0; }
+.sub-label { font-size:.66rem; color:var(--text-muted); letter-spacing:.05em; text-transform:uppercase; margin:1px 0 5px; }
+
+/* ── FOOTER ───────────────────────────────────────────────────── */
+footer { background:var(--ink-mid); color:rgba(255,245,230,.62); padding:56px 0 28px; border-top:4px solid var(--terra); }
+.footer-inner { max-width:1200px; margin:0 auto; padding:0 24px; display:grid; grid-template-columns:2fr 1fr 1fr; gap:44px; margin-bottom:36px; }
+@media(max-width:768px) { .footer-inner { grid-template-columns:1fr; gap:28px; } }
+.footer-logo-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.footer-logo-icon { width:38px; height:38px; border-radius:10px; background:linear-gradient(135deg,var(--terra),var(--amber)); display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
+.footer-logo-text { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:#FFF5E6; }
+.footer-brand p { font-size:.83rem; line-height:1.7; margin-bottom:14px; }
+.footer-team-name { color:#FFF5E6; font-weight:500; font-size:.82rem; margin-bottom:3px; display:block; }
+.footer-col-title { font-size:.68rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:rgba(255,245,230,.32); margin-bottom:12px; }
+.footer-links { display:flex; flex-direction:column; gap:7px; }
+.footer-links a { font-size:.82rem; color:rgba(255,245,230,.5); transition:color .2s; }
+.footer-links a:hover { color:var(--amber); }
+.footer-bottom { border-top:1px solid rgba(255,245,230,.08); padding-top:22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; font-size:.76rem; color:rgba(255,245,230,.28); max-width:1200px; margin:0 auto; padding-left:24px; padding-right:24px; }
+.ns-badge { font-family:monospace; background:rgba(255,245,230,.06); border:1px solid rgba(255,245,230,.1); padding:3px 9px; border-radius:5px; font-size:.7rem; color:rgba(255,245,230,.4); }
+</style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">🍛</div>
+      <div class="nav-logo-text">Street Food KG <span>Universität Bremen · AKR 2025</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="#home">Search</a>
+      <a href="#browse">Dishes</a>
+      <a href="#story">About</a>
+      <a href="#ontology">Ontology</a>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn-theme" id="theme-toggle" aria-label="Toggle theme">☀</button>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#home">Search</a>
+  <a href="#browse">Browse Dishes</a>
+  <a href="#story">About</a>
+  <a href="#ontology">Ontology</a>
+</div>
+
+<!-- RECIPE MODAL -->
+<div class="recipe-overlay" id="recipe-overlay">
+  <div class="recipe-modal" id="recipe-modal">
+    <div class="recipe-modal-hero" id="modal-hero">
+      <div class="hero-pattern"></div>
+      <span class="dish-mega-emoji" id="modal-emoji">🍛</span>
+      <button class="recipe-close" id="recipe-close" aria-label="Close">✕</button>
+    </div>
+    <div class="recipe-modal-body">
+      <div class="recipe-country-bar">
+        <span class="recipe-flag" id="modal-flag"></span>
+        <span class="recipe-country-label" id="modal-country"></span>
+      </div>
+      <div class="recipe-name" id="modal-name"></div>
+      <div class="recipe-badges" id="modal-badges"></div>
+      <div class="rs-title">Ingredients</div>
+      <div class="ingredients-grid" id="modal-ingredients"></div>
+      <div class="rs-title">How to Make It</div>
+      <div class="steps-list" id="modal-steps"></div>
+      <div class="rs-title">Cooking Techniques</div>
+      <div class="technique-chips" id="modal-techniques"></div>
+      <div id="modal-variants-sec" style="display:none">
+        <div class="rs-title">Regional Variants</div>
+        <div class="variant-links" id="modal-variants"></div>
+      </div>
+      <div class="related-row" id="modal-related-row" style="display:none">
+        <div class="related-title">Dishes sharing the same ingredients</div>
+        <div class="related-grid" id="modal-related"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern-overlay"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Knowledge Graph · AKR 2025</div>
+    <h1 class="hero-title">Discover <em>South Asian</em> Street Food</h1>
+    <p class="hero-sub">Search any dish to explore its recipe, ingredients, and the culinary connections that link India, Pakistan, and Bangladesh.</p>
+    <div class="search-wrap">
+      <div class="search-box">
+        <input class="search-input" id="search-input" type="text" placeholder="Search Pani Puri, Samosa, Dosa…" autocomplete="off" aria-label="Search dishes">
+        <button class="search-btn" id="search-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Search
+        </button>
+      </div>
+      <div class="search-suggestions" id="search-suggestions"></div>
+    </div>
+    <div class="country-cards">
+      <div class="country-card" onclick="filterAndScroll('india')"><span class="flag">🇮🇳</span><div class="cname">India</div><div class="ccount">6 dishes</div></div>
+      <div class="country-card" onclick="filterAndScroll('pakistan')"><span class="flag">🇵🇰</span><div class="cname">Pakistan</div><div class="ccount">3 dishes</div></div>
+      <div class="country-card" onclick="filterAndScroll('bangladesh')"><span class="flag">🇧🇩</span><div class="cname">Bangladesh</div><div class="ccount">4 dishes</div></div>
+    </div>
+    <div class="hero-credits">
+      <strong>Ananya Chowdury · Areesha Maqsood · Harrith Chenniappan</strong><br>
+      Universität Bremen · Actionable Knowledge Representation (AKR) 2025
+    </div>
+  </div>
+  <div class="hero-scroll"><span>Explore</span><div class="scroll-arrow"></div></div>
+</section>
+
+<!-- SPICE MARQUEE -->
+<div class="spice-banner" id="spice-banner">
+  <div class="spice-scroll" id="marquee-text"></div>
+</div>
+
+<!-- STATS -->
+<div class="stats-band" id="stats-band">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card"><span class="stat-icon">🍛</span><div class="stat-number" data-target="14">0</div><div class="stat-label">Street Foods</div></div>
+      <div class="stat-card"><span class="stat-icon">🌍</span><div class="stat-number" data-target="3">0</div><div class="stat-label">Countries</div></div>
+      <div class="stat-card"><span class="stat-icon">🧂</span><div class="stat-number" data-target="38" data-suffix="+">0</div><div class="stat-label">Ingredients</div></div>
+      <div class="stat-card"><span class="stat-icon">📚</span><div class="stat-number" data-target="7">0</div><div class="stat-label">SPARQL Queries</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BROWSE -->
+<section class="section explore-bg" id="browse">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Explore</span>
+      <h2 class="section-title">Browse All <em>Dishes</em></h2>
+      <p class="section-desc">Click any dish for its full recipe, ingredients, and step-by-step cooking guide.</p>
+    </div>
+    <div class="explorer-controls" id="explorer-controls">
+      <div class="filter-group">
+        <button class="pill-btn active" data-country="all">All Countries</button>
+        <button class="pill-btn" data-country="india">🇮🇳 India</button>
+        <button class="pill-btn" data-country="pakistan">🇵🇰 Pakistan</button>
+        <button class="pill-btn" data-country="bangladesh">🇧🇩 Bangladesh</button>
+      </div>
+      <div class="filter-group">
+        <button class="pill-btn veg-btn" data-diet="veg">🌿 Veg Only</button>
+        <button class="pill-btn veg-btn" data-diet="nonveg">🍖 Non-Veg</button>
+      </div>
+    </div>
+    <div class="dishes-grid" id="dishes-grid"></div>
+  </div>
+</section>
+
+
+<!-- ONTOLOGY -->
+<section class="section" id="ontology" style="background:var(--surface)">
+  <div class="container">
+    <div class="section-header" id="onto-header">
+      <span class="section-label">Top-Level Ontology</span>
+      <h2 class="section-title">Built on <em>ProductKG</em></h2>
+      <p class="section-desc">Reusing ~30 standard ingredients from ProductKG, extended with 8 custom South Asian-specific classes.</p>
+    </div>
+    <div class="onto-grid" id="onto-grid">
+      <div class="onto-card">
+        <div class="onto-card-head"><div class="onto-icon pkg">📦</div><div><div class="onto-card-title">From ProductKG</div><div class="onto-card-sub">purl.org/ProductKG/RecipeOn#</div></div></div>
+        <div class="onto-card-body" id="pkg-ings"></div>
+      </div>
+      <div class="onto-card">
+        <div class="onto-card-head"><div class="onto-icon custom">✨</div><div><div class="onto-card-title">Custom Extensions</div><div class="onto-card-sub">example.org/southasianstreetfood#</div></div></div>
+        <div class="onto-card-body" id="custom-ings"></div>
+      </div>
+    </div>
+    <div class="sub-diagram" id="sub-diagram">
+      <div style="font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px">Subsumption Hierarchy</div>
+      <div class="sub-level"><div class="sub-node root">owl:Thing</div></div>
+      <div class="sub-arrow">↓</div><div class="sub-label">rdfs:subClassOf</div>
+      <div class="sub-level"><div class="sub-node mid">ProductKG : FoodProduct</div><div class="sub-node mid">ProductKG : Ingredient</div></div>
+      <div class="sub-arrow">↓</div><div class="sub-label">rdfs:subClassOf</div>
+      <div class="sub-level">
+        <div class="sub-node leaf">sakg:StreetFood</div>
+        <div class="sub-node leaf">sakg:IngredientSet</div>
+        <div class="sub-node leaf">sakg:CookingTechnique</div>
+        <div class="sub-node leaf">sakg:DietaryProperty</div>
+        <div class="sub-node leaf">sakg:Region</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner" id="footer-inner">
+    <div>
+      <div class="footer-logo-row">
+        <div class="footer-logo-icon">🍛</div>
+        <div class="footer-logo-text">South Asian Street Food KG</div>
+      </div>
+      <p>A formal knowledge graph representing 14 street foods from India, Pakistan, and Bangladesh — built for the AKR 2025 course at Universität Bremen.</p>
+      <div>
+        <span class="footer-team-name">Ananya Chowdury</span>
+        <span class="footer-team-name">Areesha Maqsood</span>
+        <span class="footer-team-name">Harrith Chenniappan</span>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <div class="footer-links">
+        <a href="#home">Search Dishes</a>
+        <a href="#browse">Browse All</a>
+        <a href="#story">About the Project</a>
+        <a href="#ontology">Ontology</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Project</div>
+      <div class="footer-links">
+        <a href="#">Download RDF/OWL</a>
+        <a href="#">Turtle Syntax</a>
+        <a href="#">GitHub Repository</a>
+      </div>
+      <div style="margin-top:18px;font-size:.75rem;color:rgba(255,245,230,.3);line-height:1.7">
+        Universität Bremen<br>Actionable Knowledge Representation<br>AKR 2025
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 AKR Project · Universität Bremen</span>
+    <span class="ns-badge">http://example.org/southasianstreetfood#</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const DISHES = [
+  {name:"Pani Puri",country:"India",dietary:"Vegetarian",techniques:["DeepFrying","Assembling"],ingredientSets:["IngSet9883","IngSet9886","IngSet9887"],variant:["Gol Gappay","Fuchka"],emoji:"🫙",grad:["#006994","#00B4D8"],imgKey:"Golgappay"},
+  {name:"Gol Gappay",country:"Pakistan",dietary:"Vegetarian",techniques:["DeepFrying","Assembling"],ingredientSets:["IngSet9884","IngSet9886","IngSet9887"],variant:["Pani Puri","Fuchka"],emoji:"🫙",grad:["#6B21A8","#A855F7"],imgKey:"Golgappay"},
+  {name:"Fuchka",country:"Bangladesh",dietary:"Vegetarian",techniques:["DeepFrying","Assembling"],ingredientSets:["IngSet9885","IngSet9886","IngSet9887"],variant:["Pani Puri","Gol Gappay"],emoji:"🫙",grad:["#16633C","#2DC653"],imgKey:"Chotpoti & Fuchka"},
+  {name:"Aloo Tikki",country:"India/Pakistan",dietary:"Vegetarian",techniques:["Boiling","Mixing","PanFrying"],ingredientSets:["IngSet9887"],emoji:"🥔",grad:["#B7791F","#F6C90E"],imgKey:"Aloo Tikki Chaat"},
+  {name:"Beguni",country:"Bangladesh",dietary:"Vegetarian",techniques:["Mixing","DeepFrying"],ingredientSets:["IngSet9892","IngSet9893"],emoji:"🍆",grad:["#5B21B6","#8B5CF6"],imgKey:"Baingan Bhaja"},
+  {name:"Bhel Puri",country:"India",dietary:"Vegetarian",techniques:["Roasting","Mixing","Assembling"],ingredientSets:["IngSet9891","IngSet9893","IngSet9894"],emoji:"🌾",grad:["#C2410C","#FB923C"],imgKey:"Bhel Puri"},
+  {name:"Chana Chaat",country:"India",dietary:"Vegetarian",techniques:["Boiling","Cutting","Mixing","Seasoning"],ingredientSets:["IngSet9891","IngSet9893"],emoji:"🫘",grad:["#92400E","#F59E0B"],imgKey:"Chana Chaat"},
+  {name:"Chapli Kebab",country:"Pakistan",dietary:"NonVegetarian",techniques:["Mixing","PanFrying"],ingredientSets:["IngSet9914"],emoji:"🥩",grad:["#7F1D1D","#DC2626"],imgKey:"Chapli Kabab"},
+  {name:"Chotpoti",country:"Bangladesh",dietary:"Vegetarian",techniques:["Boiling","Mixing","Seasoning"],ingredientSets:["IngSet9891","IngSet9893"],emoji:"🫘",grad:["#14532D","#16A34A"],imgKey:"Chotpoti & Fuchka"},
+  {name:"Dahi Bhare",country:"India",dietary:"Vegetarian",techniques:["Grinding","DeepFrying","Mixing"],ingredientSets:["IngSet9896"],emoji:"🥣",grad:["#1E3A5F","#3B82F6"],imgKey:"Dahi Baray"},
+  {name:"Idli Sambhar",country:"India",dietary:"Vegetarian",techniques:["Steaming","Boiling","Tempering"],ingredientSets:["IngSet9889","IngSet9897"],emoji:"🍚",grad:["#78350F","#F59E0B"],imgKey:"Idli Sambhar"},
+  {name:"Jhalmuri",country:"Bangladesh",dietary:"Vegetarian",techniques:["Cutting","Mixing","Seasoning"],ingredientSets:["IngSet9899"],emoji:"🌿",grad:["#365314","#84CC16"],imgKey:"Jhalmuri"},
+  {name:"Masala Dosa",country:"India",dietary:"Vegetarian",techniques:["Mixing","PanFrying","Assembling"],ingredientSets:["IngSet9889","IngSet9887"],emoji:"🫓",grad:["#9A3412","#EA580C"],imgKey:"Masala Dosa"},
+  {name:"Samosa",country:"Pakistan",dietary:"Vegetarian",techniques:["Mixing","Rolling","DeepFrying"],ingredientSets:["IngSet9904","IngSet9888"],variant:["Shingara"],emoji:"🥟",grad:["#92400E","#D97706"],imgKey:"Samosa"},
+  {name:"Shingara",country:"Bangladesh",dietary:"Vegetarian",techniques:["Mixing","Rolling","DeepFrying"],ingredientSets:["IngSet9904","IngSet9888"],variant:["Samosa"],emoji:"🥟",grad:["#78350F","#A16207"],imgKey:"Samosa"},
+  {name:"Vada Pav",country:"India",dietary:"Vegetarian",techniques:["Mixing","DeepFrying","Assembling"],ingredientSets:["IngSet9887","IngSet9893"],emoji:"🫓",grad:["#9F1239","#E11D48"],imgKey:"Vada Pav"},
+];
+
+const INGSET = {
+  "IngSet9883":{label:"Mint-Tamarind Water",ingredients:["Mint","Cumin","Lemon Juice","Water","Salt"]},
+  "IngSet9884":{label:"Pepper Spiced Water",ingredients:["Black Pepper","Cumin","Tamarind","Salt","Green Chilli"]},
+  "IngSet9885":{label:"Tamarind Mustard Water",ingredients:["Tamarind","Mustard","Green Chilli","Black Salt"]},
+  "IngSet9886":{label:"Spiced Water Base",ingredients:["Water","Salt","Black Salt","ChaatMasala"]},
+  "IngSet9887":{label:"Boiled Potatoes & Chickpeas",ingredients:["Potato","Chickpeas","Salt","Cumin","Coriander"]},
+  "IngSet9888":{label:"Pastry Dough",ingredients:["Flour","Salt","Oil","Water"]},
+  "IngSet9889":{label:"Fermented Rice Batter",ingredients:["Rice","Urad Dal","Salt","Water","Fenugreek"]},
+  "IngSet9891":{label:"Chickpea Base",ingredients:["Chickpeas","Onion","Tomato","Salt","Lemon"]},
+  "IngSet9892":{label:"Eggplant Batter",ingredients:["Eggplant","GramFlour","Salt","Turmeric"]},
+  "IngSet9893":{label:"Chaat Masala Mix",ingredients:["ChaatMasala","Tamarind","Cumin","Salt","Lemon"]},
+  "IngSet9894":{label:"Puffed Rice Mix",ingredients:["Puffed Rice","Sev","Onion","Coriander","Green Chilli"]},
+  "IngSet9896":{label:"Yogurt Lentil",ingredients:["Urad Dal","Yogurt","Salt","Cumin","ChaatMasala"]},
+  "IngSet9897":{label:"Sambhar Lentil",ingredients:["Toor Dal","Tamarind","Tomato","Asafoetida","Mustard"]},
+  "IngSet9899":{label:"Jhalmuri Mix",ingredients:["Puffed Rice","Mustard Oil","Green Chilli","Onion","Coriander"]},
+  "IngSet9904":{label:"Potato-Pea Filling",ingredients:["Potato","Peas","Cumin","Coriander","Green Chilli","Ginger"]},
+  "IngSet9914":{label:"Minced Meat Mix",ingredients:["Minced Beef","Onion","Coriander","Green Chilli","Pomegranate Seeds","Cumin"]},
+};
+
+const STEPS = {
+  "Pani Puri":["Deep-fry small semolina discs until crispy and puffed — medium heat so they inflate evenly.","Boil potatoes and chickpeas. Mash potatoes, mix with chickpeas, salt, and chaat masala.","Blend mint, coriander, cumin, black salt, tamarind pulp, and chilled water to make the tangy pani.","Make a small hole in each puri, fill with the potato-chickpea mix, and submerge in cold spiced water just before eating."],
+  "Gol Gappay":["Deep-fry semolina and flour discs until hollow and golden. Larger than Pani Puri.","Boil and mash potatoes, mix with chickpeas, cumin, and salt. Some add boiled lentils.","Prepare peppery water: blend tamarind, black pepper, cumin, green chilli, black salt, and coriander in chilled water.","Crack the top of each puri, spoon in filling, and dip fully into the peppery imli water."],
+  "Fuchka":["Deep-fry semolina puris until crisp and hollow.","Boil potatoes and yellow peas. Mash coarsely with mustard, green chilli, and salt.","Prepare strong tamarind water with mustard notes, green chilli paste, and black salt.","Pierce each puri, fill with the pea-potato mixture, and fill with sharp tamarind water. Eat immediately."],
+  "Aloo Tikki":["Boil potatoes until soft, then mash completely — no lumps.","Mix with cumin, coriander, green chilli, ginger, and salt. Add cornflour as binder. Shape into flat round patties.","Pan-fry on medium-high until a golden-brown crust forms on both sides, about 4 minutes per side.","Serve with green chutney and tamarind chutney."],
+  "Beguni":["Slice eggplant into thin rounds (~5mm). Salt slices and rest 10 minutes, then pat dry.","Make thick batter with gram flour, turmeric, salt, cumin, and red chilli.","Dip each eggplant slice in batter and deep-fry in hot oil until golden and crisp.","Drain on paper and serve hot — traditionally eaten during Ramadan in Bangladesh."],
+  "Bhel Puri":["Dry-roast puffed rice briefly to restore crunch.","Finely dice onion, tomato, and green chilli. Roughly crush sev and fried puris.","Combine puffed rice, sev, diced vegetables, boiled potato chunks, and chickpeas.","Add tamarind chutney, green chutney, chaat masala, and lemon juice. Toss quickly and serve immediately."],
+  "Chana Chaat":["Soak dried chickpeas overnight, then boil until soft.","Dice onion, tomato, cucumber, and green chilli. Squeeze lemon juice over.","Combine chickpeas and vegetables. Season with chaat masala, roasted cumin, salt, and black salt.","Drizzle tamarind and green chutneys. Toss and garnish with coriander."],
+  "Chapli Kebab":["Combine minced beef with onion, coriander, green chilli, tomato, cumin, pomegranate seeds, and egg. Mix well.","Rest the mixture 30 minutes. Flatten into wide thin patties.","Fry on high heat 3–4 minutes per side until dark-edged and caramelised.","Serve with naan and yoghurt raita."],
+  "Chotpoti":["Soak white peas overnight. Boil until just soft but not mushy.","Boil potatoes, peel and dice. Combine with boiled peas.","Season with tamarind water, cumin, black salt, green chilli, and coriander.","Top with chopped egg, diced onion, and drizzle of mustard oil."],
+  "Dahi Bhare":["Soak urad dal overnight. Grind to thick smooth batter with green chilli and ginger.","Deep-fry tablespoon-sized portions until light golden. Soak in warm water 10 minutes, then squeeze out.","Whip fresh yoghurt with salt and a little sugar until smooth. Place vadas in yoghurt.","Top with tamarind chutney, green chutney, roasted cumin, chilli powder, and sev."],
+  "Idli Sambhar":["Soak rice and urad dal (3:1) separately for 6 hours. Grind to smooth batter. Ferment overnight.","Pour batter into greased idli moulds. Steam 10–12 minutes until a toothpick comes out clean.","Boil toor dal with tamarind, tomato, and vegetables. Make a tempering of mustard seeds, curry leaves, red chilli, and asafoetida. Add to dal and simmer.","Serve hot idlis with fresh sambhar and coconut chutney."],
+  "Jhalmuri":["Measure out fresh puffed rice.","Finely chop onion, green chilli, and coriander. Dice tomato and cucumber.","Add mustard oil, tamarind pulp, green chilli, onion, and chaat masala. Toss vigorously 1–2 minutes — rice must stay crunchy.","Serve in paper cones for the authentic Dhaka street food experience."],
+  "Masala Dosa":["Ferment rice-urad batter overnight — it should double and smell slightly sour.","Boil and mash potatoes roughly. Make tempering of mustard seeds, curry leaves, green chilli, ginger, and turmeric. Add mashed potato.","Heat griddle to high. Ladle batter and spread in thin circles. Drizzle oil along edges.","Add potato masala on one half once surface dries. Fold and serve with sambhar and coconut chutney."],
+  "Samosa":["Make firm dough with flour, ajwain, salt, and oil. Rest 20 minutes.","Boil and mash potatoes and peas. Cook with cumin, coriander, ginger, green chilli, and amchur. Cool.","Roll dough thin, cut into semicircles, fold into cones, fill, and seal into triangles.","Deep-fry in medium-hot oil until golden and crisp, about 8 minutes."],
+  "Shingara":["Make slightly richer dough. Roll thin.","Prepare filling with potato, peas, and milder spice blend — less cumin, more onion, finished with mustard oil.","Shape into smaller triangles with tighter pleating than samosa.","Deep-fry at medium heat until pastry is flaky and pale golden."],
+  "Vada Pav":["Boil potatoes, mash with mustard seeds, curry leaves, green chilli, ginger, and turmeric.","Make small balls of potato mix. Dip in gram flour batter seasoned with turmeric and red chilli. Deep-fry until golden.","Prepare dry garlic-coconut chutney by grinding roasted garlic, dried coconut, red chilli, and salt.","Slit a soft pav bun, spread chutney on both sides, place the vada inside. Press and serve."],
+};
+
+const FLAGS = {India:"🇮🇳",Pakistan:"🇵🇰",Bangladesh:"🇧🇩","India/Pakistan":"🇮🇳🇵🇰"};
+const PKG = ["Potato","Salt","Tamarind","Rice","Lentil","Onion","Tomato","Cumin","Coriander","GreenChilli","Ginger","Garlic","Yogurt","Oil","Flour","Peas","Water","Mustard","Turmeric","BlackPepper","Lemon","Mint","UradDal","ToorDal","Chickpeas","PuffedRice","MincedBeef","MustardOil","Fenugreek","Cardamom"];
+const CUSTOM = ["Sev","ChaatMasala","Jaggery","Asafoetida","BlackSalt","PomegranateSeeds","GramFlour","Eggplant"];
+
+/* ============================================================
+   PARTICLES + MARQUEE
+   ============================================================ */
+(()=>{
+  const c=document.getElementById('particles');
+  ['🍛','🌶','🧅','🧄','🍋','🌿','🫚','🫙','🥟','🌾'].forEach((em,i)=>{
+    const el=document.createElement('span');
+    el.className='particle';
+    el.textContent=em;
+    el.style.cssText=`left:${(i*10+Math.random()*8)}%;animation-duration:${14+Math.random()*16}s;animation-delay:${Math.random()*24}s;font-size:${1+Math.random()*1.2}rem`;
+    c.appendChild(el);
+  });
+})();
+
+(()=>{
+  const items=['Pani Puri','Samosa','Dahi Bhare','Masala Dosa','Bhel Puri','Chapli Kebab','Idli Sambhar','Vada Pav','Fuchka','Jhalmuri','Chotpoti','Shingara','Beguni','Aloo Tikki','Gol Gappay'];
+  const t=items.map(i=>`<span class="sep">★</span> ${i}`).join('  ');
+  document.getElementById('marquee-text').innerHTML=t+' '+t;
+})();
+
+/* ============================================================
+   THEME
+   ============================================================ */
+(()=>{
+  const root=document.documentElement, btn=document.getElementById('theme-toggle');
+  let dark=localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':window.matchMedia('(prefers-color-scheme:dark)').matches;
+  const apply=()=>{root.setAttribute('data-theme',dark?'dark':'light');btn.textContent=dark?'☀':'☾'};
+  apply();
+  btn.addEventListener('click',()=>{dark=!dark;localStorage.setItem('theme',dark?'dark':'light');apply()});
+})();
+
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobile-menu').classList.toggle('open'));
+document.querySelectorAll('.mobile-menu a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mobile-menu').classList.remove('open')));
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+const searchInput=document.getElementById('search-input');
+const sugEl=document.getElementById('search-suggestions');
+
+searchInput.addEventListener('input',()=>{
+  const q=searchInput.value.trim().toLowerCase();
+  if(!q){sugEl.classList.remove('open');return}
+  const hits=DISHES.filter(d=>d.name.toLowerCase().includes(q)||d.country.toLowerCase().includes(q)||d.techniques.some(t=>t.toLowerCase().includes(q)));
+  if(!hits.length){sugEl.classList.remove('open');return}
+  sugEl.innerHTML=hits.slice(0,6).map(d=>`
+    <div class="suggestion-item" onclick="selectDish('${d.name}')">
+      <span style="font-size:1.4rem">${d.emoji}</span>
+      <span style="font-weight:500">${d.name}</span>
+      <span class="suggestion-meta">${FLAGS[d.country]||'🌏'} ${d.country} · ${d.dietary==='Vegetarian'?'Veg':'Non-Veg'}</span>
+    </div>`).join('');
+  sugEl.classList.add('open');
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))sugEl.classList.remove('open')});
+document.getElementById('search-btn').addEventListener('click',()=>{
+  const q=searchInput.value.trim().toLowerCase();
+  const m=DISHES.find(d=>d.name.toLowerCase().startsWith(q)||d.name.toLowerCase().includes(q));
+  if(m)selectDish(m.name);
+});
+searchInput.addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('search-btn').click()});
+function selectDish(name){sugEl.classList.remove('open');searchInput.value=name;openRecipe(name)}
+
+/* ============================================================
+   RECIPE MODAL
+   ============================================================ */
+function openRecipe(name){
+  const dish=DISHES.find(d=>d.name===name);
+  if(!dish)return;
+  document.getElementById('modal-hero').style.background=`linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})`;
+  document.getElementById('modal-emoji').textContent=dish.emoji;
+  document.getElementById('modal-flag').textContent=FLAGS[dish.country]||'🌏';
+  document.getElementById('modal-country').textContent=dish.country;
+  document.getElementById('modal-name').textContent=dish.name;
+
+  const veg=dish.dietary==='Vegetarian';
+  let badges=`<span class="rbadge ${veg?'veg':'nonveg'}">${veg?'🌿 Vegetarian':'🍖 Non-Vegetarian'}</span>`;
+  if(dish.variant)badges+=dish.variant.map(v=>`<span class="rbadge variant">⇄ ${v}</span>`).join('');
+  document.getElementById('modal-badges').innerHTML=badges;
+
+  const seen=new Set(), ings=[];
+  dish.ingredientSets.forEach(id=>(INGSET[id]?.ingredients||[]).forEach(ing=>{if(!seen.has(ing)){seen.add(ing);ings.push(ing)}}));
+  document.getElementById('modal-ingredients').innerHTML=ings.map(i=>`<div class="ingredient-item"><div class="ing-dot"></div>${i}</div>`).join('');
+
+  const steps=STEPS[dish.name]||['Prepare ingredients.','Cook using traditional methods.','Serve immediately.'];
+  document.getElementById('modal-steps').innerHTML=steps.map((s,i)=>`<div class="step-item"><div class="step-num">${i+1}</div><div class="step-text">${s}</div></div>`).join('');
+
+  document.getElementById('modal-techniques').innerHTML=dish.techniques.map(t=>`<span class="technique-chip">${t}</span>`).join('');
+
+  const varSec=document.getElementById('modal-variants-sec');
+  if(dish.variant?.length){
+    varSec.style.display='block';
+    document.getElementById('modal-variants').innerHTML=dish.variant.map(v=>{const vd=DISHES.find(d=>d.name===v);return`<span class="variant-link-chip" onclick="switchRecipe('${v}')">${FLAGS[vd?.country]||''} ${v} →</span>`}).join('');
+  } else varSec.style.display='none';
+
+  const shared=new Set(dish.ingredientSets);
+  const rel=DISHES.filter(d=>d.name!==dish.name&&d.ingredientSets.some(s=>shared.has(s)));
+  const rRow=document.getElementById('modal-related-row');
+  if(rel.length){rRow.style.display='block';document.getElementById('modal-related').innerHTML=rel.map(d=>`<span class="related-chip" onclick="switchRecipe('${d.name}')">${d.emoji} ${d.name}</span>`).join('')}
+  else rRow.style.display='none';
+
+  document.getElementById('recipe-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function switchRecipe(n){openRecipe(n)}
+function closeRecipe(){document.getElementById('recipe-overlay').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('recipe-close').addEventListener('click',closeRecipe);
+document.getElementById('recipe-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeRecipe()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeRecipe()});
+
+/* ============================================================
+   DISHES GRID
+   ============================================================ */
+let activeCountry='all', activeDiet=null;
+let cardBatches=[];
+
+function renderDishes(animate=true){
+  const grid=document.getElementById('dishes-grid');
+  // Kill old scroll triggers
+  cardBatches.forEach(t=>t.kill());
+  cardBatches=[];
+  grid.innerHTML='';
+
+  const visibleDishes=DISHES.filter(dish=>{
+    const cl=dish.country.toLowerCase();
+    const matchC=activeCountry==='all'||cl.includes(activeCountry);
+    const isVeg=dish.dietary==='Vegetarian';
+    const matchD=!activeDiet||(activeDiet==='veg'&&isVeg)||(activeDiet==='nonveg'&&!isVeg);
+    return matchC&&matchD;
+  });
+
+  visibleDishes.forEach(dish=>{
+    const isVeg=dish.dietary==='Vegetarian';
+    const card=document.createElement('div');
+    card.className='dish-card';
+    card.innerHTML=`
+      <div class="dish-img" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})">
+        <div class="img-pattern"></div>
+        <span class="big-emoji">${dish.emoji}</span>
+        <div class="country-badge">${FLAGS[dish.country]||'🌏'} ${dish.country}</div>
+        <div class="diet-dot" title="${dish.dietary}">${isVeg?'🌿':'🍖'}</div>
+      </div>
+      <div class="dish-card-body">
+        <div class="dish-name">${dish.name}</div>
+        <div class="techniques-row">${dish.techniques.map(t=>`<span class="technique-tag">${t}</span>`).join('')}</div>
+        <button class="view-recipe-btn" onclick="openRecipe('${dish.name}')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          View Recipe & Ingredients
+        </button>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  if(animate && visibleDishes.length){
+    // Set initial state then batch animate
+    gsap.set('.dish-card', {opacity:0, y:55, scale:0.93});
+    cardBatches=ScrollTrigger.batch('.dish-card', {
+      onEnter: batch => gsap.to(batch, {
+        opacity:1, y:0, scale:1,
+        duration:.65, stagger:.07,
+        ease:'power3.out',
+        overwrite:true
+      }),
+      start:'top 92%',
+      once:true
+    });
+    ScrollTrigger.refresh();
+  }
+}
+
+function filterAndScroll(c){
+  activeCountry=c;
+  document.querySelectorAll('[data-country]').forEach(b=>b.classList.toggle('active',b.dataset.country===c));
+  renderDishes(true);
+  document.getElementById('browse').scrollIntoView({behavior:'smooth'});
+}
+
+/* ============================================================
+   COUNT-UP
+   ============================================================ */
+function countUp(el,target,suffix){
+  const start=performance.now(), dur=1400;
+  const step=now=>{
+    const p=Math.min((now-start)/dur,1);
+    el.textContent=Math.round(p*target)+(p===1?suffix:'');
+    if(p<1)requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/* ============================================================
+   GSAP ANIMATIONS
+   ============================================================ */
+function initGSAP(){
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ── SCROLL PROGRESS BAR ── */
+  gsap.to('#scroll-progress', {
+    scaleX:1, ease:'none',
+    scrollTrigger:{ start:'top top', end:'max', scrub:0 }
+  });
+
+  /* ── HERO ENTRANCE ── */
+  const heroTl=gsap.timeline({ defaults:{ ease:'power3.out' }, delay:.15 });
+  heroTl
+    .to('.hero-eyebrow', { opacity:1, y:0, duration:.7, from:{y:20} })
+    .fromTo('.hero-title', { opacity:0, y:60 }, { opacity:1, y:0, duration:1 }, '-=.4')
+    .fromTo('.hero-sub', { opacity:0, y:28 }, { opacity:1, y:0, duration:.8 }, '-=.6')
+    .fromTo('.search-wrap', { opacity:0, y:22, scale:.97 }, { opacity:1, y:0, scale:1, duration:.7 }, '-=.55')
+    .fromTo('.country-card', { opacity:0, y:26, scale:.91 }, { opacity:1, y:0, scale:1, duration:.55, stagger:.1 }, '-=.35')
+    .fromTo('.hero-credits', { opacity:0 }, { opacity:1, duration:.6 }, '-=.15')
+    .fromTo('.hero-scroll', { opacity:0, y:-8 }, { opacity:1, y:0, duration:.5 });
+
+  // Fix the first keyframe — hero-eyebrow was set by `from`, use fromTo
+  heroTl.to('.hero-eyebrow', {});  // placeholder fix — we override above
+
+  /* ── HERO PARALLAX ── */
+  gsap.to('.hero-glow', {
+    y:-130, scale:1.5, opacity:0,
+    scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:1.5 }
+  });
+  gsap.to('.hero-pattern-overlay', {
+    y:-70,
+    scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:.8 }
+  });
+
+  /* ── SPICE BANNER ── */
+  gsap.fromTo('#spice-banner',
+    { opacity:0, y:24 },
+    { opacity:1, y:0, duration:.6, ease:'power2.out',
+      scrollTrigger:{ trigger:'#spice-banner', start:'top 96%' }
+    }
+  );
+
+  /* ── STATS ── */
+  gsap.fromTo('.stat-card',
+    { opacity:0, y:48, scale:.85 },
+    { opacity:1, y:0, scale:1, duration:.8, stagger:.14, ease:'back.out(1.4)',
+      scrollTrigger:{ trigger:'#stats-band', start:'top 78%',
+        onEnter:()=>document.querySelectorAll('.stat-number').forEach(el=>countUp(el,+el.dataset.target,el.dataset.suffix||''))
+      }
+    }
+  );
+
+  /* ── BROWSE SECTION HEADER ── */
+  const browseHeader=document.querySelector('#browse .section-header');
+  const browseLabel=browseHeader.querySelector('.section-label');
+  gsap.fromTo(browseLabel,
+    { opacity:0, y:16 },
+    { opacity:1, y:0, duration:.6, ease:'power2.out',
+      scrollTrigger:{ trigger:browseHeader, start:'top 88%' }
+    }
+  );
+  gsap.to(browseLabel.querySelector('::after') ? browseLabel : browseLabel, {});
+  // Label underline sweep
+  gsap.fromTo(browseLabel,
+    { '--w':'0%' }, { '--w':'40px', duration:.8, ease:'power2.out', delay:.2,
+      scrollTrigger:{ trigger:browseHeader, start:'top 88%' }
+    }
+  );
+  gsap.fromTo(browseHeader.querySelector('.section-title'),
+    { opacity:0, y:30 },
+    { opacity:1, y:0, duration:.75, ease:'power2.out', delay:.1,
+      scrollTrigger:{ trigger:browseHeader, start:'top 88%' }
+    }
+  );
+  gsap.fromTo(browseHeader.querySelector('.section-desc'),
+    { opacity:0, y:20 },
+    { opacity:1, y:0, duration:.65, ease:'power2.out', delay:.22,
+      scrollTrigger:{ trigger:browseHeader, start:'top 88%' }
+    }
+  );
+
+  /* ── FILTER CONTROLS ── */
+  gsap.fromTo('#explorer-controls .pill-btn',
+    { opacity:0, y:16, scale:.9 },
+    { opacity:1, y:0, scale:1, duration:.5, stagger:.05, ease:'back.out(1.3)',
+      scrollTrigger:{ trigger:'#explorer-controls', start:'top 88%' }
+    }
+  );
+
+  /* ── STORY SECTION ── */
+  // Text block — children stagger from left
+  gsap.fromTo('#story-text > *',
+    { opacity:0, x:-45 },
+    { opacity:1, x:0, duration:.9, stagger:.13, ease:'power3.out',
+      scrollTrigger:{ trigger:'.story-section', start:'top 72%' }
+    }
+  );
+  // Hierarchy card from right
+  gsap.fromTo('#hierarchy-card',
+    { opacity:0, x:55 },
+    { opacity:1, x:0, duration:1, ease:'power3.out',
+      scrollTrigger:{ trigger:'.story-section', start:'top 72%' }
+    }
+  );
+  // H-nodes cascade
+  gsap.fromTo('.h-node',
+    { opacity:0, x:-14 },
+    { opacity:1, x:0, duration:.48, stagger:.1, ease:'power2.out',
+      scrollTrigger:{ trigger:'#hierarchy-card', start:'top 80%' }, delay:.4
+    }
+  );
+  gsap.fromTo('.h-connector',
+    { opacity:0, scaleY:0 },
+    { opacity:1, scaleY:1, duration:.28, stagger:.1, ease:'power2.out',
+      scrollTrigger:{ trigger:'#hierarchy-card', start:'top 80%' }, delay:.55
+    }
+  );
+  // Deco cards pop
+  gsap.fromTo('.deco-card',
+    { opacity:0, scale:.72, rotation:-4 },
+    { opacity:1, scale:1, rotation:0, duration:.65, stagger:.22, ease:'back.out(1.8)',
+      scrollTrigger:{ trigger:'#story-visual', start:'top 72%' }, delay:.6
+    }
+  );
+
+  /* ── ONTO SECTION HEADER ── */
+  gsap.fromTo('#onto-header > *',
+    { opacity:0, y:24 },
+    { opacity:1, y:0, duration:.7, stagger:.12, ease:'power2.out',
+      scrollTrigger:{ trigger:'#onto-header', start:'top 88%' }
+    }
+  );
+
+  /* ── ONTO CARDS ── */
+  gsap.fromTo('#onto-grid .onto-card',
+    { opacity:0, y:42 },
+    { opacity:1, y:0, duration:.8, stagger:.18, ease:'power2.out',
+      scrollTrigger:{ trigger:'#onto-grid', start:'top 80%' }
+    }
+  );
+
+  /* ── INGREDIENT CHIPS ── */
+  gsap.fromTo('.ing-chip',
+    { opacity:0, scale:.55 },
+    { opacity:1, scale:1, duration:.38, stagger:.025, ease:'back.out(1.6)',
+      scrollTrigger:{ trigger:'#onto-grid', start:'top 62%' }, delay:.45
+    }
+  );
+
+  /* ── SUBSUMPTION DIAGRAM ── */
+  const subTl=gsap.timeline({
+    scrollTrigger:{ trigger:'#sub-diagram', start:'top 82%' }
+  });
+  subTl
+    .fromTo('.sub-node.root', {opacity:0,scale:0}, {opacity:1,scale:1,duration:.5,ease:'back.out(2)'})
+    .fromTo('.sub-arrow', {opacity:0}, {opacity:1,duration:.3,stagger:.08}, '-=.05')
+    .fromTo('.sub-label', {opacity:0,y:6}, {opacity:1,y:0,duration:.3,stagger:.08}, '<')
+    .fromTo('.sub-node.mid', {opacity:0,scale:0}, {opacity:1,scale:1,duration:.5,stagger:.1,ease:'back.out(2)'}, '-=.1')
+    .fromTo('.sub-node.leaf', {opacity:0,scale:0}, {opacity:1,scale:1,duration:.42,stagger:.07,ease:'back.out(2)'}, '-=.05');
+
+  /* ── FOOTER ── */
+  gsap.fromTo('#footer-inner > *',
+    { opacity:0, y:30 },
+    { opacity:1, y:0, duration:.8, stagger:.15, ease:'power2.out',
+      scrollTrigger:{ trigger:'footer', start:'top 88%' }
+    }
+  );
+
+  /* ── NAV BORDER ON HERO EXIT ── */
+  ScrollTrigger.create({
+    trigger:'.hero',
+    start:'bottom top',
+    onEnter:()=>document.getElementById('main-nav').style.boxShadow='0 2px 20px rgba(28,20,16,.12)',
+    onLeaveBack:()=>document.getElementById('main-nav').style.boxShadow='none'
+  });
+}
+
+/* ============================================================
+   DOM READY
+   ============================================================ */
+document.addEventListener('DOMContentLoaded',()=>{
+  // Build ontology chips
+  document.getElementById('pkg-ings').innerHTML=PKG.map(i=>`<span class="ing-chip pkg">${i}</span>`).join('');
+  document.getElementById('custom-ings').innerHTML=CUSTOM.map(i=>`<span class="ing-chip custom">${i}</span>`).join('');
+
+  // Render dishes
+  renderDishes(false); // no animation on first render — GSAP batch takes over
+
+  // Wire up filter buttons
+  document.querySelectorAll('[data-country]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('[data-country]').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCountry=btn.dataset.country;
+      renderDishes(true);
+    });
+  });
+  document.querySelectorAll('[data-diet]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(btn.classList.contains('active')&&activeDiet===btn.dataset.diet){
+        btn.classList.remove('active'); activeDiet=null;
+      } else {
+        document.querySelectorAll('[data-diet]').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active'); activeDiet=btn.dataset.diet;
+      }
+      renderDishes(true);
+    });
+  });
+
+  // Init GSAP — defer one frame so DOM is fully painted
+  requestAnimationFrame(()=>{
+    // Trigger the initial dish batch (they're in viewport area potentially)
+    gsap.set('.dish-card', {opacity:0, y:55, scale:0.93});
+    cardBatches=ScrollTrigger.batch('.dish-card', {
+      onEnter: batch => gsap.to(batch, {
+        opacity:1, y:0, scale:1, duration:.65, stagger:.07, ease:'power3.out', overwrite:true
+      }),
+      start:'top 92%',
+      once:true
+    });
+
+    initGSAP();
+  });
+});
+</script>
+</body>
+</html>
