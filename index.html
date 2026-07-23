@@ -719,7 +719,7 @@ function renderDishes(animate=true){
       ? `<div class="dish-img dish-img--photo"><img src="${imgSrc2}" alt="${dish.name}" loading="lazy"><div class="country-badge">${FLAGS[dish.country]||'🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg?'🌿':'🍖'}</div></div>`
       : `<div class="dish-img" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})"><div class="img-pattern"></div><span class="big-emoji">${dish.emoji}</span><div class="country-badge">${FLAGS[dish.country]||'🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg?'🌿':'🍖'}</div></div>`;
     card.innerHTML=`${imgHTML2}
-      `+<div class="dish-card-body">
+      <div class="dish-card-body">
         <div class="dish-name">${dish.name}</div>
         <div class="techniques-row">${dish.techniques.map(t=>`<span class="technique-tag">${t}</span>`).join('')}</div>
         <button class="view-recipe-btn" onclick="openRecipe('${dish.name}')">
