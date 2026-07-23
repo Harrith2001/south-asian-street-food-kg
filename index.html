@@ -617,25 +617,6 @@ const FLAGS = {India:"🇮🇳",Pakistan:"🇵🇰",Bangladesh:"🇧🇩","India
 const PKG = ["Potato","Salt","Tamarind","Rice","Lentil","Onion","Tomato","Cumin","Coriander","GreenChilli","Ginger","Garlic","Yogurt","Oil","Flour","Peas","Water","Mustard","Turmeric","BlackPepper","Lemon","Mint","UradDal","ToorDal","Chickpeas","PuffedRice","MincedBeef","MustardOil","Fenugreek","Cardamom"];
 const CUSTOM = ["Sev","ChaatMasala","Jaggery","Asafoetida","BlackSalt","PomegranateSeeds","GramFlour","Eggplant"];
 
-/* ============================================================
-   PARTICLES + MARQUEE
-   ============================================================ */
-(()=>{
-  const c=document.getElementById('particles');
-  ['🍛','🌶','🧅','🧄','🍋','🌿','🫚','🫙','🥟','🌾'].forEach((em,i)=>{
-    const el=document.createElement('span');
-    el.className='particle';
-    el.textContent=em;
-    el.style.cssText=`left:${(i*10+Math.random()*8)}%;animation-duration:${14+Math.random()*16}s;animation-delay:${Math.random()*24}s;font-size:${1+Math.random()*1.2}rem`;
-    c.appendChild(el);
-  });
-})();
-
-(()=>{
-  const items=['Pani Puri','Samosa','Dahi Bhare','Masala Dosa','Bhel Puri','Chapli Kebab','Idli Sambhar','Vada Pav','Fuchka','Jhalmuri','Chotpoti','Shingara','Beguni','Aloo Tikki','Gol Gappay'];
-  const t=items.map(i=>`<span class="sep">★</span> ${i}`).join('  ');
-  document.getElementById('marquee-text').innerHTML=t+' '+t;
-})();
 
 /* ============================================================
    THEME
