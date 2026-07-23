@@ -502,6 +502,22 @@ footer { background:var(--ink-mid); color:rgba(255,245,230,.62); padding:56px 0 
 /* ============================================================
    DATA
    ============================================================ */
+const STATIC_IMGS = {
+  "Golgappay":         "./images/golgappay.jpg",
+  "Chotpoti & Fuchka": "./images/chotpoti-fuchka.jpg",
+  "Aloo Tikki Chaat":  "./images/aloo-tikki-chaat.jpg",
+  "Baingan Bhaja":     "./images/baingan-bhaja.jpg",
+  "Chana Chaat":       "./images/chana-chaat.jpg",
+  "Vada Pav":          "./images/vada-pav.jpg",
+  "Dahi Baray":        "./images/dahi-baray.jpg",
+  "Bhel Puri":         "./images/bhel-puri.jpg",
+  "Chapli Kabab":      "./images/chapli-kabab.jpg",
+  "Idli Sambhar":      "./images/idli-sambhar.jpg",
+  "Jhalmuri":          "./images/jhalmuri.jpg",
+  "Masala Dosa":       "./images/masala-dosa.jpg",
+  "Samosa":            "./images/samosa.jpg"
+};
+window.DISH_IMGS = STATIC_IMGS;
 const DISHES = [
   {name:"Pani Puri",country:"India",dietary:"Vegetarian",techniques:["DeepFrying","Assembling"],ingredientSets:["IngSet9883","IngSet9886","IngSet9887"],variant:["Gol Gappay","Fuchka"],emoji:"🫙",grad:["#006994","#00B4D8"],imgKey:"Golgappay"},
   {name:"Gol Gappay",country:"Pakistan",dietary:"Vegetarian",techniques:["DeepFrying","Assembling"],ingredientSets:["IngSet9884","IngSet9886","IngSet9887"],variant:["Pani Puri","Fuchka"],emoji:"🫙",grad:["#6B21A8","#A855F7"],imgKey:"Golgappay"},
@@ -631,9 +647,10 @@ function selectDish(name){sugEl.classList.remove('open');searchInput.value=name;
 function openRecipe(name){
   const dish=DISHES.find(d=>d.name===name);
   if(!dish)return;
-  document.getElementById('modal-hero').style.background=`linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})`;
-  document.getElementById('modal-emoji').textContent=dish.emoji;
-  document.getElementById('modal-flag').textContent=FLAGS[dish.country]||'🌏';
+    const heroEl=document.getElementById('modal-hero'),emojiEl=document.getElementById('modal-emoji');
+  const mImgSrc=dish.imgKey&&window.DISH_IMGS&&window.DISH_IMGS[dish.imgKey];
+  if(mImgSrc){heroEl.style.background=`linear-gradient(to bottom,rgba(0,0,0,.18) 0%,rgba(0,0,0,.55) 100%),url(${mImgSrc}) center/cover no-repeat`;emojiEl.style.display='none';}
+  else{heroEl.style.background=`linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})`;emojiEl.style.display='';emojiEl.textContent=dish.emoji;}  document.getElementById('modal-flag').textContent=FLAGS[dish.country]||'🌏';
   document.getElementById('modal-country').textContent=dish.country;
   document.getElementById('modal-name').textContent=dish.name;
 
@@ -697,14 +714,12 @@ function renderDishes(animate=true){
     const isVeg=dish.dietary==='Vegetarian';
     const card=document.createElement('div');
     card.className='dish-card';
-    card.innerHTML=`
-      <div class="dish-img" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})">
-        <div class="img-pattern"></div>
-        <span class="big-emoji">${dish.emoji}</span>
-        <div class="country-badge">${FLAGS[dish.country]||'🌏'} ${dish.country}</div>
-        <div class="diet-dot" title="${dish.dietary}">${isVeg?'🌿':'🍖'}</div>
-      </div>
-      <div class="dish-card-body">
+    const imgSrc2 = dish.imgKey && window.DISH_IMGS && window.DISH_IMGS[dish.imgKey];
+    const imgHTML2 = imgSrc2
+      ? `<div class="dish-img dish-img--photo"><img src="${imgSrc2}" alt="${dish.name}" loading="lazy"><div class="country-badge">${FLAGS[dish.country]||'🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg?'🌿':'🍖'}</div></div>`
+      : `<div class="dish-img" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})"><div class="img-pattern"></div><span class="big-emoji">${dish.emoji}</span><div class="country-badge">${FLAGS[dish.country]||'🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg?'🌿':'🍖'}</div></div>`;
+    card.innerHTML=`${imgHTML2}
+      `+<div class="dish-card-body">
         <div class="dish-name">${dish.name}</div>
         <div class="techniques-row">${dish.techniques.map(t=>`<span class="technique-tag">${t}</span>`).join('')}</div>
         <button class="view-recipe-btn" onclick="openRecipe('${dish.name}')">
