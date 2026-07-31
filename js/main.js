@@ -1,6 +1,28 @@
-﻿/* ============================================================
-   DATA
+/* ============================================================
+   SPARQL ENDPOINT
    ============================================================ */
+const SPARQL_ENDPOINT = 'https://triplydb.com/_api/datasets/Areesha/South-Asian-Street-Food-KG/sparql';
+
+/* ── UI METADATA (not in KG: emoji, gradient, image key) ── */
+const DISH_UI = {
+  'Pani Puri':    {emoji:'🫙', grad:['#006994','#00B4D8'], imgKey:'Golgappay'},
+  'Gol Gappay':   {emoji:'🫙', grad:['#6B21A8','#A855F7'], imgKey:'Golgappay'},
+  'Fuchka':       {emoji:'🫙', grad:['#16633C','#2DC653'], imgKey:'Chotpoti & Fuchka'},
+  'Aloo Tikki':   {emoji:'🥔', grad:['#B7791F','#F6C90E'], imgKey:'Aloo Tikki Chaat'},
+  'Beguni':       {emoji:'🍆', grad:['#5B21B6','#8B5CF6'], imgKey:'Baingan Bhaja'},
+  'Bhel Puri':    {emoji:'🌾', grad:['#C2410C','#FB923C'], imgKey:'Bhel Puri'},
+  'Chana Chaat':  {emoji:'🫘', grad:['#92400E','#F59E0B'], imgKey:'Chana Chaat'},
+  'Chapli Kebab': {emoji:'🥩', grad:['#7F1D1D','#DC2626'], imgKey:'Chapli Kabab'},
+  'Chotpoti':     {emoji:'🫘', grad:['#14532D','#16A34A'], imgKey:'Chotpoti & Fuchka'},
+  'Dahi Bharay':  {emoji:'🥣', grad:['#1E3A5F','#3B82F6'], imgKey:'Dahi Baray'},
+  'Idli Sambar':  {emoji:'🍚', grad:['#78350F','#F59E0B'], imgKey:'Idli Sambhar'},
+  'Jhalmuri':     {emoji:'🌿', grad:['#365314','#84CC16'], imgKey:'Jhalmuri'},
+  'Masala Dosa':  {emoji:'🫓', grad:['#9A3412','#EA580C'], imgKey:'Masala Dosa'},
+  'Samosa':       {emoji:'🥟', grad:['#92400E','#D97706'], imgKey:'Samosa'},
+  'Shingara':     {emoji:'🥟', grad:['#78350F','#A16207'], imgKey:'Samosa'},
+  'VadaPav':      {emoji:'🫓', grad:['#9F1239','#E11D48'], imgKey:'Vada Pav'},
+};
+
 const STATIC_IMGS = {
   "Golgappay":         "./images/golgappay.jpg",
   "Chotpoti & Fuchka": "./images/chotpoti-fuchka.jpg",
@@ -17,67 +39,187 @@ const STATIC_IMGS = {
   "Samosa":            "./images/samosa.jpg"
 };
 window.DISH_IMGS = STATIC_IMGS;
-const DISHES = [
-  {name:"Pani Puri",country:"India",dietary:"Vegetarian",techniques:["DeepFrying","Assembling"],ingredientSets:["IngSet9883","IngSet9886","IngSet9887"],variant:["Gol Gappay","Fuchka"],emoji:"🫙",grad:["#006994","#00B4D8"],imgKey:"Golgappay"},
-  {name:"Gol Gappay",country:"Pakistan",dietary:"Vegetarian",techniques:["DeepFrying","Assembling"],ingredientSets:["IngSet9884","IngSet9886","IngSet9887"],variant:["Pani Puri","Fuchka"],emoji:"🫙",grad:["#6B21A8","#A855F7"],imgKey:"Golgappay"},
-  {name:"Fuchka",country:"Bangladesh",dietary:"Vegetarian",techniques:["DeepFrying","Assembling"],ingredientSets:["IngSet9885","IngSet9886","IngSet9887"],variant:["Pani Puri","Gol Gappay"],emoji:"🫙",grad:["#16633C","#2DC653"],imgKey:"Chotpoti & Fuchka"},
-  {name:"Aloo Tikki",country:"India/Pakistan",dietary:"Vegetarian",techniques:["Boiling","Mixing","PanFrying"],ingredientSets:["IngSet9887"],emoji:"🥔",grad:["#B7791F","#F6C90E"],imgKey:"Aloo Tikki Chaat"},
-  {name:"Beguni",country:"Bangladesh",dietary:"Vegetarian",techniques:["Mixing","DeepFrying"],ingredientSets:["IngSet9892","IngSet9893"],emoji:"🍆",grad:["#5B21B6","#8B5CF6"],imgKey:"Baingan Bhaja"},
-  {name:"Bhel Puri",country:"India",dietary:"Vegetarian",techniques:["Roasting","Mixing","Assembling"],ingredientSets:["IngSet9891","IngSet9893","IngSet9894"],emoji:"🌾",grad:["#C2410C","#FB923C"],imgKey:"Bhel Puri"},
-  {name:"Chana Chaat",country:"India",dietary:"Vegetarian",techniques:["Boiling","Cutting","Mixing","Seasoning"],ingredientSets:["IngSet9891","IngSet9893"],emoji:"🫘",grad:["#92400E","#F59E0B"],imgKey:"Chana Chaat"},
-  {name:"Chapli Kebab",country:"Pakistan",dietary:"NonVegetarian",techniques:["Mixing","PanFrying"],ingredientSets:["IngSet9914"],emoji:"🥩",grad:["#7F1D1D","#DC2626"],imgKey:"Chapli Kabab"},
-  {name:"Chotpoti",country:"Bangladesh",dietary:"Vegetarian",techniques:["Boiling","Mixing","Seasoning"],ingredientSets:["IngSet9891","IngSet9893"],emoji:"🫘",grad:["#14532D","#16A34A"],imgKey:"Chotpoti & Fuchka"},
-  {name:"Dahi Bhare",country:"India",dietary:"Vegetarian",techniques:["Grinding","DeepFrying","Mixing"],ingredientSets:["IngSet9896"],emoji:"🥣",grad:["#1E3A5F","#3B82F6"],imgKey:"Dahi Baray"},
-  {name:"Idli Sambhar",country:"India",dietary:"Vegetarian",techniques:["Steaming","Boiling","Tempering"],ingredientSets:["IngSet9889","IngSet9897"],emoji:"🍚",grad:["#78350F","#F59E0B"],imgKey:"Idli Sambhar"},
-  {name:"Jhalmuri",country:"Bangladesh",dietary:"Vegetarian",techniques:["Cutting","Mixing","Seasoning"],ingredientSets:["IngSet9899"],emoji:"🌿",grad:["#365314","#84CC16"],imgKey:"Jhalmuri"},
-  {name:"Masala Dosa",country:"India",dietary:"Vegetarian",techniques:["Mixing","PanFrying","Assembling"],ingredientSets:["IngSet9889","IngSet9887"],emoji:"🫓",grad:["#9A3412","#EA580C"],imgKey:"Masala Dosa"},
-  {name:"Samosa",country:"Pakistan",dietary:"Vegetarian",techniques:["Mixing","Rolling","DeepFrying"],ingredientSets:["IngSet9904","IngSet9888"],variant:["Shingara"],emoji:"🥟",grad:["#92400E","#D97706"],imgKey:"Samosa"},
-  {name:"Shingara",country:"Bangladesh",dietary:"Vegetarian",techniques:["Mixing","Rolling","DeepFrying"],ingredientSets:["IngSet9904","IngSet9888"],variant:["Samosa"],emoji:"🥟",grad:["#78350F","#A16207"],imgKey:"Samosa"},
-  {name:"Vada Pav",country:"India",dietary:"Vegetarian",techniques:["Mixing","DeepFrying","Assembling"],ingredientSets:["IngSet9887","IngSet9893"],emoji:"🫓",grad:["#9F1239","#E11D48"],imgKey:"Vada Pav"},
-];
-
-const INGSET = {
-  "IngSet9883":{label:"Mint-Tamarind Water",ingredients:["Mint","Cumin","Lemon Juice","Water","Salt"]},
-  "IngSet9884":{label:"Pepper Spiced Water",ingredients:["Black Pepper","Cumin","Tamarind","Salt","Green Chilli"]},
-  "IngSet9885":{label:"Tamarind Mustard Water",ingredients:["Tamarind","Mustard","Green Chilli","Black Salt"]},
-  "IngSet9886":{label:"Spiced Water Base",ingredients:["Water","Salt","Black Salt","ChaatMasala"]},
-  "IngSet9887":{label:"Boiled Potatoes & Chickpeas",ingredients:["Potato","Chickpeas","Salt","Cumin","Coriander"]},
-  "IngSet9888":{label:"Pastry Dough",ingredients:["Flour","Salt","Oil","Water"]},
-  "IngSet9889":{label:"Fermented Rice Batter",ingredients:["Rice","Urad Dal","Salt","Water","Fenugreek"]},
-  "IngSet9891":{label:"Chickpea Base",ingredients:["Chickpeas","Onion","Tomato","Salt","Lemon"]},
-  "IngSet9892":{label:"Eggplant Batter",ingredients:["Eggplant","GramFlour","Salt","Turmeric"]},
-  "IngSet9893":{label:"Chaat Masala Mix",ingredients:["ChaatMasala","Tamarind","Cumin","Salt","Lemon"]},
-  "IngSet9894":{label:"Puffed Rice Mix",ingredients:["Puffed Rice","Sev","Onion","Coriander","Green Chilli"]},
-  "IngSet9896":{label:"Yogurt Lentil",ingredients:["Urad Dal","Yogurt","Salt","Cumin","ChaatMasala"]},
-  "IngSet9897":{label:"Sambhar Lentil",ingredients:["Toor Dal","Tamarind","Tomato","Asafoetida","Mustard"]},
-  "IngSet9899":{label:"Jhalmuri Mix",ingredients:["Puffed Rice","Mustard Oil","Green Chilli","Onion","Coriander"]},
-  "IngSet9904":{label:"Potato-Pea Filling",ingredients:["Potato","Peas","Cumin","Coriander","Green Chilli","Ginger"]},
-  "IngSet9914":{label:"Minced Meat Mix",ingredients:["Minced Beef","Onion","Coriander","Green Chilli","Pomegranate Seeds","Cumin"]},
-};
-
-const STEPS = {
-  "Pani Puri":["Deep-fry small semolina discs until crispy and puffed — medium heat so they inflate evenly.","Boil potatoes and chickpeas. Mash potatoes, mix with chickpeas, salt, and chaat masala.","Blend mint, coriander, cumin, black salt, tamarind pulp, and chilled water to make the tangy pani.","Make a small hole in each puri, fill with the potato-chickpea mix, and submerge in cold spiced water just before eating."],
-  "Gol Gappay":["Deep-fry semolina and flour discs until hollow and golden. Larger than Pani Puri.","Boil and mash potatoes, mix with chickpeas, cumin, and salt. Some add boiled lentils.","Prepare peppery water: blend tamarind, black pepper, cumin, green chilli, black salt, and coriander in chilled water.","Crack the top of each puri, spoon in filling, and dip fully into the peppery imli water."],
-  "Fuchka":["Deep-fry semolina puris until crisp and hollow.","Boil potatoes and yellow peas. Mash coarsely with mustard, green chilli, and salt.","Prepare strong tamarind water with mustard notes, green chilli paste, and black salt.","Pierce each puri, fill with the pea-potato mixture, and fill with sharp tamarind water. Eat immediately."],
-  "Aloo Tikki":["Boil potatoes until soft, then mash completely — no lumps.","Mix with cumin, coriander, green chilli, ginger, and salt. Add cornflour as binder. Shape into flat round patties.","Pan-fry on medium-high until a golden-brown crust forms on both sides, about 4 minutes per side.","Serve with green chutney and tamarind chutney."],
-  "Beguni":["Slice eggplant into thin rounds (~5mm). Salt slices and rest 10 minutes, then pat dry.","Make thick batter with gram flour, turmeric, salt, cumin, and red chilli.","Dip each eggplant slice in batter and deep-fry in hot oil until golden and crisp.","Drain on paper and serve hot — traditionally eaten during Ramadan in Bangladesh."],
-  "Bhel Puri":["Dry-roast puffed rice briefly to restore crunch.","Finely dice onion, tomato, and green chilli. Roughly crush sev and fried puris.","Combine puffed rice, sev, diced vegetables, boiled potato chunks, and chickpeas.","Add tamarind chutney, green chutney, chaat masala, and lemon juice. Toss quickly and serve immediately."],
-  "Chana Chaat":["Soak dried chickpeas overnight, then boil until soft.","Dice onion, tomato, cucumber, and green chilli. Squeeze lemon juice over.","Combine chickpeas and vegetables. Season with chaat masala, roasted cumin, salt, and black salt.","Drizzle tamarind and green chutneys. Toss and garnish with coriander."],
-  "Chapli Kebab":["Combine minced beef with onion, coriander, green chilli, tomato, cumin, pomegranate seeds, and egg. Mix well.","Rest the mixture 30 minutes. Flatten into wide thin patties.","Fry on high heat 3–4 minutes per side until dark-edged and caramelised.","Serve with naan and yoghurt raita."],
-  "Chotpoti":["Soak white peas overnight. Boil until just soft but not mushy.","Boil potatoes, peel and dice. Combine with boiled peas.","Season with tamarind water, cumin, black salt, green chilli, and coriander.","Top with chopped egg, diced onion, and drizzle of mustard oil."],
-  "Dahi Bhare":["Soak urad dal overnight. Grind to thick smooth batter with green chilli and ginger.","Deep-fry tablespoon-sized portions until light golden. Soak in warm water 10 minutes, then squeeze out.","Whip fresh yoghurt with salt and a little sugar until smooth. Place vadas in yoghurt.","Top with tamarind chutney, green chutney, roasted cumin, chilli powder, and sev."],
-  "Idli Sambhar":["Soak rice and urad dal (3:1) separately for 6 hours. Grind to smooth batter. Ferment overnight.","Pour batter into greased idli moulds. Steam 10–12 minutes until a toothpick comes out clean.","Boil toor dal with tamarind, tomato, and vegetables. Make a tempering of mustard seeds, curry leaves, red chilli, and asafoetida. Add to dal and simmer.","Serve hot idlis with fresh sambhar and coconut chutney."],
-  "Jhalmuri":["Measure out fresh puffed rice.","Finely chop onion, green chilli, and coriander. Dice tomato and cucumber.","Add mustard oil, tamarind pulp, green chilli, onion, and chaat masala. Toss vigorously 1–2 minutes — rice must stay crunchy.","Serve in paper cones for the authentic Dhaka street food experience."],
-  "Masala Dosa":["Ferment rice-urad batter overnight — it should double and smell slightly sour.","Boil and mash potatoes roughly. Make tempering of mustard seeds, curry leaves, green chilli, ginger, and turmeric. Add mashed potato.","Heat griddle to high. Ladle batter and spread in thin circles. Drizzle oil along edges.","Add potato masala on one half once surface dries. Fold and serve with sambhar and coconut chutney."],
-  "Samosa":["Make firm dough with flour, ajwain, salt, and oil. Rest 20 minutes.","Boil and mash potatoes and peas. Cook with cumin, coriander, ginger, green chilli, and amchur. Cool.","Roll dough thin, cut into semicircles, fold into cones, fill, and seal into triangles.","Deep-fry in medium-hot oil until golden and crisp, about 8 minutes."],
-  "Shingara":["Make slightly richer dough. Roll thin.","Prepare filling with potato, peas, and milder spice blend — less cumin, more onion, finished with mustard oil.","Shape into smaller triangles with tighter pleating than samosa.","Deep-fry at medium heat until pastry is flaky and pale golden."],
-  "Vada Pav":["Boil potatoes, mash with mustard seeds, curry leaves, green chilli, ginger, and turmeric.","Make small balls of potato mix. Dip in gram flour batter seasoned with turmeric and red chilli. Deep-fry until golden.","Prepare dry garlic-coconut chutney by grinding roasted garlic, dried coconut, red chilli, and salt.","Slit a soft pav bun, spread chutney on both sides, place the vada inside. Press and serve."],
-};
 
 const FLAGS = {India:"🇮🇳",Pakistan:"🇵🇰",Bangladesh:"🇧🇩","India/Pakistan":"🇮🇳🇵🇰"};
 const PKG = ["Potato","Salt","Tamarind","Rice","Lentil","Onion","Tomato","Cumin","Coriander","GreenChilli","Ginger","Garlic","Yogurt","Oil","Flour","Peas","Water","Mustard","Turmeric","BlackPepper","Lemon","Mint","UradDal","ToorDal","Chickpeas","PuffedRice","MincedBeef","MustardOil","Fenugreek","Cardamom"];
 const CUSTOM = ["Sev","ChaatMasala","Jaggery","Asafoetida","BlackSalt","PomegranateSeeds","GramFlour","Eggplant"];
 
+/* ── RUNTIME STATE ── */
+let DISHES = [];
+let activeCountry = 'all';
+let activeDiet = null;
+let cardBatches = [];
+
+/* ============================================================
+   SPARQL
+   ============================================================ */
+async function querySPARQL(query) {
+  const res = await fetch(SPARQL_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/sparql-query',
+      'Accept': 'application/sparql-results+json'
+    },
+    body: query
+  });
+  if (!res.ok) throw new Error('SPARQL ' + res.status);
+  const json = await res.json();
+  return json.results.bindings;
+}
+
+function uriLocalName(uri) {
+  return decodeURIComponent(uri.replace(/^.*[#/]/, '').replace(/_/g, ' '));
+}
+
+async function loadDishData() {
+  const PFX = `
+    PREFIX sakg: <http://example.org/southasianstreetfood#>
+    PREFIX pkg:  <http://purl.org/ProductKG/RecipeOn#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+  `;
+
+  const [coreRows, techRows, ingRows, ingSetRows, varRows] = await Promise.all([
+    querySPARQL(PFX + `
+      SELECT DISTINCT ?dish ?name ?comment ?instructions ?country ?dietary WHERE {
+        ?dish rdfs:subClassOf sakg:StreetFood ; rdfs:label ?name .
+        OPTIONAL { ?dish rdfs:comment ?comment }
+        OPTIONAL { ?dish sakg:instructions ?instructions }
+        OPTIONAL {
+          ?dish rdfs:subClassOf ?r1 .
+          ?r1 owl:onProperty sakg:originatesFrom ; owl:someValuesFrom ?c .
+          ?c rdfs:label ?country .
+        }
+        OPTIONAL {
+          ?dish rdfs:subClassOf ?r2 .
+          ?r2 owl:onProperty sakg:hasDietaryProperty ; owl:someValuesFrom ?d .
+          ?d rdfs:label ?dietary .
+        }
+      }
+    `),
+    querySPARQL(PFX + `
+      SELECT ?dish ?technique WHERE {
+        ?dish rdfs:subClassOf sakg:StreetFood .
+        ?dish rdfs:subClassOf ?r .
+        ?r owl:onProperty sakg:usesMethod ; owl:someValuesFrom ?t .
+        ?t rdfs:label ?technique .
+      }
+    `),
+    querySPARQL(PFX + `
+      SELECT ?dish ?ingURI ?ingLabel WHERE {
+        ?dish rdfs:subClassOf sakg:StreetFood .
+        ?dish rdfs:subClassOf ?r .
+        ?r owl:onProperty pkg:hasIngredient ; owl:someValuesFrom ?ingURI .
+        OPTIONAL { ?ingURI rdfs:label ?ingLabel }
+      }
+    `),
+    querySPARQL(PFX + `
+      SELECT ?dish ?ingSet ?ingSetLabel ?ingSetInstr ?ingURI ?ingLabel WHERE {
+        ?dish rdfs:subClassOf sakg:StreetFood .
+        ?dish rdfs:subClassOf ?r1 .
+        ?r1 owl:onProperty sakg:hasIngredientSet ; owl:someValuesFrom ?ingSet .
+        OPTIONAL { ?ingSet rdfs:label ?ingSetLabel }
+        OPTIONAL { ?ingSet sakg:instructions ?ingSetInstr }
+        OPTIONAL {
+          ?ingSet rdfs:subClassOf ?r2 .
+          ?r2 owl:onProperty pkg:hasIngredient ; owl:someValuesFrom ?ingURI .
+          OPTIONAL { ?ingURI rdfs:label ?ingLabel }
+        }
+      }
+    `),
+    querySPARQL(PFX + `
+      SELECT ?dish ?variant WHERE {
+        ?dish rdfs:subClassOf sakg:StreetFood .
+        ?dish rdfs:subClassOf ?r .
+        ?r owl:onProperty sakg:isVariantOf ; owl:someValuesFrom ?v .
+        ?v rdfs:label ?variant .
+      }
+    `)
+  ]);
+
+  const map = {};
+
+  for (const row of coreRows) {
+    const uri = row.dish.value;
+    if (!map[uri]) {
+      const name = row.name.value;
+      const ui = DISH_UI[name] || {emoji:'🍛', grad:['#C4501A','#E8A020'], imgKey:null};
+      map[uri] = {
+        name,
+        country: '',
+        dietary: 'Vegetarian',
+        instructions: '',
+        comment: '',
+        techniques: [],
+        ingredients: [],
+        variant: [],
+        emoji: ui.emoji,
+        grad: ui.grad,
+        imgKey: ui.imgKey
+      };
+    }
+    if (row.country?.value && !map[uri].country) map[uri].country = row.country.value;
+    if (row.dietary?.value && !map[uri].dietary) map[uri].dietary = row.dietary.value;
+    if (row.instructions?.value && !map[uri].instructions) map[uri].instructions = row.instructions.value;
+    if (row.comment?.value && !map[uri].comment) map[uri].comment = row.comment.value;
+  }
+
+  for (const row of techRows) {
+    const d = map[row.dish.value];
+    if (d) {
+      const t = row.technique.value;
+      if (!d.techniques.includes(t)) d.techniques.push(t);
+    }
+  }
+
+  for (const row of ingRows) {
+    const d = map[row.dish.value];
+    if (d) {
+      const label = row.ingLabel?.value || uriLocalName(row.ingURI.value);
+      if (!d.ingredients.includes(label)) d.ingredients.push(label);
+    }
+  }
+
+  // Build ingredient sets (grouped by ingSet URI)
+  const ingSetMap = {}; // dishURI → { ingSetURI → {label,instructions,ingredients[]} }
+  for (const row of ingSetRows) {
+    const dishURI = row.dish.value;
+    const setURI = row.ingSet.value;
+    if (!ingSetMap[dishURI]) ingSetMap[dishURI] = {};
+    if (!ingSetMap[dishURI][setURI]) {
+      ingSetMap[dishURI][setURI] = {
+        uri: setURI,
+        label: row.ingSetLabel?.value || uriLocalName(setURI),
+        instructions: row.ingSetInstr?.value || '',
+        ingredients: []
+      };
+    }
+    if (row.ingURI) {
+      const ing = row.ingLabel?.value || uriLocalName(row.ingURI.value);
+      const s = ingSetMap[dishURI][setURI];
+      if (!s.ingredients.includes(ing)) s.ingredients.push(ing);
+    }
+    // Also keep flat ingredient list for related-dish matching
+    const d = map[dishURI];
+    if (d && row.ingURI) {
+      const ing = row.ingLabel?.value || uriLocalName(row.ingURI.value);
+      if (!d.ingredients.includes(ing)) d.ingredients.push(ing);
+    }
+  }
+  for (const [dishURI, sets] of Object.entries(ingSetMap)) {
+    if (map[dishURI]) map[dishURI].ingredientSets = Object.values(sets);
+  }
+
+  for (const row of varRows) {
+    const d = map[row.dish.value];
+    if (d) {
+      const v = row.variant.value;
+      if (!d.variant.includes(v)) d.variant.push(v);
+    }
+  }
+
+  return Object.values(map).sort((a, b) => a.name.localeCompare(b.name));
+}
 
 /* ── NAV TRANSPARENCY ── */
 (()=>{
@@ -97,10 +239,11 @@ const searchInput=document.getElementById('search-input');
 const sugEl=document.getElementById('search-suggestions');
 
 searchInput.addEventListener('input',()=>{
+  if (!DISHES.length) { sugEl.classList.remove('open'); return; }
   const q=searchInput.value.trim().toLowerCase();
-  if(!q){sugEl.classList.remove('open');return}
+  if(!q){sugEl.classList.remove('open');return;}
   const hits=DISHES.filter(d=>d.name.toLowerCase().includes(q)||d.country.toLowerCase().includes(q)||d.techniques.some(t=>t.toLowerCase().includes(q)));
-  if(!hits.length){sugEl.classList.remove('open');return}
+  if(!hits.length){sugEl.classList.remove('open');return;}
   sugEl.innerHTML=hits.slice(0,6).map(d=>`
     <div class="suggestion-item" onclick="selectDish('${d.name}')">
       <span style="font-size:1.4rem">${d.emoji}</span>
@@ -111,70 +254,141 @@ searchInput.addEventListener('input',()=>{
 });
 document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))sugEl.classList.remove('open')});
 document.getElementById('search-btn').addEventListener('click',()=>{
+  if (!DISHES.length) return;
   const q=searchInput.value.trim().toLowerCase();
   const m=DISHES.find(d=>d.name.toLowerCase().startsWith(q)||d.name.toLowerCase().includes(q));
   if(m)selectDish(m.name);
 });
 searchInput.addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('search-btn').click()});
-function selectDish(name){sugEl.classList.remove('open');searchInput.value=name;openRecipe(name)}
+function selectDish(name){sugEl.classList.remove('open');searchInput.value=name;openRecipe(name);}
 
 /* ============================================================
    RECIPE MODAL
    ============================================================ */
 function openRecipe(name){
   const dish=DISHES.find(d=>d.name===name);
-  if(!dish)return;
-    const heroEl=document.getElementById('modal-hero'),emojiEl=document.getElementById('modal-emoji');
-  const mImgSrc=dish.imgKey&&window.DISH_IMGS&&window.DISH_IMGS[dish.imgKey];
-  if(mImgSrc){heroEl.style.background=`linear-gradient(to bottom,rgba(0,0,0,.18) 0%,rgba(0,0,0,.55) 100%),url(${mImgSrc}) center/cover no-repeat`;emojiEl.style.display='none';}
-  else{heroEl.style.background=`linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})`;emojiEl.style.display='';emojiEl.textContent=dish.emoji;}  document.getElementById('modal-flag').textContent=FLAGS[dish.country]||'🌏';
+  if(!dish) return;
+
+  const heroEl=document.getElementById('modal-hero');
+  const emojiEl=document.getElementById('modal-emoji');
+  const imgSrc=dish.imgKey && window.DISH_IMGS && window.DISH_IMGS[dish.imgKey];
+  if(imgSrc){
+    heroEl.style.background=`linear-gradient(to bottom,rgba(0,0,0,.18) 0%,rgba(0,0,0,.55) 100%),url(${imgSrc}) center/cover no-repeat`;
+    emojiEl.style.display='none';
+  } else {
+    heroEl.style.background=`linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})`;
+    emojiEl.style.display='';
+    emojiEl.textContent=dish.emoji;
+  }
+
+  document.getElementById('modal-flag').textContent=FLAGS[dish.country]||'🌏';
   document.getElementById('modal-country').textContent=dish.country;
   document.getElementById('modal-name').textContent=dish.name;
 
-  const veg=dish.dietary==='Vegetarian';
-  let badges=`<span class="rbadge ${veg?'veg':'nonveg'}">${veg?'🌿 Vegetarian':'🍖 Non-Vegetarian'}</span>`;
-  if(dish.variant)badges+=dish.variant.map(v=>`<span class="rbadge variant">⇄ ${v}</span>`).join('');
+  const isVeg=dish.dietary==='Vegetarian';
+  let badges=`<span class="rbadge ${isVeg?'veg':'nonveg'}">${isVeg?'🌿 Vegetarian':'🍖 Non-Vegetarian'}</span>`;
+  if(dish.variant?.length) badges+=dish.variant.map(v=>`<span class="rbadge variant">⇄ ${v}</span>`).join('');
   document.getElementById('modal-badges').innerHTML=badges;
 
-  const seen=new Set(), ings=[];
-  dish.ingredientSets.forEach(id=>(INGSET[id]?.ingredients||[]).forEach(ing=>{if(!seen.has(ing)){seen.add(ing);ings.push(ing)}}));
-  document.getElementById('modal-ingredients').innerHTML=ings.map(i=>`<div class="ingredient-item"><div class="ing-dot"></div>${i}</div>`).join('');
+  // About section
+  const aboutSec=document.getElementById('modal-about-sec');
+  if(dish.comment){
+    document.getElementById('modal-about').textContent=dish.comment;
+    aboutSec.style.display='';
+  } else {
+    aboutSec.style.display='none';
+  }
 
-  const steps=STEPS[dish.name]||['Prepare ingredients.','Cook using traditional methods.','Serve immediately.'];
-  document.getElementById('modal-steps').innerHTML=steps.map((s,i)=>`<div class="step-item"><div class="step-num">${i+1}</div><div class="step-text">${s}</div></div>`).join('');
+  // Ingredients & Preparation
+  const ingWrap=document.getElementById('modal-ingredients-wrap');
+  const sets=dish.ingredientSets||[];
+  if(sets.length){
+    const SET_ICONS=['🫙','🥣','💧','🥬','🌶️','🧄'];
+    const isRawUri = label => /^IngSet\d+$/i.test(label) || /^ingset/i.test(label);
+    ingWrap.innerHTML=sets.map((s,i)=>{
+      const displayLabel = isRawUri(s.label) ? `Component ${i+1}` : s.label;
+      const ingHTML=s.ingredients.length
+        ? `<div class="ingset-ing-grid">${s.ingredients.map(ing=>`<div class="ingredient-item"><div class="ing-dot"></div>${ing}</div>`).join('')}</div>`
+        : '';
+      const prepSteps=s.instructions
+        ? s.instructions.split(/\.\s+|\n/).map(t=>t.trim()).filter(Boolean).map(t=>t.endsWith('.')?t:t+'.')
+        : [];
+      const prepHTML=prepSteps.length
+        ? `<div class="ingset-prep-title">Preparation</div><div class="ingset-steps">${prepSteps.map((t,n)=>`<div class="ingset-step"><div class="ingset-step-num">${n+1}</div><div class="ingset-step-text">${t}</div></div>`).join('')}</div>`
+        : '';
+      return `<div class="ingset-block">
+        <div class="ingset-header"><span class="ingset-icon">${SET_ICONS[i]||'🍴'}</span><span class="ingset-label">${displayLabel}</span></div>
+        <div class="ingset-body">${ingHTML}${prepHTML}</div>
+      </div>`;
+    }).join('');
+    // Also show any direct ingredients not in a set
+    if(dish.ingredients.length){
+      const setIngs=new Set(sets.flatMap(s=>s.ingredients));
+      const direct=dish.ingredients.filter(i=>!setIngs.has(i));
+      if(direct.length){
+        ingWrap.innerHTML+=`<div class="direct-ing-grid">${direct.map(i=>`<div class="ingredient-item"><div class="ing-dot"></div>${i}</div>`).join('')}</div>`;
+      }
+    }
+    document.getElementById('modal-assembly-title').textContent='Assembly';
+  } else {
+    // No sets — flat ingredient grid
+    ingWrap.innerHTML=dish.ingredients.length
+      ? `<div class="ingredients-grid">${dish.ingredients.map(i=>`<div class="ingredient-item"><div class="ing-dot"></div>${i}</div>`).join('')}</div>`
+      : '<p style="color:var(--text-muted);font-size:.9rem">Ingredients not available</p>';
+    document.getElementById('modal-assembly-title').textContent='How to Make It';
+  }
+
+  // Assembly / main instructions
+  const assemblyTitleEl=document.getElementById('modal-assembly-title');
+  const stepsEl=document.getElementById('modal-steps');
+  if(dish.instructions){
+    const steps=dish.instructions.split(/\.\s+|\n/).map(s=>s.trim()).filter(Boolean).map(s=>s.endsWith('.')?s:s+'.');
+    stepsEl.innerHTML=steps.map((s,i)=>`<div class="step-item"><div class="step-num">${i+1}</div><div class="step-text">${s}</div></div>`).join('');
+    assemblyTitleEl.style.display='';
+    stepsEl.style.display='';
+  } else {
+    assemblyTitleEl.style.display='none';
+    stepsEl.style.display='none';
+  }
 
   document.getElementById('modal-techniques').innerHTML=dish.techniques.map(t=>`<span class="technique-chip">${t}</span>`).join('');
 
   const varSec=document.getElementById('modal-variants-sec');
   if(dish.variant?.length){
     varSec.style.display='block';
-    document.getElementById('modal-variants').innerHTML=dish.variant.map(v=>{const vd=DISHES.find(d=>d.name===v);return`<span class="variant-link-chip" onclick="switchRecipe('${v}')">${FLAGS[vd?.country]||''} ${v} →</span>`}).join('');
-  } else varSec.style.display='none';
+    document.getElementById('modal-variants').innerHTML=dish.variant.map(v=>{
+      const vd=DISHES.find(d=>d.name===v);
+      return `<span class="variant-link-chip" onclick="switchRecipe('${v}')">${FLAGS[vd?.country]||''} ${v} →</span>`;
+    }).join('');
+  } else {
+    varSec.style.display='none';
+  }
 
-  const shared=new Set(dish.ingredientSets);
-  const rel=DISHES.filter(d=>d.name!==dish.name&&d.ingredientSets.some(s=>shared.has(s)));
+  // Related dishes (share at least one ingredient)
+  const sharedIngs=new Set(dish.ingredients);
+  const related=DISHES.filter(d=>d.name!==dish.name && d.ingredients.some(i=>sharedIngs.has(i)));
   const rRow=document.getElementById('modal-related-row');
-  if(rel.length){rRow.style.display='block';document.getElementById('modal-related').innerHTML=rel.map(d=>`<span class="related-chip" onclick="switchRecipe('${d.name}')">${d.emoji} ${d.name}</span>`).join('')}
-  else rRow.style.display='none';
+  if(related.length){
+    rRow.style.display='block';
+    document.getElementById('modal-related').innerHTML=related.map(d=>`<span class="related-chip" onclick="switchRecipe('${d.name}')">${d.emoji} ${d.name}</span>`).join('');
+  } else {
+    rRow.style.display='none';
+  }
 
   document.getElementById('recipe-overlay').classList.add('open');
   document.body.style.overflow='hidden';
 }
-function switchRecipe(n){openRecipe(n)}
+function switchRecipe(n){openRecipe(n);}
 function closeRecipe(){document.getElementById('recipe-overlay').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('recipe-close').addEventListener('click',closeRecipe);
-document.getElementById('recipe-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeRecipe()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeRecipe()});
+document.getElementById('recipe-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeRecipe();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeRecipe();});
 
 /* ============================================================
    DISHES GRID
    ============================================================ */
-let activeCountry='all', activeDiet=null;
-let cardBatches=[];
-
 function renderDishes(animate=true){
   const grid=document.getElementById('dishes-grid');
-  // Kill old scroll triggers
   cardBatches.forEach(t=>t.kill());
   cardBatches=[];
   grid.innerHTML='';
@@ -191,11 +405,11 @@ function renderDishes(animate=true){
     const isVeg=dish.dietary==='Vegetarian';
     const card=document.createElement('div');
     card.className='dish-card';
-    const imgSrc2 = dish.imgKey && window.DISH_IMGS && window.DISH_IMGS[dish.imgKey];
-    const imgHTML2 = imgSrc2
-      ? `<div class="dish-img dish-img--photo"><img src="${imgSrc2}" alt="${dish.name}" loading="lazy"><div class="country-badge">${FLAGS[dish.country]||'🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg?'🌿':'🍖'}</div></div>`
+    const imgSrc=dish.imgKey && window.DISH_IMGS && window.DISH_IMGS[dish.imgKey];
+    const imgHTML=imgSrc
+      ? `<div class="dish-img dish-img--photo"><img src="${imgSrc}" alt="${dish.name}" loading="lazy"><div class="country-badge">${FLAGS[dish.country]||'🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg?'🌿':'🍖'}</div></div>`
       : `<div class="dish-img" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})"><div class="img-pattern"></div><span class="big-emoji">${dish.emoji}</span><div class="country-badge">${FLAGS[dish.country]||'🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg?'🌿':'🍖'}</div></div>`;
-    card.innerHTML=`${imgHTML2}
+    card.innerHTML=`${imgHTML}
       <div class="dish-card-body">
         <div class="dish-name">${dish.name}</div>
         <div class="techniques-row">${dish.techniques.map(t=>`<span class="technique-tag">${t}</span>`).join('')}</div>
@@ -208,15 +422,9 @@ function renderDishes(animate=true){
   });
 
   if(animate && visibleDishes.length){
-    // Set initial state then batch animate
-    gsap.set('.dish-card', {opacity:0, y:55, scale:0.93});
-    cardBatches=ScrollTrigger.batch('.dish-card', {
-      onEnter: batch => gsap.to(batch, {
-        opacity:1, y:0, scale:1,
-        duration:.65, stagger:.07,
-        ease:'power3.out',
-        overwrite:true
-      }),
+    gsap.set('.dish-card',{opacity:0,y:55,scale:0.93});
+    cardBatches=ScrollTrigger.batch('.dish-card',{
+      onEnter:batch=>gsap.to(batch,{opacity:1,y:0,scale:1,duration:.65,stagger:.07,ease:'power3.out',overwrite:true}),
       start:'top 92%',
       once:true
     });
@@ -250,194 +458,56 @@ function countUp(el,target,suffix){
 function initGSAP(){
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ── SCROLL PROGRESS BAR ── */
-  gsap.to('#scroll-progress', {
-    scaleX:1, ease:'none',
-    scrollTrigger:{ start:'top top', end:'max', scrub:0 }
-  });
+  gsap.to('#scroll-progress',{scaleX:1,ease:'none',scrollTrigger:{start:'top top',end:'max',scrub:0}});
 
-  /* ── HERO ENTRANCE ── */
-  gsap.fromTo('.hero-eyebrow',
-    { clipPath:'inset(0 100% 0 0)', opacity:1 },
-    { clipPath:'inset(0 0% 0 0)', duration:.9, ease:'power3.out', delay:.15 }
-  );
-  gsap.fromTo('.hero-title',
-    { y:90, opacity:0, scale:.94 },
-    { y:0, opacity:1, scale:1, duration:1.1, ease:'power4.out', delay:.35 }
-  );
-  gsap.fromTo('.hero-sub',
-    { y:40, opacity:0 },
-    { y:0, opacity:1, duration:.9, ease:'power3.out', delay:.55 }
-  );
-  gsap.fromTo('.search-wrap',
-    { y:50, opacity:0 },
-    { y:0, opacity:1, duration:1, ease:'power3.out', delay:.85 }
-  );
-  gsap.fromTo('.country-card',
-    { y:26, opacity:0, scale:.91 },
-    { y:0, opacity:1, scale:1, duration:.55, stagger:.1, ease:'back.out(1.4)', delay:1 }
-  );
-  gsap.fromTo('.hero-credits',
-    { opacity:0 },
-    { opacity:1, duration:.6, delay:1.3 }
-  );
-  gsap.fromTo('.hero-scroll',
-    { opacity:0, y:-8 },
-    { opacity:1, y:0, duration:.5, delay:1.5 }
-  );
-  /* Ken Burns on hero image */
-  gsap.to('.hero-video', { scale:1.1, duration:12, ease:'none', transformOrigin:'center center' });
+  gsap.fromTo('.hero-eyebrow',{clipPath:'inset(0 100% 0 0)',opacity:1},{clipPath:'inset(0 0% 0 0)',duration:.9,ease:'power3.out',delay:.15});
+  gsap.fromTo('.hero-title',{y:90,opacity:0,scale:.94},{y:0,opacity:1,scale:1,duration:1.1,ease:'power4.out',delay:.35});
+  gsap.fromTo('.hero-sub',{y:40,opacity:0},{y:0,opacity:1,duration:.9,ease:'power3.out',delay:.55});
+  gsap.fromTo('.search-wrap',{y:50,opacity:0},{y:0,opacity:1,duration:1,ease:'power3.out',delay:.85});
+  gsap.fromTo('.hero-scroll',{opacity:0,y:-8},{opacity:1,y:0,duration:.5,delay:1.5});
+  gsap.to('.hero-video',{scale:1.1,duration:12,ease:'none',transformOrigin:'center center'});
 
-  /* ── DISH MARQUEE PARALLAX ── */
-  gsap.fromTo('.dish-marquee-section',
-    { opacity:0, y:30 },
-    { opacity:1, y:0, duration:.8, ease:'power2.out',
-      scrollTrigger:{ trigger:'.dish-marquee-section', start:'top 90%' }
-    }
-  );
+  gsap.fromTo('.dish-marquee-section',{opacity:0,y:30},{opacity:1,y:0,duration:.8,ease:'power2.out',scrollTrigger:{trigger:'.dish-marquee-section',start:'top 90%'}});
 
-  /* ── STATS ── */
-  gsap.fromTo('.stat-card',
-    { opacity:0, y:48, scale:.85 },
-    { opacity:1, y:0, scale:1, duration:.8, stagger:.14, ease:'back.out(1.4)',
-      scrollTrigger:{ trigger:'#stats-band', start:'top 78%',
-        onEnter:()=>document.querySelectorAll('.stat-number').forEach(el=>countUp(el,+el.dataset.target,el.dataset.suffix||''))
-      }
-    }
-  );
-
-  /* ── BROWSE SECTION HEADER ── */
   const browseHeader=document.querySelector('#browse .section-header');
-  const browseLabel=browseHeader.querySelector('.section-label');
-  gsap.fromTo(browseLabel,
-    { opacity:0, y:16 },
-    { opacity:1, y:0, duration:.6, ease:'power2.out',
-      scrollTrigger:{ trigger:browseHeader, start:'top 88%' }
-    }
-  );
-  gsap.to(browseLabel.querySelector('::after') ? browseLabel : browseLabel, {});
-  // Label underline sweep
-  gsap.fromTo(browseLabel,
-    { '--w':'0%' }, { '--w':'40px', duration:.8, ease:'power2.out', delay:.2,
-      scrollTrigger:{ trigger:browseHeader, start:'top 88%' }
-    }
-  );
-  gsap.fromTo(browseHeader.querySelector('.section-title'),
-    { opacity:0, y:30 },
-    { opacity:1, y:0, duration:.75, ease:'power2.out', delay:.1,
-      scrollTrigger:{ trigger:browseHeader, start:'top 88%' }
-    }
-  );
-  gsap.fromTo(browseHeader.querySelector('.section-desc'),
-    { opacity:0, y:20 },
-    { opacity:1, y:0, duration:.65, ease:'power2.out', delay:.22,
-      scrollTrigger:{ trigger:browseHeader, start:'top 88%' }
-    }
-  );
+  if(browseHeader){
+    const browseLabel=browseHeader.querySelector('.section-label');
+    gsap.fromTo(browseLabel,{opacity:0,y:16},{opacity:1,y:0,duration:.6,ease:'power2.out',scrollTrigger:{trigger:browseHeader,start:'top 88%'}});
+    gsap.fromTo(browseHeader.querySelector('.section-title'),{opacity:0,y:30},{opacity:1,y:0,duration:.75,ease:'power2.out',delay:.1,scrollTrigger:{trigger:browseHeader,start:'top 88%'}});
+    gsap.fromTo(browseHeader.querySelector('.section-desc'),{opacity:0,y:20},{opacity:1,y:0,duration:.65,ease:'power2.out',delay:.22,scrollTrigger:{trigger:browseHeader,start:'top 88%'}});
+  }
 
-  /* ── FILTER CONTROLS ── */
-  gsap.fromTo('#explorer-controls .pill-btn',
-    { opacity:0, y:16, scale:.9 },
-    { opacity:1, y:0, scale:1, duration:.5, stagger:.05, ease:'back.out(1.3)',
-      scrollTrigger:{ trigger:'#explorer-controls', start:'top 88%' }
-    }
-  );
+  gsap.fromTo('#explorer-controls .pill-btn',{opacity:0,y:16,scale:.9},{opacity:1,y:0,scale:1,duration:.5,stagger:.05,ease:'back.out(1.3)',scrollTrigger:{trigger:'#explorer-controls',start:'top 88%'}});
 
-  /* ── STORY SECTION ── */
-  // Text block — children stagger from left
-  gsap.fromTo('#story-text > *',
-    { opacity:0, x:-45 },
-    { opacity:1, x:0, duration:.9, stagger:.13, ease:'power3.out',
-      scrollTrigger:{ trigger:'.story-section', start:'top 72%' }
-    }
-  );
-  // Hierarchy card from right
-  gsap.fromTo('#hierarchy-card',
-    { opacity:0, x:55 },
-    { opacity:1, x:0, duration:1, ease:'power3.out',
-      scrollTrigger:{ trigger:'.story-section', start:'top 72%' }
-    }
-  );
-  // H-nodes cascade
-  gsap.fromTo('.h-node',
-    { opacity:0, x:-14 },
-    { opacity:1, x:0, duration:.48, stagger:.1, ease:'power2.out',
-      scrollTrigger:{ trigger:'#hierarchy-card', start:'top 80%' }, delay:.4
-    }
-  );
-  gsap.fromTo('.h-connector',
-    { opacity:0, scaleY:0 },
-    { opacity:1, scaleY:1, duration:.28, stagger:.1, ease:'power2.out',
-      scrollTrigger:{ trigger:'#hierarchy-card', start:'top 80%' }, delay:.55
-    }
-  );
-  // Deco cards pop
-  gsap.fromTo('.deco-card',
-    { opacity:0, scale:.72, rotation:-4 },
-    { opacity:1, scale:1, rotation:0, duration:.65, stagger:.22, ease:'back.out(1.8)',
-      scrollTrigger:{ trigger:'#story-visual', start:'top 72%' }, delay:.6
-    }
-  );
-
-  /* ── ONTO SECTION HEADER ── */
-  gsap.fromTo('#onto-header > *',
-    { opacity:0, y:24 },
-    { opacity:1, y:0, duration:.7, stagger:.12, ease:'power2.out',
-      scrollTrigger:{ trigger:'#onto-header', start:'top 88%' }
-    }
-  );
-
-  /* ── ONTO CARDS ── */
-  gsap.fromTo('#onto-grid .onto-card',
-    { opacity:0, y:42 },
-    { opacity:1, y:0, duration:.8, stagger:.18, ease:'power2.out',
-      scrollTrigger:{ trigger:'#onto-grid', start:'top 80%' }
-    }
-  );
-
-  /* ── INGREDIENT CHIPS ── */
-  gsap.fromTo('.ing-chip',
-    { opacity:0, scale:.55 },
-    { opacity:1, scale:1, duration:.38, stagger:.025, ease:'back.out(1.6)',
-      scrollTrigger:{ trigger:'#onto-grid', start:'top 62%' }, delay:.45
-    }
-  );
-
-  /* ── SUBSUMPTION DIAGRAM ── */
-  const subTl=gsap.timeline({
-    scrollTrigger:{ trigger:'#sub-diagram', start:'top 82%' }
-  });
-  subTl
-    .fromTo('.sub-node.root', {opacity:0,scale:0}, {opacity:1,scale:1,duration:.5,ease:'back.out(2)'})
-    .fromTo('.sub-arrow', {opacity:0}, {opacity:1,duration:.3,stagger:.08}, '-=.05')
-    .fromTo('.sub-label', {opacity:0,y:6}, {opacity:1,y:0,duration:.3,stagger:.08}, '<')
-    .fromTo('.sub-node.mid', {opacity:0,scale:0}, {opacity:1,scale:1,duration:.5,stagger:.1,ease:'back.out(2)'}, '-=.1')
-    .fromTo('.sub-node.leaf', {opacity:0,scale:0}, {opacity:1,scale:1,duration:.42,stagger:.07,ease:'back.out(2)'}, '-=.05');
-
-  /* ── FOOTER ── */
-  gsap.fromTo('#footer-inner > *',
-    { opacity:0, y:30 },
-    { opacity:1, y:0, duration:.8, stagger:.15, ease:'power2.out',
-      scrollTrigger:{ trigger:'footer', start:'top 88%' }
-    }
-  );
-
+  gsap.fromTo('#footer-inner > *',{opacity:0,y:30},{opacity:1,y:0,duration:.8,stagger:.15,ease:'power2.out',scrollTrigger:{trigger:'footer',start:'top 88%'}});
 }
 
 /* ============================================================
    DOM READY
    ============================================================ */
-document.addEventListener('DOMContentLoaded',()=>{
-  // Build ontology chips (elements may not exist if section removed)
+document.addEventListener('DOMContentLoaded', async () => {
+  // Ontology chips (section may be removed)
   const pkgEl=document.getElementById('pkg-ings');
   const customEl=document.getElementById('custom-ings');
   if(pkgEl) pkgEl.innerHTML=PKG.map(i=>`<span class="ing-chip pkg">${i}</span>`).join('');
   if(customEl) customEl.innerHTML=CUSTOM.map(i=>`<span class="ing-chip custom">${i}</span>`).join('');
 
-  // Render dishes
-  renderDishes(false); // no animation on first render — GSAP batch takes over
+  // Show loading state
+  const grid=document.getElementById('dishes-grid');
+  grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted);font-family:var(--font-sans);font-size:.95rem;letter-spacing:.05em">Loading dishes from knowledge graph…</div>`;
 
-  // Wire up filter buttons
+  try {
+    DISHES = await loadDishData();
+  } catch(e) {
+    console.error('SPARQL load failed:', e);
+    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#e05;font-family:var(--font-sans);font-size:.95rem">Failed to load dishes. Please refresh.</div>`;
+    return;
+  }
+
+  // Render dishes
+  renderDishes(false);
+
+  // Filter buttons
   document.querySelectorAll('[data-country]').forEach(btn=>{
     btn.addEventListener('click',()=>{
       document.querySelectorAll('[data-country]').forEach(b=>b.classList.remove('active'));
@@ -458,18 +528,14 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
   });
 
-  // Init GSAP — defer one frame so DOM is fully painted
+  // Init GSAP
   requestAnimationFrame(()=>{
-    // Trigger the initial dish batch (they're in viewport area potentially)
-    gsap.set('.dish-card', {opacity:0, y:55, scale:0.93});
-    cardBatches=ScrollTrigger.batch('.dish-card', {
-      onEnter: batch => gsap.to(batch, {
-        opacity:1, y:0, scale:1, duration:.65, stagger:.07, ease:'power3.out', overwrite:true
-      }),
+    gsap.set('.dish-card',{opacity:0,y:55,scale:0.93});
+    cardBatches=ScrollTrigger.batch('.dish-card',{
+      onEnter:batch=>gsap.to(batch,{opacity:1,y:0,scale:1,duration:.65,stagger:.07,ease:'power3.out',overwrite:true}),
       start:'top 92%',
       once:true
     });
-
     initGSAP();
   });
 });

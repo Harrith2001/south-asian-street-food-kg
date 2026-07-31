@@ -103,6 +103,25 @@ nav.nav--scrolled { background:rgba(18,12,8,.82); backdrop-filter:blur(20px); -w
 .rs-title { font-size:.7rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--text-muted); margin:26px 0 14px; display:flex; align-items:center; gap:10px; }
 .rs-title::after { content:''; flex:1; height:1px; background:var(--border); }
 .ingredients-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(172px,1fr)); gap:9px; }
+
+/* About card */
+.about-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px 18px; font-size:.9rem; color:var(--text-muted); line-height:1.75; font-style:italic; }
+
+/* Ingredient set blocks */
+.ingset-block { background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:14px; }
+.ingset-header { display:flex; align-items:center; gap:10px; padding:12px 16px; border-bottom:1px solid var(--border); background:rgba(0,0,0,.03); }
+.ingset-icon { font-size:1.1rem; }
+.ingset-label { font-weight:700; font-size:.88rem; color:var(--text); letter-spacing:.03em; text-transform:uppercase; }
+.ingset-body { padding:14px 16px; display:flex; flex-direction:column; gap:12px; }
+.ingset-ing-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:7px; }
+.ingset-prep-title { font-size:.75rem; font-weight:700; letter-spacing:.08em; color:var(--text-muted); text-transform:uppercase; margin-top:4px; }
+.ingset-steps { display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+.ingset-step { display:flex; gap:12px; align-items:flex-start; }
+.ingset-step-num { width:22px; height:22px; border-radius:50%; background:var(--herb); color:#fff; font-weight:700; font-size:.72rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+.ingset-step-text { font-size:.85rem; color:var(--text); line-height:1.65; padding-top:2px; }
+
+/* Direct ingredients (no ingset) */
+.direct-ing-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(172px,1fr)); gap:9px; margin-bottom:14px; }
 .ingredient-item { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:9px 13px; display:flex; align-items:center; gap:8px; font-size:.85rem; color:var(--text); font-weight:500; }
 .ing-dot { width:7px; height:7px; border-radius:50%; background:var(--amber); flex-shrink:0; }
 .steps-list { display:flex; flex-direction:column; gap:16px; }
