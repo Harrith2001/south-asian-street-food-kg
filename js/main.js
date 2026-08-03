@@ -5,809 +5,343 @@ const SPARQL_ENDPOINT = 'https://triplydb.com/_api/datasets/Areesha/South-Asian-
 
 /* ── UI METADATA (not in KG: emoji, gradient, image key) ── */
 const DISH_UI = {
-  'Pani Puri':    {emoji:'🫙', grad:['#006994','#00B4D8'], imgKey:'Golgappay'},
-  'Gol Gappay':   {emoji:'🫙', grad:['#6B21A8','#A855F7'], imgKey:'Golgappay'},
-  'Fuchka':       {emoji:'🫙', grad:['#16633C','#2DC653'], imgKey:'Chotpoti & Fuchka'},
-  'Aloo Tikki':   {emoji:'🥔', grad:['#B7791F','#F6C90E'], imgKey:'Aloo Tikki Chaat'},
-  'Beguni':       {emoji:'🍆', grad:['#5B21B6','#8B5CF6'], imgKey:'Baingan Bhaja'},
-  'Bhel Puri':    {emoji:'🌾', grad:['#C2410C','#FB923C'], imgKey:'Bhel Puri'},
-  'Chana Chaat':  {emoji:'🫘', grad:['#92400E','#F59E0B'], imgKey:'Chana Chaat'},
-  'Chapli Kebab': {emoji:'🥩', grad:['#7F1D1D','#DC2626'], imgKey:'Chapli Kabab'},
-  'Chotpoti':     {emoji:'🫘', grad:['#14532D','#16A34A'], imgKey:'Chotpoti & Fuchka'},
-  'Dahi Bharay':  {emoji:'🥣', grad:['#1E3A5F','#3B82F6'], imgKey:'Dahi Baray'},
-  'Idli Sambar':  {emoji:'🍚', grad:['#78350F','#F59E0B'], imgKey:'Idli Sambhar'},
-  'Jhalmuri':     {emoji:'🌿', grad:['#365314','#84CC16'], imgKey:'Jhalmuri'},
-  'Masala Dosa':  {emoji:'🫓', grad:['#9A3412','#EA580C'], imgKey:'Masala Dosa'},
-  'Samosa':       {emoji:'🥟', grad:['#92400E','#D97706'], imgKey:'Samosa'},
-  'Shingara':     {emoji:'🥟', grad:['#78350F','#A16207'], imgKey:'Samosa'},
-  'VadaPav':      {emoji:'🫓', grad:['#9F1239','#E11D48'], imgKey:'Vada Pav'},
+  'Pani Puri':    { emoji: '🫙', grad: ['#006994','#00B4D8'],  imgKey: 'Golgappay' },
+  'Gol Gappay':  { emoji: '🫙', grad: ['#6B21A8','#A855F7'],  imgKey: 'Golgappay' },
+  'Fuchka':      { emoji: '🫙', grad: ['#16633C','#2DC653'],   imgKey: 'Chotpoti & Fuchka' },
+  'Aloo Tikki':  { emoji: '🥔', grad: ['#B7791F','#F6C90E'],  imgKey: 'Aloo Tikki Chaat' },
+  'Beguni':      { emoji: '🍆', grad: ['#5B21B6','#8B5CF6'],  imgKey: 'Baingan Bhaja' },
+  'Bhel Puri':   { emoji: '🌾', grad: ['#C2410C','#FB923C'],  imgKey: 'Bhel Puri' },
+  'Chana Chaat': { emoji: '🫘', grad: ['#92400E','#F59E0B'],  imgKey: 'Chana Chaat' },
+  'Chapli Kebab':{ emoji: '🥩', grad: ['#7F1D1D','#DC2626'],  imgKey: 'Chapli Kabab' },
+  'Chotpoti':    { emoji: '🫘', grad: ['#14532D','#16A34A'],  imgKey: 'Chotpoti & Fuchka' },
+  'Dahi Bharay': { emoji: '🥣', grad: ['#1E3A5F','#3B82F6'],  imgKey: 'Dahi Baray' },
+  'Idli Sambar': { emoji: '🍚', grad: ['#78350F','#F59E0B'],  imgKey: 'Idli Sambhar' },
+  'Jhalmuri':    { emoji: '🌿', grad: ['#365314','#84CC16'],  imgKey: 'Jhalmuri' },
+  'Masala Dosa': { emoji: '🫓', grad: ['#9A3412','#EA580C'],  imgKey: 'Masala Dosa' },
+  'Samosa':      { emoji: '🥟', grad: ['#92400E','#D97706'],  imgKey: 'Samosa' },
+  'Shingara':    { emoji: '🥟', grad: ['#78350F','#A16207'],  imgKey: 'Samosa' },
+  'VadaPav':     { emoji: '🫓', grad: ['#9F1239','#E11D48'],  imgKey: 'Vada Pav' },
 };
 
 const STATIC_IMGS = {
-  "Golgappay":         "./images/golgappay.jpg",
-  "Chotpoti & Fuchka": "./images/chotpoti-fuchka.jpg",
-  "Aloo Tikki Chaat":  "./images/aloo-tikki-chaat.jpg",
-  "Baingan Bhaja":     "./images/baingan-bhaja.jpg",
-  "Chana Chaat":       "./images/chana-chaat.jpg",
-  "Vada Pav":          "./images/vada-pav.jpg",
-  "Dahi Baray":        "./images/dahi-baray.jpg",
-  "Bhel Puri":         "./images/bhel-puri.jpg",
-  "Chapli Kabab":      "./images/chapli-kabab.jpg",
-  "Idli Sambhar":      "./images/idli-sambhar.jpg",
-  "Jhalmuri":          "./images/jhalmuri.jpg",
-  "Masala Dosa":       "./images/masala-dosa.jpg",
-  "Samosa":            "./images/samosa.jpg"
+  "Golgappay":          "./images/golgappay.jpg",
+  "Chotpoti & Fuchka":  "./images/chotpoti-fuchka.jpg",
+  "Aloo Tikki Chaat":   "./images/aloo-tikki-chaat.jpg",
+  "Baingan Bhaja":      "./images/baingan-bhaja.jpg",
+  "Chana Chaat":        "./images/chana-chaat.jpg",
+  "Vada Pav":           "./images/vada-pav.jpg",
+  "Dahi Baray":         "./images/dahi-baray.jpg",
+  "Bhel Puri":          "./images/bhel-puri.jpg",
+  "Chapli Kabab":       "./images/chapli-kabab.jpg",
+  "Idli Sambhar":       "./images/idli-sambhar.jpg",
+  "Jhalmuri":           "./images/jhalmuri.jpg",
+  "Masala Dosa":        "./images/masala-dosa.jpg",
+  "Samosa":             "./images/samosa.jpg"
 };
 window.DISH_IMGS = STATIC_IMGS;
 
-const FLAGS = {India:"🇮🇳",Pakistan:"🇵🇰",Bangladesh:"🇧🇩","India/Pakistan":"🇮🇳🇵🇰"};
-const PKG = ["Potato","Salt","Tamarind","Rice","Lentil","Onion","Tomato","Cumin","Coriander","GreenChilli","Ginger","Garlic","Yogurt","Oil","Flour","Peas","Water","Mustard","Turmeric","BlackPepper","Lemon","Mint","UradDal","ToorDal","Chickpeas","PuffedRice","MincedBeef","MustardOil","Fenugreek","Cardamom"];
-const CUSTOM = ["Sev","ChaatMasala","Jaggery","Asafoetida","BlackSalt","PomegranateSeeds","GramFlour","Eggplant"];
+const FLAGS = { India: "🇮🇳", Pakistan: "🇵🇰", Bangladesh: "🇧🇩", "India/Pakistan": "🇮🇳🇵🇰" };
+
+const SET_NAME_MAPPINGS = {
+  'IngSet9893': 'Mint-Coriander Chutney',
+  'IngSet9887': 'Spiced Potato & Chickpea Filling',
+  'IngSet9886': 'Semolina Pastry Dough (Puri Shells)',
+  'IngSet9891': 'Sweet & Sour Tamarind Sauce',
+  'IngSet9892': 'Spiced Gram Flour Batter',
+  'IngSet9894': 'Crispy Bhel Mix',
+  'IngSet9897': 'Sambar (Lentil Vegetable Stew)',
+  'IngSet9896': 'Lentil Dumplings Base',
+  'IngSet9885': 'Tangy Tamarind Water',
+  'IngSet9884': 'Spiced Mint-Tamarind Water',
+  'IngSet9883': 'Sweet & Sour Spiced Water',
+  'IngSet9889': 'Fermented Rice & Lentil Batter'
+};
+
+const SET_ICONS = {
+  'IngSet9893': '🌿', 'IngSet9887': '🥔', 'IngSet9886': '🥟',
+  'IngSet9891': '🫙', 'IngSet9892': '🥣', 'IngSet9894': '🌾',
+  'IngSet9897': '🥕', 'IngSet9896': '🥣', 'IngSet9885': '🍋',
+  'IngSet9884': '🌶️','IngSet9883': '💧', 'IngSet9889': '🍚'
+};
 
 /* ── RUNTIME STATE ── */
 let DISHES = [];
-let activeCountry = 'all';
-let activeDiet = null;
 let cardBatches = [];
+let currentSPARQLQuery = '';
+let basesLoaded = false;
+
+/* ── FILTER STATE ── */
+const filterState = {
+  country: 'all',       // 'all' | 'india' | 'pakistan' | 'bangladesh'
+  dietary: [],          // [] | ['veg'] | ['nonveg'] | ['veg','nonveg']
+  maxIngredients: 'any',// 'any' | '8' | '12' | '20'
+  excludeMethods: [],   // e.g. ['DeepFrying', 'Boiling']
+  q6Ingredients: [],    // string array from input
+  q6Results: null,      // Set<uri> from last Q6 SPARQL call | null = not yet fetched
+};
 
 /* ============================================================
-   SPARQL
+   SPARQL ENGINE WITH LIVE CONSOLE LOGGING
    ============================================================ */
 async function querySPARQL(query) {
-  const res = await fetch(SPARQL_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/sparql-query',
-      'Accept': 'application/sparql-results+json'
-    },
-    body: query
+  currentSPARQLQuery = query.trim();
+  updateConsoleState('running');
+  const startTime = performance.now();
+  try {
+    const res = await fetch(SPARQL_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/sparql-query',
+        'Accept': 'application/sparql-results+json'
+      },
+      body: query
+    });
+    const duration = (performance.now() - startTime).toFixed(0);
+    if (!res.ok) {
+      const errMsg = await res.text();
+      updateConsoleState('error', 0, duration, errMsg);
+      throw new Error('SPARQL ' + res.status + ': ' + errMsg);
+    }
+    const json = await res.json();
+    const bindings = json.results.bindings;
+    updateConsoleState('success', bindings.length, duration);
+    return bindings;
+  } catch (err) {
+    const duration = (performance.now() - startTime).toFixed(0);
+    updateConsoleState('error', 0, duration, err.message);
+    throw err;
+  }
+}
+
+function updateConsoleState(status, count = 0, duration = 0, errorDetails = '') {
+  const consoleEl  = document.getElementById('sparql-console');
+  const statusEl   = document.getElementById('console-status');
+  const codeEl     = document.getElementById('console-query-code');
+  const durationEl = document.getElementById('console-duration');
+  const resultsEl  = document.getElementById('console-results');
+  if (!consoleEl) return;
+  statusEl.className = 'console-status-pill ' + status;
+  statusEl.textContent = status.toUpperCase();
+  if (status === 'running') {
+    codeEl.textContent = currentSPARQLQuery;
+    durationEl.textContent = 'Running…';
+    resultsEl.textContent = '-';
+  } else if (status === 'success') {
+    codeEl.textContent = currentSPARQLQuery;
+    durationEl.textContent = duration + ' ms';
+    resultsEl.textContent = count;
+  } else if (status === 'error') {
+    codeEl.textContent = currentSPARQLQuery + '\n\n# ERROR:\n# ' + errorDetails;
+    durationEl.textContent = duration + ' ms';
+    resultsEl.textContent = 'Error';
+  }
+}
+
+function initSPARQLConsole() {
+  const consoleEl = document.getElementById('sparql-console');
+  const headerEl  = document.getElementById('sparql-console-header');
+  const toggleBtn = document.getElementById('console-toggle');
+  const copyBtn   = document.getElementById('copy-query-btn');
+  const codeEl    = document.getElementById('console-query-code');
+  if (!consoleEl) return;
+  headerEl.addEventListener('click', () => {
+    consoleEl.classList.toggle('minimized');
+    toggleBtn.textContent = consoleEl.classList.contains('minimized') ? '▲' : '▼';
   });
-  if (!res.ok) throw new Error('SPARQL ' + res.status);
-  const json = await res.json();
-  return json.results.bindings;
+  copyBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(codeEl.textContent).then(() => {
+      const orig = copyBtn.textContent;
+      copyBtn.textContent = 'Copied!';
+      copyBtn.style.background = '#84E296';
+      copyBtn.style.color = '#000';
+      setTimeout(() => { copyBtn.textContent = orig; copyBtn.style.background = ''; copyBtn.style.color = ''; }, 1500);
+    });
+  });
 }
 
 function uriLocalName(uri) {
   return decodeURIComponent(uri.replace(/^.*[#/]/, '').replace(/_/g, ' '));
 }
 
-function escapeHtml(txt) {
-  return String(txt)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+function getFriendlyBaseName(uri) {
+  const local = uri.replace(/^.*[#/]/, '');
+  return SET_NAME_MAPPINGS[local] || local.replace(/_/g, ' ');
 }
 
-function normalizeClassName(raw) {
-  return String(raw || '').replace(/[^A-Za-z0-9]/g, '');
+function getFriendlyBaseIcon(uri) {
+  const local = uri.replace(/^.*[#/]/, '');
+  return SET_ICONS[local] || '🍛';
 }
 
-function findDishByLabel(label) {
-  const norm = String(label || '').toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '');
-  return DISHES.find(d => d.name.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '') === norm);
-}
+/* ============================================================
+   SPARQL QUERIES (Q2, Q3, Q6)
+   Q1/Q4/Q5 are handled locally using loaded dish data
+   ============================================================ */
 
-function showCQLoading(containerId) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  el.innerHTML = `<div class="cq-note">Running query…</div>`;
-}
-
-function showCQError(containerId, err) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  el.innerHTML = `<div class="cq-note cq-note--err">Query failed: ${escapeHtml(err.message || String(err))}</div>`;
-}
-
-function showCQEmpty(containerId, msg = 'No results found.') {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  el.innerHTML = `<div class="cq-note">${escapeHtml(msg)}</div>`;
-}
-
-function renderCQDishCards(containerId, dishNames) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  if (!dishNames.length) {
-    showCQEmpty(containerId);
-    return;
-  }
-  el.innerHTML = `<div class="cq-dish-grid">${dishNames.map(name => {
-    const dish = findDishByLabel(name);
-    if (!dish) {
-      return `<div class="cq-dish-card">
-        <div class="cq-dish-head"><strong>${escapeHtml(name)}</strong></div>
-        <div class="cq-dish-meta">Dish present in query result</div>
-      </div>`;
-    }
-    const encodedName = encodeURIComponent(dish.name);
-    return `<div class="cq-dish-card">
-      <div class="cq-dish-head"><span>${dish.emoji}</span><strong>${escapeHtml(dish.name)}</strong></div>
-      <div class="cq-dish-meta">${escapeHtml(FLAGS[dish.country] || '🌏')} ${escapeHtml(dish.country)} · ${escapeHtml(dish.dietary)}</div>
-      <button class="cq-mini-btn" onclick="openRecipe(decodeURIComponent('${encodedName}'))">View Recipe</button>
-    </div>`;
-  }).join('')}</div>`;
-}
-
-function renderCQPairs(containerId, rows, colA, colB, headA, headB) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  if (!rows.length) {
-    showCQEmpty(containerId);
-    return;
-  }
-  const sortedRows = [...rows].sort((x, y) => {
-    const xa = x[colA]?.value ? uriLocalName(x[colA].value) : '';
-    const xb = x[colB]?.value ? uriLocalName(x[colB].value) : '';
-    const ya = y[colA]?.value ? uriLocalName(y[colA].value) : '';
-    const yb = y[colB]?.value ? uriLocalName(y[colB].value) : '';
-    return xa.localeCompare(ya) || xb.localeCompare(yb);
-  });
-
-  const cards = sortedRows.map(r => {
-    const a = r[colA]?.value ? uriLocalName(r[colA].value) : '-';
-    const b = r[colB]?.value ? uriLocalName(r[colB].value) : '-';
-    return `<div class="cq-pair-card"><div><span class="cq-k">${escapeHtml(headA)}:</span> ${escapeHtml(a)}</div><div><span class="cq-k">${escapeHtml(headB)}:</span> ${escapeHtml(b)}</div></div>`;
-  }).join('');
-  el.innerHTML = `<div class="cq-pair-grid">${cards}</div>`;
-}
-
-function renderSmartVariants(containerId, rows) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  if (!rows.length) return showCQEmpty(containerId);
-
-  const sorted = [...rows].sort((x, y) => {
-    const xv = x.variant?.value ? uriLocalName(x.variant.value) : '';
-    const yv = y.variant?.value ? uriLocalName(y.variant.value) : '';
-    return xv.localeCompare(yv);
-  });
-
-  el.innerHTML = `<div class="smart-variant-grid">${sorted.map(r => {
-    const variantName = r.variant?.value ? uriLocalName(r.variant.value) : '-';
-    const countryName = r.country?.value ? uriLocalName(r.country.value) : '-';
-    const matchDish = findDishByLabel(variantName);
-    const action = matchDish
-      ? `<button class="cq-mini-btn" onclick="openRecipe(decodeURIComponent('${encodeURIComponent(matchDish.name)}'))">View Dish</button>`
-      : '';
-    return `<div class="smart-variant-card">
-      <div class="smart-variant-title">${escapeHtml(variantName)}</div>
-      <div class="smart-variant-meta">${escapeHtml(FLAGS[countryName] || '🌏')} ${escapeHtml(countryName)}</div>
-      ${action}
-    </div>`;
-  }).join('')}</div>`;
-}
-
-function renderIngredientMatchGroups(containerId, dishToIngredients) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  const names = Object.keys(dishToIngredients).sort((a, b) => a.localeCompare(b));
-  if (!names.length) return showCQEmpty(containerId);
-
-  el.innerHTML = `<div class="cq-pair-grid">${names.map(name => {
-    const tags = [...dishToIngredients[name]].sort((a, b) => a.localeCompare(b));
-    const dish = findDishByLabel(name);
-    const encoded = dish ? encodeURIComponent(dish.name) : '';
-    return `<div class="cq-pair-card">
-      <div><span class="cq-k">Dish:</span> ${escapeHtml(name)}</div>
-      <div class="smart-tag-row">${tags.map(t => `<span class="smart-ing-tag">${escapeHtml(t)}</span>`).join('')}</div>
-      ${dish ? `<button class="cq-mini-btn" onclick="openRecipe(decodeURIComponent('${encoded}'))">View Recipe</button>` : ''}
-    </div>`;
-  }).join('')}</div>`;
-}
-
-function renderIngredientSetsWithDishes(containerId, rows) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  if (!rows.length) return showCQEmpty(containerId);
-
-  const map = new Map();
-  for (const row of rows) {
-    const setName = row.ingSet?.value ? uriLocalName(row.ingSet.value) : 'Unknown Ingredient Set';
-    const dishName = row.dish?.value ? uriLocalName(row.dish.value) : null;
-    if (!map.has(setName)) map.set(setName, new Set());
-    if (dishName) map.get(setName).add(dishName);
-  }
-
-  const blocks = [...map.entries()]
-    .map(([setName, dishSet]) => ({ setName, dishes: [...dishSet].sort((a, b) => a.localeCompare(b)) }))
-    .sort((a, b) => b.dishes.length - a.dishes.length || a.setName.localeCompare(b.setName));
-
-  el.innerHTML = `<div class="smart-ingset-grid">${blocks.map(block => `
-    <div class="smart-ingset-card">
-      <div class="smart-ingset-head">
-        <div class="smart-ingset-name">${escapeHtml(block.setName)}</div>
-        <div class="smart-ingset-count">${block.dishes.length} dish${block.dishes.length === 1 ? '' : 'es'}</div>
-      </div>
-      <div class="smart-ingset-dishes">${block.dishes.map(d => `<span class="smart-dish-pill">${escapeHtml(d)}</span>`).join('')}</div>
-    </div>
-  `).join('')}</div>`;
-}
-
-function uniqueNamesFromBindings(rows, varName) {
-  return [...new Set(rows.map(r => r[varName]?.value).filter(Boolean).map(uriLocalName))]
-    .sort((a, b) => a.localeCompare(b));
-}
-
-async function runCQ1() {
-  const country = document.getElementById('cq1-country')?.value || 'India';
-  const allowed = ['India', 'Pakistan', 'Bangladesh'];
-  const safeCountry = allowed.includes(country) ? country : 'India';
-  showCQLoading('cq1-results');
-  const q = `
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+// Q2. Regional Variants of [Street Food] — used in modal
+async function getRegionalVariants(dishName) {
+  const query = `
 PREFIX sasf: <http://example.org/southasianstreetfood#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?streetFood WHERE {
-?streetFood rdfs:subClassOf sasf:StreetFood.
-?streetFood rdfs:subClassOf ?restriction.
-?restriction owl:onProperty sasf:originatesFrom.
-?restriction owl:someValuesFrom sasf:${safeCountry}.
-}`;
-  try {
-    const rows = await querySPARQL(q);
-    renderCQDishCards('cq1-results', uniqueNamesFromBindings(rows, 'streetFood'));
-  } catch (err) {
-    showCQError('cq1-results', err);
-  }
-}
-
-async function runCQ2() {
-  const dishClassRaw = document.getElementById('cq2-dish')?.value || 'PaniPuri';
-  const dishClass = normalizeClassName(dishClassRaw) || 'PaniPuri';
-  showCQLoading('cq2-results');
-  const q = `
-PREFIX sasf: <http://example.org/southasianstreetfood#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 SELECT ?variant ?country WHERE {
-?variant rdfs:subClassOf ?r1 .
-?r1 owl:onProperty sasf:isVariantOf.
-?r1 owl:someValuesFrom sasf:${dishClass}.
-?variant rdfs:subClassOf ?r2.
-?r2 owl:onProperty sasf:originatesFrom.
-?r2 owl:someValuesFrom ?country.
-}`;
-  try {
-    const rows = await querySPARQL(q);
-    renderCQPairs('cq2-results', rows, 'variant', 'country', 'Variant', 'Country');
-  } catch (err) {
-    showCQError('cq2-results', err);
-  }
-}
-
-async function runCQ3() {
-  showCQLoading('cq3-results');
-  const q = `
-PREFIX sasf: <http://example.org/southasianstreetfood#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?ingSet (COUNT(?dish) AS ?numberOfDishes) WHERE {
-?dish rdfs:subClassOf sasf:StreetFood .
-?dish rdfs:subClassOf ?restriction .
-?restriction owl:onProperty sasf:hasIngredientSet .
-?restriction owl:someValuesFrom ?ingSet .
-}
-GROUP BY ?ingSet
-ORDER BY DESC(?numberOfDishes)`;
-  try {
-    const rows = await querySPARQL(q);
-    const el = document.getElementById('cq3-results');
-    if (!rows.length) return showCQEmpty('cq3-results');
-    el.innerHTML = `<div class="cq-pair-grid">${rows.map(r => {
-      const ingSet = uriLocalName(r.ingSet.value);
-      const count = r.numberOfDishes.value;
-      return `<div class="cq-pair-card"><div><span class="cq-k">Ingredient Set:</span> ${escapeHtml(ingSet)}</div><div><span class="cq-k">Dishes:</span> ${escapeHtml(count)}</div></div>`;
-    }).join('')}</div>`;
-  } catch (err) {
-    showCQError('cq3-results', err);
-  }
-}
-
-async function runCQ4() {
-  showCQLoading('cq4-results');
-  const q = `
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX food: <http://example.org/southasianstreetfood#>
-PREFIX recipe: <http://purl.org/ProductKG/RecipeOn#>
-SELECT ?dish (COUNT(DISTINCT ?ingredient) AS ?numIngredients)
-WHERE {
-?dish rdfs:subClassOf* food:StreetFood .
-FILTER(?dish != food:StreetFood)
-{
-?dish rdfs:subClassOf [owl:onProperty food:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
-}
-UNION
-{
-?dish rdfs:subClassOf [owl:intersectionOf ?list] .
-?list rdf:rest*/rdf:first [owl:onProperty food:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
-}
-{
-?ingSet rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
-}
-UNION
-{
-?ingSet rdfs:subClassOf [owl:intersectionOf ?listIng] .
-?listIng rdf:rest*/rdf:first [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
-}
-}
-GROUP BY ?dish
-ORDER BY ?numIngredients`;
-  try {
-    const rows = await querySPARQL(q);
-    if (!rows.length) return showCQEmpty('cq4-results');
-    const min = Number(rows[0].numIngredients.value);
-    const dishes = rows
-      .filter(r => Number(r.numIngredients.value) === min)
-      .map(r => ({ name: uriLocalName(r.dish.value), count: r.numIngredients.value }));
-    const el = document.getElementById('cq4-results');
-    el.innerHTML = `<div class="cq-note">Minimum ingredient count: <strong>${min}</strong></div>` +
-      `<div class="cq-pair-grid">${dishes.map(d => `<div class="cq-pair-card"><div><span class="cq-k">Dish:</span> ${escapeHtml(d.name)}</div><div><span class="cq-k">Ingredients:</span> ${escapeHtml(d.count)}</div></div>`).join('')}</div>`;
-  } catch (err) {
-    showCQError('cq4-results', err);
-  }
-}
-
-async function runCQ5() {
-  showCQLoading('cq5-results');
-  const q = `
-PREFIX sasf: <http://example.org/southasianstreetfood#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-SELECT ?dish WHERE {
-?dish rdfs:subClassOf sasf:StreetFood .
-?dish rdfs:subClassOf ?restriction .
-?restriction owl:onProperty sasf:hasDietaryProperty .
-?restriction owl:someValuesFrom sasf:Vegetarian .
-FILTER NOT EXISTS {
-?dish rdfs:subClassOf ?methodRestriction .
-?methodRestriction owl:onProperty sasf:usesMethod .
-?methodRestriction owl:someValuesFrom sasf:DeepFrying .
-}
-FILTER NOT EXISTS {
-?dish rdfs:subClassOf ?setRestriction .
-?setRestriction owl:onProperty sasf:hasIngredientSet .
-?setRestriction owl:someValuesFrom ?ingredientSet .
-?ingredientSet rdfs:subClassOf ?ingredientMethodRestriction .
-?ingredientMethodRestriction owl:onProperty sasf:usesMethod .
-?ingredientMethodRestriction owl:someValuesFrom sasf:DeepFrying .
-}
-}`;
-  try {
-    const rows = await querySPARQL(q);
-    renderCQDishCards('cq5-results', uniqueNamesFromBindings(rows, 'dish'));
-  } catch (err) {
-    showCQError('cq5-results', err);
-  }
-}
-
-async function runCQ6() {
-  showCQLoading('cq6-results');
-  const q = `
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX sasf: <http://example.org/southasianstreetfood#>
-PREFIX recipe: <http://purl.org/ProductKG/RecipeOn#>
-SELECT ?dish WHERE {
-?dish rdfs:subClassOf* sasf:StreetFood .
-FILTER(?dish != sasf:StreetFood)
-{
-{
-?dish rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
-}
-UNION
-{
-?dish rdfs:subClassOf [owl:onProperty sasf:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
-?ingSet rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
-}
-UNION
-{
-?dish rdfs:subClassOf [owl:intersectionOf ?list] .
-?list rdf:rest*/rdf:first [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
-}
-UNION
-{
-?dish rdfs:subClassOf [owl:intersectionOf ?list] .
-?list rdf:rest*/rdf:first [owl:onProperty sasf:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
-?ingSet rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
-}
-?ingredient rdfs:label ?label .
-FILTER (contains(lcase(?label), "potato") || contains(lcase(?label), "chickpea"))
-}
-}
-GROUP BY ?dish
-HAVING (COUNT(DISTINCT ?ingredient) >= 2)`;
-  try {
-    const rows = await querySPARQL(q);
-    renderCQDishCards('cq6-results', uniqueNamesFromBindings(rows, 'dish'));
-  } catch (err) {
-    showCQError('cq6-results', err);
-  }
-}
-
-function initCompetencyQueries() {
-  const q1 = document.getElementById('cq1-run');
-  const q2 = document.getElementById('cq2-run');
-  const q3 = document.getElementById('cq3-run');
-  const q4 = document.getElementById('cq4-run');
-  const q5 = document.getElementById('cq5-run');
-  const q6 = document.getElementById('cq6-run');
-  if (!q1 || !q2 || !q3 || !q4 || !q5 || !q6) return;
-
-  q1.addEventListener('click', runCQ1);
-  q2.addEventListener('click', runCQ2);
-  q3.addEventListener('click', runCQ3);
-  q4.addEventListener('click', runCQ4);
-  q5.addEventListener('click', runCQ5);
-  q6.addEventListener('click', runCQ6);
-
-  runCQ1();
-}
-
-function setSmartDishFieldVisibility() {
-  const mode = document.getElementById('smart-mode')?.value;
-  const wrap = document.getElementById('smart-dish-wrap');
-  if (!wrap) return;
-  wrap.style.display = mode === 'variants' ? 'flex' : 'none';
-}
-
-/* ── QUERY RESULTS SECTION RENDERER ────────────────────────────── */
-function renderQueryResultsSection(dishNames, queryLabel) {
-  const section = document.getElementById('query-results-section');
-  const grid    = document.getElementById('qr-grid');
-  const title   = document.getElementById('qr-title');
-  const desc    = document.getElementById('qr-desc');
-  if (!section || !grid) return;
-
-  const modeLabels = {
-    variants:       'Regional Variants',
-    fewest:         'Fewest Ingredients',
-    vegNoDeep:      'Vegetarian & Not Deep-Fried',
-    potatoChickpea: 'Potato + Chickpea Dishes',
-    ingSetCount:    'Dishes per Ingredient Set'
-  };
-  title.innerHTML = `${escapeHtml(modeLabels[queryLabel] || 'Matching')} <em>Dishes</em>`;
-
-  if (!dishNames.length) {
-    grid.innerHTML = `<div class="qr-state">No dishes found for this query.</div>`;
-    desc.textContent = 'Try a different filter type or dish class.';
-    section.style.display = 'block';
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    return;
-  }
-
-  desc.textContent = `${dishNames.length} dish${dishNames.length === 1 ? '' : 'es'} matched your query. Click any card to explore its full recipe.`;
-
-  grid.innerHTML = dishNames.map((name, idx) => {
-    const dish = findDishByLabel(name);
-    const delay = (idx * 0.06).toFixed(2);
-    if (!dish) {
-      return `<div class="qr-card" style="animation-delay:${delay}s">
-        <div class="qr-card-img-grad" style="background:linear-gradient(135deg,#5c4a3a,#9a7b60)">
-          <div class="qr-img-pattern"></div>
-          <span class="qr-big-emoji">🍛</span>
-        </div>
-        <div class="qr-card-body">
-          <div class="qr-card-name">${escapeHtml(name)}</div>
-          <div class="qr-card-meta">Listed in query result</div>
-        </div>
-      </div>`;
-    }
-    const isVeg = dish.dietary === 'Vegetarian';
-    const flag  = FLAGS[dish.country] || '🌏';
-    const encodedName = encodeURIComponent(dish.name);
-    const imgSrc = dish.imgKey && window.DISH_IMGS && window.DISH_IMGS[dish.imgKey];
-
-    const imgBlock = imgSrc
-      ? `<div class="qr-card-img" style="position:relative">
-           <img src="${imgSrc}" alt="${escapeHtml(dish.name)}" loading="lazy">
-           <div class="qr-country-badge">${flag} ${escapeHtml(dish.country)}</div>
-           <div class="qr-diet-dot" title="${escapeHtml(dish.dietary)}">${isVeg ? '🌿' : '🍖'}</div>
-         </div>`
-      : `<div class="qr-card-img-grad" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})">
-           <div class="qr-img-pattern"></div>
-           <span class="qr-big-emoji">${dish.emoji}</span>
-           <div class="qr-country-badge">${flag} ${escapeHtml(dish.country)}</div>
-           <div class="qr-diet-dot" title="${escapeHtml(dish.dietary)}">${isVeg ? '🌿' : '🍖'}</div>
-         </div>`;
-
-    const techTags = dish.techniques.slice(0,3).map(t => `<span class="qr-technique-tag">${escapeHtml(t)}</span>`).join('');
-    const dietBadge = `<span class="qr-diet-badge ${isVeg ? 'veg' : 'nonveg'}">${isVeg ? '🌿 Veg' : '🍖 Non-Veg'}</span>`;
-
-    return `<div class="qr-card" style="animation-delay:${delay}s">
-      ${imgBlock}
-      <div class="qr-card-body">
-        <div class="qr-card-name">${escapeHtml(dish.name)}</div>
-        <div class="qr-card-meta">${dietBadge}</div>
-        ${techTags ? `<div class="qr-technique-row">${techTags}</div>` : ''}
-        <button class="qr-view-btn" onclick="openRecipe(decodeURIComponent('${encodedName}'))">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          View Recipe
-        </button>
-      </div>
-    </div>`;
-  }).join('');
-
-  section.style.display = 'block';
-  // Small delay so display:block takes effect before scrolling
-  setTimeout(() => section.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
-}
-
-async function runSmartFinder() {
-  const mode = document.getElementById('smart-mode')?.value || 'variants';
-  const container = 'smart-results';
-  showCQLoading(container);
-
-  try {
-    if (mode === 'variants') {
-      const dishClassRaw = document.getElementById('smart-dish')?.value || 'PaniPuri';
-      const dishClass = normalizeClassName(dishClassRaw) || 'PaniPuri';
-      const q = `
-PREFIX sasf: <http://example.org/southasianstreetfood#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?variant ?country WHERE {
-?variant rdfs:subClassOf ?r1 .
-?r1 owl:onProperty sasf:isVariantOf.
-?r1 owl:someValuesFrom sasf:${dishClass}.
-?variant rdfs:subClassOf ?r2.
-?r2 owl:onProperty sasf:originatesFrom.
-?r2 owl:someValuesFrom ?country.
-}`;
-      const rows = await querySPARQL(q);
-      renderSmartVariants(container, rows);
-      // Also extract variant names for the results section
-      const variantNames = [...new Set(rows.map(r => r.variant?.value).filter(Boolean).map(uriLocalName))].sort();
-      renderQueryResultsSection(variantNames, 'variants');
-      return;
-    }
-
-    if (mode === 'fewest') {
-      const q = `
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX food: <http://example.org/southasianstreetfood#>
-PREFIX recipe: <http://purl.org/ProductKG/RecipeOn#>
-SELECT ?dish (COUNT(DISTINCT ?ingredient) AS ?numIngredients)
-WHERE {
-?dish rdfs:subClassOf* food:StreetFood .
-FILTER(?dish != food:StreetFood)
-{
-?dish rdfs:subClassOf [owl:onProperty food:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
-}
-UNION
-{
-?dish rdfs:subClassOf [owl:intersectionOf ?list] .
-?list rdf:rest*/rdf:first [owl:onProperty food:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
-}
-{
-?ingSet rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
-}
-UNION
-{
-?ingSet rdfs:subClassOf [owl:intersectionOf ?listIng] .
-?listIng rdf:rest*/rdf:first [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
-}
-}
-GROUP BY ?dish
-ORDER BY ?numIngredients`;
-      const rows = await querySPARQL(q);
-      if (!rows.length) return showCQEmpty(container);
-      const min = Number(rows[0].numIngredients.value);
-      const dishes = rows
-        .filter(r => Number(r.numIngredients.value) === min)
-        .map(r => ({ name: uriLocalName(r.dish.value), count: r.numIngredients.value }))
-        .sort((a, b) => a.name.localeCompare(b.name));
-      const el = document.getElementById(container);
-      el.innerHTML = `<div class="cq-note">Minimum ingredient count: <strong>${min}</strong></div>` +
-        `<div class="cq-pair-grid">${dishes.map(d => `<div class="cq-pair-card"><div><span class="cq-k">Dish:</span> ${escapeHtml(d.name)}</div><div><span class="cq-k">Ingredients:</span> ${escapeHtml(d.count)}</div></div>`).join('')}</div>`;
-      renderQueryResultsSection(dishes.map(d => d.name), 'fewest');
-      return;
-    }
-
-    if (mode === 'vegNoDeep') {
-      const q = `
-PREFIX sasf: <http://example.org/southasianstreetfood#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-SELECT ?dish WHERE {
-?dish rdfs:subClassOf sasf:StreetFood .
-?dish rdfs:subClassOf ?restriction .
-?restriction owl:onProperty sasf:hasDietaryProperty .
-?restriction owl:someValuesFrom sasf:Vegetarian .
-FILTER NOT EXISTS {
-?dish rdfs:subClassOf ?methodRestriction .
-?methodRestriction owl:onProperty sasf:usesMethod .
-?methodRestriction owl:someValuesFrom sasf:DeepFrying .
-}
-FILTER NOT EXISTS {
-?dish rdfs:subClassOf ?setRestriction .
-?setRestriction owl:onProperty sasf:hasIngredientSet .
-?setRestriction owl:someValuesFrom ?ingredientSet .
-?ingredientSet rdfs:subClassOf ?ingredientMethodRestriction .
-?ingredientMethodRestriction owl:onProperty sasf:usesMethod .
-?ingredientMethodRestriction owl:someValuesFrom sasf:DeepFrying .
-}
-}`;
-      const rows = await querySPARQL(q);
-      const names = uniqueNamesFromBindings(rows, 'dish');
-      renderCQDishCards(container, names);
-      renderQueryResultsSection(names, 'vegNoDeep');
-      return;
-    }
-
-    if (mode === 'potatoChickpea') {
-      const q = `
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX sasf: <http://example.org/southasianstreetfood#>
-PREFIX recipe: <http://purl.org/ProductKG/RecipeOn#>
-SELECT ?dish ?label WHERE {
   {
-    SELECT ?dish WHERE {
-      ?dish rdfs:subClassOf* sasf:StreetFood .
-      FILTER(?dish != sasf:StreetFood)
-      {
-      {
+    ?variant rdfs:subClassOf [
+      owl:onProperty sasf:isVariantOf ;
+      owl:someValuesFrom sasf:${dishName}
+    ] .
+  }
+  UNION
+  {
+    ?variant rdfs:subClassOf [
+      owl:intersectionOf ?list
+    ] .
+    ?list rdf:rest*/rdf:first [
+      owl:onProperty sasf:isVariantOf ;
+      owl:someValuesFrom sasf:${dishName}
+    ] .
+  }
+  {
+    ?variant rdfs:subClassOf [
+      owl:onProperty sasf:originatesFrom ;
+      owl:someValuesFrom ?country
+    ] .
+  }
+  UNION
+  {
+    ?variant rdfs:subClassOf [
+      owl:intersectionOf ?list2
+    ] .
+    ?list2 rdf:rest*/rdf:first [
+      owl:onProperty sasf:originatesFrom ;
+      owl:someValuesFrom ?country
+    ] .
+  }
+}`;
+  return await querySPARQL(query);
+}
+
+// Q3. Shared Culinary Bases (used in Culinary Bases tab)
+async function getDishesFromIngredientSet() {
+  const query = `
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:    <http://www.w3.org/2002/07/owl#>
+PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sasf:   <http://example.org/southasianstreetfood#>
+PREFIX recipe: <http://purl.org/ProductKG/RecipeOn#>
+SELECT ?ingSet ?ingSetLabel (COUNT(DISTINCT ?dish) AS ?numberOfDishes)
+       (GROUP_CONCAT(DISTINCT ?dishLabel; separator=", ") AS ?dishNames)
+       (GROUP_CONCAT(DISTINCT ?ingLabel; separator=", ") AS ?ingredientNames)
+WHERE {
+  ?dish rdfs:subClassOf sasf:StreetFood ; rdfs:label ?dishLabel .
+  {
+    ?dish rdfs:subClassOf [
+      owl:onProperty sasf:hasIngredientSet ;
+      owl:someValuesFrom ?ingSet
+    ] .
+  }
+  UNION
+  {
+    ?dish rdfs:subClassOf [
+      owl:intersectionOf ?list
+    ] .
+    ?list rdf:rest*/rdf:first [
+      owl:onProperty sasf:hasIngredientSet ;
+      owl:someValuesFrom ?ingSet
+    ] .
+  }
+  OPTIONAL { ?ingSet rdfs:label ?ingSetLabel }
+  OPTIONAL {
+    {
+      ?ingSet rdfs:subClassOf [
+        owl:onProperty recipe:hasIngredient ;
+        owl:someValuesFrom ?ing
+      ] .
+    }
+    UNION
+    {
+      ?ingSet rdfs:subClassOf [
+        owl:intersectionOf ?listIng
+      ] .
+      ?listIng rdf:rest*/rdf:first [
+        owl:onProperty recipe:hasIngredient ;
+        owl:someValuesFrom ?ing
+      ] .
+    }
+    OPTIONAL { ?ing rdfs:label ?ingL }
+    BIND(COALESCE(?ingL, REPLACE(STR(?ing), "^.*[#]", "")) AS ?ingLabelRaw)
+  }
+  BIND(REPLACE(COALESCE(?ingLabelRaw, ""), "%20", " ") AS ?ingLabel)
+}
+GROUP BY ?ingSet ?ingSetLabel
+ORDER BY DESC(?numberOfDishes)`;
+  return await querySPARQL(query);
+}
+
+// Q6. Dishes containing given ingredients
+async function getDishesFromIngredients(ingredients) {
+  const filterConditions = ingredients
+    .map(ing => `contains(?cleanLabel, "${ing.trim().toLowerCase()}")`)
+    .join(' || ');
+
+  const query = `
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:    <http://www.w3.org/2002/07/owl#>
+PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sasf:   <http://example.org/southasianstreetfood#>
+PREFIX recipe: <http://purl.org/ProductKG/RecipeOn#>
+SELECT ?dish WHERE {
+  ?dish rdfs:subClassOf* sasf:StreetFood .
+  FILTER(?dish != sasf:StreetFood)
+  {
+    {
       ?dish rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
-      }
-      UNION
-      {
+    }
+    UNION
+    {
       ?dish rdfs:subClassOf [owl:onProperty sasf:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
       ?ingSet rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
-      }
-      UNION
-      {
+    }
+    UNION
+    {
       ?dish rdfs:subClassOf [owl:intersectionOf ?list] .
       ?list rdf:rest*/rdf:first [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
-      }
-      UNION
-      {
+    }
+    UNION
+    {
       ?dish rdfs:subClassOf [owl:intersectionOf ?list] .
       ?list rdf:rest*/rdf:first [owl:onProperty sasf:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
       ?ingSet rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
-      }
-      ?ingredient rdfs:label ?label .
-      FILTER (contains(lcase(?label), "potato") || contains(lcase(?label), "chickpea"))
-      }
     }
-    GROUP BY ?dish
-    HAVING (COUNT(DISTINCT ?ingredient) >= 2)
-  }
-  {
-  {
-  ?dish rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient2] .
-  }
-  UNION
-  {
-  ?dish rdfs:subClassOf [owl:onProperty sasf:hasIngredientSet ; owl:someValuesFrom ?ingSet2] .
-  ?ingSet2 rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient2] .
-  }
-  UNION
-  {
-  ?dish rdfs:subClassOf [owl:intersectionOf ?list2] .
-  ?list2 rdf:rest*/rdf:first [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient2] .
-  }
-  UNION
-  {
-  ?dish rdfs:subClassOf [owl:intersectionOf ?list2] .
-  ?list2 rdf:rest*/rdf:first [owl:onProperty sasf:hasIngredientSet ; owl:someValuesFrom ?ingSet2] .
-  ?ingSet2 rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient2] .
-  }
-  ?ingredient2 rdfs:label ?label .
-  FILTER (contains(lcase(?label), "potato") || contains(lcase(?label), "chickpea"))
-  }
-}`;
-      const rows = await querySPARQL(q);
-      const dishToIngredients = {};
-      for (const row of rows) {
-        const dishName = row.dish?.value ? uriLocalName(row.dish.value) : null;
-        const label = row.label?.value || '';
-        if (!dishName) continue;
-        if (!dishToIngredients[dishName]) dishToIngredients[dishName] = new Set();
-        if (label) dishToIngredients[dishName].add(label);
-      }
-      renderIngredientMatchGroups(container, dishToIngredients);
-      renderQueryResultsSection(Object.keys(dishToIngredients).sort(), 'potatoChickpea');
-      return;
-    }
-
-    const q = `
-PREFIX sasf: <http://example.org/southasianstreetfood#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?ingSet ?dish WHERE {
-?dish rdfs:subClassOf sasf:StreetFood .
-?dish rdfs:subClassOf ?restriction .
-?restriction owl:onProperty sasf:hasIngredientSet .
-?restriction owl:someValuesFrom ?ingSet .
-}
-ORDER BY ?ingSet ?dish`;
-    const rows = await querySPARQL(q);
-    renderIngredientSetsWithDishes(container, rows);
-    // Extract unique dish names from ingSet rows
-    const ingSetDishNames = [...new Set(rows.map(r => r.dish?.value).filter(Boolean).map(uriLocalName))].sort();
-    renderQueryResultsSection(ingSetDishNames, 'ingSetCount');
-    return;
-  } catch (err) {
-    showCQError(container, err);
+    OPTIONAL { ?ingredient rdfs:label ?labelVal }
+    BIND(REPLACE(LCASE(COALESCE(?labelVal, REPLACE(STR(?ingredient), "^.*[#]", ""))), "%20", " ") AS ?cleanLabel)
+    FILTER (${filterConditions})
   }
 }
-
-function initSmartFinder() {
-  const mode = document.getElementById('smart-mode');
-  const run = document.getElementById('smart-run');
-  const dishInput = document.getElementById('smart-dish');
-  if (!mode || !run) return;
-
-  mode.addEventListener('change', () => {
-    setSmartDishFieldVisibility();
-    runSmartFinder();
-  });
-  run.addEventListener('click', runSmartFinder);
-  dishInput?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') runSmartFinder();
-  });
-
-  // Clear results button
-  document.getElementById('qr-clear-btn')?.addEventListener('click', () => {
-    const section = document.getElementById('query-results-section');
-    if (section) section.style.display = 'none';
-  });
-
-  setSmartDishFieldVisibility();
+GROUP BY ?dish
+HAVING (COUNT(DISTINCT ?ingredient) >= ${ingredients.length})`;
+  return await querySPARQL(query);
 }
 
-function setActiveCQPanel(panelNum) {
-  const tabs = document.querySelectorAll('[data-cq-tab]');
-  const panels = document.querySelectorAll('[data-cq-panel]');
-  tabs.forEach(t => t.classList.toggle('active', t.dataset.cqTab === String(panelNum)));
-  panels.forEach(p => p.classList.toggle('active', p.dataset.cqPanel === String(panelNum)));
-}
-
-function initCompetencyJourney() {
-  const tabs = document.querySelectorAll('[data-cq-tab]');
-  const nextButtons = document.querySelectorAll('[data-cq-next]');
-  if (!tabs.length) return;
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      setActiveCQPanel(tab.dataset.cqTab);
-      document.getElementById('competency')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  nextButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const next = btn.dataset.cqNext;
-      setActiveCQPanel(next);
-      document.getElementById('competency')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  setActiveCQPanel('1');
-}
-
+/* ============================================================
+   CORE DATA INGESTION
+   ============================================================ */
 async function loadDishData() {
   const PFX = `
     PREFIX sakg: <http://example.org/southasianstreetfood#>
     PREFIX pkg:  <http://purl.org/ProductKG/RecipeOn#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
   `;
 
   const [coreRows, techRows, ingRows, ingSetRows, varRows] = await Promise.all([
     querySPARQL(PFX + `
-      SELECT DISTINCT ?dish ?name ?comment ?instructions ?country ?dietary WHERE {
-        ?dish rdfs:subClassOf sakg:StreetFood ; rdfs:label ?name .
+      SELECT DISTINCT ?dish ?name ?comment ?instructions ?country ?dietary ?popularInCountry WHERE {
+        ?dish rdfs:subClassOf* sakg:StreetFood ; rdfs:label ?name .
+        FILTER(?dish != sakg:StreetFood)
         OPTIONAL { ?dish rdfs:comment ?comment }
         OPTIONAL { ?dish sakg:instructions ?instructions }
         OPTIONAL {
@@ -817,46 +351,100 @@ async function loadDishData() {
         }
         OPTIONAL {
           ?dish rdfs:subClassOf ?r2 .
-          ?r2 owl:onProperty sakg:hasDietaryProperty ; owl:someValuesFrom ?d .
-          ?d rdfs:label ?dietary .
+          ?r2 owl:onProperty sakg:hasDietaryProperty;
+          owl:someValuesFrom ?dietary .
+        }
+        OPTIONAL {
+          ?dish rdfs:subClassOf ?r3 .
+          ?r3 owl:onProperty sakg:popularIn;
+          owl:someValuesFrom ?popularInCountry .
         }
       }
     `),
     querySPARQL(PFX + `
-      SELECT ?dish ?technique WHERE {
-        ?dish rdfs:subClassOf sakg:StreetFood .
+      SELECT ?dish ?t ?technique WHERE {
+        ?dish rdfs:subClassOf* sakg:StreetFood.
+        FILTER(?dish != sakg:StreetFood).
         ?dish rdfs:subClassOf ?r .
         ?r owl:onProperty sakg:usesMethod ; owl:someValuesFrom ?t .
-        ?t rdfs:label ?technique .
+        OPTIONAL { ?t rdfs:label ?technique }
       }
     `),
     querySPARQL(PFX + `
       SELECT ?dish ?ingURI ?ingLabel WHERE {
-        ?dish rdfs:subClassOf sakg:StreetFood .
+        ?dish rdfs:subClassOf* sakg:StreetFood .
+        FILTER(?dish != sakg:StreetFood).
         ?dish rdfs:subClassOf ?r .
         ?r owl:onProperty pkg:hasIngredient ; owl:someValuesFrom ?ingURI .
         OPTIONAL { ?ingURI rdfs:label ?ingLabel }
       }
     `),
     querySPARQL(PFX + `
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
       SELECT ?dish ?ingSet ?ingSetLabel ?ingSetInstr ?ingURI ?ingLabel WHERE {
-        ?dish rdfs:subClassOf sakg:StreetFood .
-        ?dish rdfs:subClassOf ?r1 .
-        ?r1 owl:onProperty sakg:hasIngredientSet ; owl:someValuesFrom ?ingSet .
+        ?dish rdfs:subClassOf* sakg:StreetFood .
+        FILTER(?dish != sakg:StreetFood)
+        {
+          ?dish rdfs:subClassOf ?r1 .
+          ?r1 owl:onProperty sakg:hasIngredientSet ; owl:someValuesFrom ?ingSet .
+        }
+        UNION
+        {
+          ?dish rdfs:subClassOf ?interNode .
+          ?interNode owl:intersectionOf ?list .
+          ?list rdf:rest*/rdf:first ?r1 .
+          ?r1 owl:onProperty sakg:hasIngredientSet ; owl:someValuesFrom ?ingSet .
+        }
         OPTIONAL { ?ingSet rdfs:label ?ingSetLabel }
         OPTIONAL { ?ingSet sakg:instructions ?ingSetInstr }
         OPTIONAL {
-          ?ingSet rdfs:subClassOf ?r2 .
-          ?r2 owl:onProperty pkg:hasIngredient ; owl:someValuesFrom ?ingURI .
-          OPTIONAL { ?ingURI rdfs:label ?ingLabel }
-        }
+
+  {
+    ?ingSet rdfs:subClassOf [
+      owl:onProperty pkg:hasIngredient ;
+      owl:someValuesFrom ?ingURI
+    ] .
+  }
+
+  UNION
+
+  {
+    ?ingSet rdfs:subClassOf [
+      owl:intersectionOf ?listIng
+    ] .
+
+    ?listIng rdf:rest*/rdf:first [
+      owl:onProperty pkg:hasIngredient ;
+      owl:someValuesFrom ?ingURI
+    ] .
+  }
+
+  OPTIONAL {
+    ?ingURI rdfs:label ?ingLabel
+  }
+}
       }
     `),
     querySPARQL(PFX + `
       SELECT ?dish ?variant WHERE {
-        ?dish rdfs:subClassOf sakg:StreetFood .
-        ?dish rdfs:subClassOf ?r .
-        ?r owl:onProperty sakg:isVariantOf ; owl:someValuesFrom ?v .
+        ?dish rdfs:subClassOf* sakg:StreetFood .
+        FILTER(?dish != sakg:StreetFood)
+        {
+          ?dish rdfs:subClassOf [
+            owl:onProperty sakg:isVariantOf ;
+            owl:someValuesFrom ?v
+          ] .
+        }
+        UNION
+        {
+          ?dish rdfs:subClassOf [
+            owl:intersectionOf ?listVar
+          ] .
+          ?listVar rdf:rest*/rdf:first [
+            owl:onProperty sakg:isVariantOf ;
+            owl:someValuesFrom ?v
+          ] .
+        }
         ?v rdfs:label ?variant .
       }
     `)
@@ -865,35 +453,43 @@ async function loadDishData() {
   const map = {};
 
   for (const row of coreRows) {
-    const uri = row.dish.value;
+    const uri  = row.dish.value;
     if (!map[uri]) {
       const name = row.name.value;
-      const ui = DISH_UI[name] || {emoji:'🍛', grad:['#C4501A','#E8A020'], imgKey:null};
+      const ui   = DISH_UI[name] || { emoji: '🍛', grad: ['#C4501A','#E8A020'], imgKey: null };
       map[uri] = {
-        name,
-        country: '',
-        dietary: 'Vegetarian',
-        instructions: '',
-        comment: '',
-        techniques: [],
+        uri, name,
+        country: '', dietary: '',
+        instructions: '', comment: '',
+        techniques: [],     // display labels (with fallback to URI local name)
+        techniqueKeys: [],  // URI local names for filtering (normalised)
         ingredients: [],
         variant: [],
-        emoji: ui.emoji,
-        grad: ui.grad,
-        imgKey: ui.imgKey
+        popularIn: [],
+        emoji: ui.emoji, grad: ui.grad, imgKey: ui.imgKey
       };
     }
-    if (row.country?.value && !map[uri].country) map[uri].country = row.country.value;
-    if (row.dietary?.value && !map[uri].dietary) map[uri].dietary = row.dietary.value;
+    if (row.country?.value    && !map[uri].country)      map[uri].country      = row.country.value;
+    if (row.dietary?.value && !map[uri].dietary) map[uri].dietary = uriLocalName(row.dietary.value);
     if (row.instructions?.value && !map[uri].instructions) map[uri].instructions = row.instructions.value;
-    if (row.comment?.value && !map[uri].comment) map[uri].comment = row.comment.value;
+    if (row.comment?.value    && !map[uri].comment)      map[uri].comment      = row.comment.value;
+
+    if (row.popularInCountry?.value) {
+      const country = uriLocalName(row.popularInCountry.value);
+
+      if (!map[uri].popularIn.includes(country)) {
+        map[uri].popularIn.push(country);
+      }
+    }
   }
 
   for (const row of techRows) {
     const d = map[row.dish.value];
     if (d) {
-      const t = row.technique.value;
-      if (!d.techniques.includes(t)) d.techniques.push(t);
+      const uriKey   = row.t.value.replace(/^.*[#/]/, ''); // e.g. "DeepFrying"
+      const label    = row.technique?.value || uriKey;
+      if (!d.techniqueKeys.includes(uriKey)) d.techniqueKeys.push(uriKey);
+      if (!d.techniques.includes(label))     d.techniques.push(label);
     }
   }
 
@@ -905,12 +501,11 @@ async function loadDishData() {
     }
   }
 
-  // Build ingredient sets (grouped by ingSet URI)
-  const ingSetMap = {}; // dishURI → { ingSetURI → {label,instructions,ingredients[]} }
+  const ingSetMap = {};
   for (const row of ingSetRows) {
     const dishURI = row.dish.value;
-    const setURI = row.ingSet.value;
-    if (!ingSetMap[dishURI]) ingSetMap[dishURI] = {};
+    const setURI  = row.ingSet.value;
+    if (!ingSetMap[dishURI])        ingSetMap[dishURI] = {};
     if (!ingSetMap[dishURI][setURI]) {
       ingSetMap[dishURI][setURI] = {
         uri: setURI,
@@ -921,10 +516,9 @@ async function loadDishData() {
     }
     if (row.ingURI) {
       const ing = row.ingLabel?.value || uriLocalName(row.ingURI.value);
-      const s = ingSetMap[dishURI][setURI];
+      const s   = ingSetMap[dishURI][setURI];
       if (!s.ingredients.includes(ing)) s.ingredients.push(ing);
     }
-    // Also keep flat ingredient list for related-dish matching
     const d = map[dishURI];
     if (d && row.ingURI) {
       const ing = row.ingLabel?.value || uriLocalName(row.ingURI.value);
@@ -947,322 +541,630 @@ async function loadDishData() {
 }
 
 /* ── NAV TRANSPARENCY ── */
-(()=>{
-  const nav=document.getElementById('main-nav');
-  const onScroll=()=>{ nav.classList.toggle('nav--scrolled', window.scrollY > 60); };
-  window.addEventListener('scroll',onScroll,{passive:true});
+(() => {
+  const nav     = document.getElementById('main-nav');
+  const onScroll = () => { nav.classList.toggle('nav--scrolled', window.scrollY > 60); };
+  window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 })();
 
-document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobile-menu').classList.toggle('open'));
-document.querySelectorAll('.mobile-menu a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mobile-menu').classList.remove('open')));
+document.getElementById('hamburger').addEventListener('click', () =>
+  document.getElementById('mobile-menu').classList.toggle('open')
+);
+document.querySelectorAll('.mobile-menu a').forEach(a =>
+  a.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('open'))
+);
 
 /* ============================================================
-   SEARCH
+   PAGE TAB SWITCHING
    ============================================================ */
-const searchInput=document.getElementById('search-input');
-const sugEl=document.getElementById('search-suggestions');
+function switchPage(page) {
+  document.querySelectorAll('.page-tab').forEach(t => t.classList.toggle('active', t.dataset.page === page));
+  document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById(page === 'dishes' ? 'dishes-page' : 'culinary-bases-page');
+  if (target) target.classList.add('active');
 
-searchInput.addEventListener('input',()=>{
+  // Lazy-load bases on first visit
+  if (page === 'culinary-bases' && !basesLoaded) {
+    basesLoaded = true;
+    loadSharedBases();
+  }
+}
+
+/* ============================================================
+   FILTER SIDEBAR — COLLAPSIBLE PANELS
+   ============================================================ */
+function initFilterPanels() {
+  document.querySelectorAll('.filter-panel-toggle').forEach(btn => {
+    const panel = btn.closest('.filter-panel');
+    const body  = panel.querySelector('.filter-panel-body');
+    // Set natural height for animation
+    body.style.maxHeight = body.scrollHeight + 'px';
+    btn.addEventListener('click', () => {
+      const collapsed = panel.classList.toggle('collapsed');
+      btn.setAttribute('aria-expanded', String(!collapsed));
+      body.style.maxHeight = collapsed ? '0' : body.scrollHeight + 'px';
+    });
+  });
+}
+
+/* ============================================================
+   FILTER STATE MANAGEMENT
+   ============================================================ */
+function getFilterState() {
+  const country = document.querySelector('input[name="f-country"]:checked')?.value || 'all';
+  const dietary = [...document.querySelectorAll('#fp-dietary-body input:checked')].map(cb => cb.value);
+  const maxIng  = document.querySelector('input[name="f-maxing"]:checked')?.value || 'any';
+  const excluded = [...document.querySelectorAll('.method-check:checked')].map(cb => cb.value);
+  return { country, dietary, maxIng, excluded };
+}
+
+/* ── Check if a dish technique matches an excluded method ── */
+function techniqueMatchesMethod(dish, method) {
+  // Check URI local name (e.g. "DeepFrying")
+  if (dish.techniqueKeys.some(k => k.toLowerCase() === method.toLowerCase())) return true;
+  // Check display label (e.g. "Deep Frying")
+  const normMethod = method.toLowerCase().replace(/\s+/g, '');
+  return dish.techniques.some(t => t.toLowerCase().replace(/\s+/g, '') === normMethod);
+}
+
+/* ── Render active filter tags ── */
+function renderActiveFilterTags() {
+  const container = document.getElementById('active-filters');
+  if (!container) return;
+  const tags = [];
+
+  if (filterState.country !== 'all') {
+    const label = { india: '🇮🇳 India', pakistan: '🇵🇰 Pakistan', bangladesh: '🇧🇩 Bangladesh' }[filterState.country] || filterState.country;
+    tags.push({ label, clear: () => { document.getElementById('f-country-all').checked = true; filterState.country = 'all'; applyAllFilters(); } });
+  }
+
+  filterState.dietary.forEach(d => {
+    const label = d === 'veg' ? '🌿 Veg' : '🍖 Non-Veg';
+    tags.push({ label, clear: () => {
+      document.getElementById(d === 'veg' ? 'diet-veg' : 'diet-nonveg').checked = false;
+      filterState.dietary = filterState.dietary.filter(x => x !== d);
+      applyAllFilters();
+    }});
+  });
+
+  if (filterState.maxIngredients !== 'any') {
+    tags.push({ label: `≤ ${filterState.maxIngredients} ingredients`, clear: () => { document.getElementById('f-ing-any').checked = true; filterState.maxIngredients = 'any'; applyAllFilters(); } });
+  }
+
+  filterState.excludeMethods.forEach(m => {
+    const nice = { DeepFrying: 'No Deep Frying', PanFrying: 'No Pan Frying', Boiling: 'No Boiling', Steaming: 'No Steaming' }[m] || ('No ' + m);
+    tags.push({ label: nice, clear: () => {
+      const cb = document.querySelector(`.method-check[value="${m}"]`);
+      if (cb) cb.checked = false;
+      filterState.excludeMethods = filterState.excludeMethods.filter(x => x !== m);
+      applyAllFilters();
+    }});
+  });
+
+  if (filterState.q6Ingredients.length) {
+    tags.push({ label: `🧺 ${filterState.q6Ingredients.join(', ')}`, clear: () => {
+      const inp = document.getElementById('filter-ingredient-input');
+      if (inp) inp.value = '';
+      filterState.q6Ingredients = [];
+      filterState.q6Results = null;
+      const status = document.getElementById('filter-q6-status');
+      if (status) status.textContent = '';
+      applyAllFilters();
+    }});
+  }
+
+  container.innerHTML = tags.map((t, i) =>
+    `<span class="active-filter-tag">${t.label}<button onclick="__clearTag(${i})" aria-label="Remove filter">✕</button></span>`
+  ).join('');
+
+  // Expose clear callbacks
+  window.__filterTagClears = tags.map(t => t.clear);
+}
+
+window.__clearTag = i => { if (window.__filterTagClears?.[i]) window.__filterTagClears[i](); };
+
+/* ── Main filter application ── */
+async function applyAllFilters() {
+  renderActiveFilterTags();
+
+  const { country, dietary, maxIng, excluded } = getFilterState();
+  filterState.country         = country;
+  filterState.dietary         = dietary;
+  filterState.maxIngredients  = maxIng;
+  filterState.excludeMethods  = excluded;
+
+  let result = [...DISHES];
+
+  // Country (local, using loaded data)
+  if (country !== 'all') {
+    result = result.filter(d => d.country.toLowerCase().includes(country));
+  }
+
+  // Dietary (local)
+  if (dietary.length > 0 && dietary.length < 2) {
+    result = result.filter(d => {
+      const isVeg = d.dietary === 'Vegetarian';
+      return (dietary.includes('veg') && isVeg) || (dietary.includes('nonveg') && !isVeg);
+    });
+  }
+
+  // Max Ingredients / complexity (local, using loaded ingredient arrays — Q4)
+  if (maxIng !== 'any') {
+    const max = parseInt(maxIng);
+    result = result.filter(d => d.ingredients.length <= max);
+  }
+
+  // Exclude cooking methods (local, using loaded technique data — Q5)
+  if (excluded.length > 0) {
+    result = result.filter(d =>
+      !excluded.some(method => techniqueMatchesMethod(d, method))
+    );
+  }
+
+  // Ingredient search (SPARQL Q6 — only if ingredients were searched via button)
+  if (filterState.q6Ingredients.length > 0) {
+    if (filterState.q6Results === null) {
+      // Run Q6 live
+      const q6Status = document.getElementById('filter-q6-status');
+      if (q6Status) q6Status.textContent = 'Searching…';
+      try {
+        const bindings = await getDishesFromIngredients(filterState.q6Ingredients);
+        filterState.q6Results = new Set(bindings.map(b => b.dish.value));
+        if (q6Status) q6Status.textContent = `Found ${filterState.q6Results.size} match${filterState.q6Results.size !== 1 ? 'es' : ''}`;
+      } catch {
+        if (q6Status) q6Status.textContent = 'Search failed. Try again.';
+        filterState.q6Results = new Set();
+      }
+    }
+    if (filterState.q6Results !== null) {
+      result = result.filter(d => filterState.q6Results.has(d.uri));
+    }
+  }
+
+  renderDishes(true, result);
+  updateResultsCount(result.length);
+}
+
+function clearAllFilters() {
+  document.getElementById('f-country-all').checked = true;
+  document.getElementById('diet-veg').checked      = false;
+  document.getElementById('diet-nonveg').checked   = false;
+  document.getElementById('f-ing-any').checked     = true;
+  document.querySelectorAll('.method-check').forEach(cb => { cb.checked = false; });
+  const inp = document.getElementById('filter-ingredient-input');
+  if (inp) inp.value = '';
+  const status = document.getElementById('filter-q6-status');
+  if (status) status.textContent = '';
+
+  filterState.country        = 'all';
+  filterState.dietary        = [];
+  filterState.maxIngredients = 'any';
+  filterState.excludeMethods = [];
+  filterState.q6Ingredients  = [];
+  filterState.q6Results      = null;
+
+  applyAllFilters();
+}
+
+function updateResultsCount(count) {
+  const el = document.getElementById('results-count');
+  if (el) el.textContent = `${count} dish${count !== 1 ? 'es' : ''} found`;
+}
+
+/* ============================================================
+   SEARCH DROPDOWN
+   ============================================================ */
+const searchInput = document.getElementById('search-input');
+const sugEl       = document.getElementById('search-suggestions');
+
+searchInput.addEventListener('input', () => {
   if (!DISHES.length) { sugEl.classList.remove('open'); return; }
-  const q=searchInput.value.trim().toLowerCase();
-  if(!q){sugEl.classList.remove('open');return;}
-  const hits=DISHES.filter(d=>d.name.toLowerCase().includes(q)||d.country.toLowerCase().includes(q)||d.techniques.some(t=>t.toLowerCase().includes(q)));
-  if(!hits.length){sugEl.classList.remove('open');return;}
-  sugEl.innerHTML=hits.slice(0,6).map(d=>`
+  const q = searchInput.value.trim().toLowerCase();
+  if (!q) { sugEl.classList.remove('open'); return; }
+  const hits = DISHES.filter(d =>
+    d.name.toLowerCase().includes(q) ||
+    d.country.toLowerCase().includes(q) ||
+    d.techniques.some(t => t.toLowerCase().includes(q))
+  );
+  if (!hits.length) { sugEl.classList.remove('open'); return; }
+  sugEl.innerHTML = hits.slice(0, 6).map(d => `
     <div class="suggestion-item" onclick="selectDish('${d.name}')">
       <span style="font-size:1.4rem">${d.emoji}</span>
       <span style="font-weight:500">${d.name}</span>
-      <span class="suggestion-meta">${FLAGS[d.country]||'🌏'} ${d.country} · ${d.dietary==='Vegetarian'?'Veg':'Non-Veg'}</span>
+      <span class="suggestion-meta">${FLAGS[d.country] || '🌏'} ${d.country} · ${d.dietary === 'Vegetarian' ? 'Veg' : 'Non-Veg'}</span>
     </div>`).join('');
   sugEl.classList.add('open');
 });
-document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))sugEl.classList.remove('open')});
-document.getElementById('search-btn').addEventListener('click',()=>{
+
+document.addEventListener('click', e => { if (!e.target.closest('.search-wrap')) sugEl.classList.remove('open'); });
+
+document.getElementById('search-btn').addEventListener('click', () => {
   if (!DISHES.length) return;
-  const q=searchInput.value.trim().toLowerCase();
-  const m=DISHES.find(d=>d.name.toLowerCase().startsWith(q)||d.name.toLowerCase().includes(q));
-  if(m)selectDish(m.name);
+  const q = searchInput.value.trim().toLowerCase();
+  const m = DISHES.find(d => d.name.toLowerCase().startsWith(q) || d.name.toLowerCase().includes(q));
+  if (m) selectDish(m.name);
 });
-searchInput.addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('search-btn').click()});
-function selectDish(name){sugEl.classList.remove('open');searchInput.value=name;openRecipe(name);}
+
+searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('search-btn').click(); });
+
+function selectDish(name) { sugEl.classList.remove('open'); searchInput.value = name; openRecipe(name); }
+window.selectDish = selectDish;
 
 /* ============================================================
-   RECIPE MODAL
+   RECIPE MODAL (WITH LIVE Q2 REGIONAL VARIANTS)
    ============================================================ */
-function openRecipe(name){
-  const dish=DISHES.find(d=>d.name===name);
-  if(!dish) return;
+async function openRecipe(name) {
+  const dish = DISHES.find(d => d.name === name);
+  if (!dish) return;
 
-  const heroEl=document.getElementById('modal-hero');
-  const emojiEl=document.getElementById('modal-emoji');
-  const imgSrc=dish.imgKey && window.DISH_IMGS && window.DISH_IMGS[dish.imgKey];
-  if(imgSrc){
-    heroEl.style.background=`linear-gradient(to bottom,rgba(0,0,0,.18) 0%,rgba(0,0,0,.55) 100%),url(${imgSrc}) center/cover no-repeat`;
-    emojiEl.style.display='none';
+  const heroEl = document.getElementById('modal-hero');
+  const emojiEl = document.getElementById('modal-emoji');
+  const imgSrc = dish.imgKey && window.DISH_IMGS && window.DISH_IMGS[dish.imgKey];
+  if (imgSrc) {
+    heroEl.style.background = `linear-gradient(to bottom,rgba(0,0,0,.18) 0%,rgba(0,0,0,.55) 100%),url(${imgSrc}) center/cover no-repeat`;
+    emojiEl.style.display = 'none';
   } else {
-    heroEl.style.background=`linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})`;
-    emojiEl.style.display='';
-    emojiEl.textContent=dish.emoji;
+    heroEl.style.background = `linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})`;
+    emojiEl.style.display = '';
+    emojiEl.textContent = dish.emoji;
   }
 
-  document.getElementById('modal-flag').textContent=FLAGS[dish.country]||'🌏';
-  document.getElementById('modal-country').textContent=dish.country;
-  document.getElementById('modal-name').textContent=dish.name;
+  document.getElementById('modal-flag').textContent    = FLAGS[dish.country] || '🌏';
+  document.getElementById('modal-country').textContent = dish.country;
+  document.getElementById('modal-name').textContent    = dish.name;
 
-  const isVeg=dish.dietary==='Vegetarian';
-  let badges=`<span class="rbadge ${isVeg?'veg':'nonveg'}">${isVeg?'🌿 Vegetarian':'🍖 Non-Vegetarian'}</span>`;
-  if(dish.variant?.length) badges+=dish.variant.map(v=>`<span class="rbadge variant">⇄ ${v}</span>`).join('');
-  document.getElementById('modal-badges').innerHTML=badges;
+  const isVeg = dish.dietary === 'Vegetarian';
+  document.getElementById('modal-badges').innerHTML =
+    `<span class="rbadge ${isVeg ? 'veg' : 'nonveg'}">${isVeg ? '🌿 Vegetarian' : '🍖 Non-Vegetarian'}</span>`;
 
-  // About section
-  const aboutSec=document.getElementById('modal-about-sec');
-  if(dish.comment){
-    document.getElementById('modal-about').textContent=dish.comment;
-    aboutSec.style.display='';
-  } else {
-    aboutSec.style.display='none';
-  }
+  // About
+  const aboutSec = document.getElementById('modal-about-sec');
+  if (dish.comment) { document.getElementById('modal-about').textContent = dish.comment; aboutSec.style.display = ''; }
+  else aboutSec.style.display = 'none';
 
   // Ingredients & Preparation
-  const ingWrap=document.getElementById('modal-ingredients-wrap');
-  const sets=dish.ingredientSets||[];
-  if(sets.length){
-    const SET_ICONS=['🫙','🥣','💧','🥬','🌶️','🧄'];
-    const isRawUri = label => /^IngSet\d+$/i.test(label) || /^ingset/i.test(label);
-    ingWrap.innerHTML=sets.map((s,i)=>{
-      const displayLabel = isRawUri(s.label) ? `Component ${i+1}` : s.label;
-      const ingHTML=s.ingredients.length
-        ? `<div class="ingset-ing-grid">${s.ingredients.map(ing=>`<div class="ingredient-item"><div class="ing-dot"></div>${ing}</div>`).join('')}</div>`
+  const ingWrap = document.getElementById('modal-ingredients-wrap');
+  const sets    = dish.ingredientSets || [];
+  if (sets.length) {
+    ingWrap.innerHTML = sets.map(s => {
+      const displayLabel = getFriendlyBaseName(s.uri);
+      const icon         = getFriendlyBaseIcon(s.uri);
+      const ingHTML      = s.ingredients.length
+        ? `<div class="ingset-ing-grid">${s.ingredients.map(ing => `<div class="ingredient-item"><div class="ing-dot"></div>${ing}</div>`).join('')}</div>`
         : '';
-      const prepSteps=s.instructions
-        ? s.instructions.split(/\.\s+|\n/).map(t=>t.trim()).filter(Boolean).map(t=>t.endsWith('.')?t:t+'.')
+      const prepSteps = s.instructions
+        ? s.instructions.split(/\.\s+|\n/).map(t => t.trim()).filter(Boolean).map(t => t.endsWith('.') ? t : t + '.')
         : [];
-      const prepHTML=prepSteps.length
-        ? `<div class="ingset-prep-title">Preparation</div><div class="ingset-steps">${prepSteps.map((t,n)=>`<div class="ingset-step"><div class="ingset-step-num">${n+1}</div><div class="ingset-step-text">${t}</div></div>`).join('')}</div>`
+      const prepHTML  = prepSteps.length
+        ? `<div class="ingset-prep-title">Preparation</div><div class="ingset-steps">${prepSteps.map((t, n) => `<div class="ingset-step"><div class="ingset-step-num">${n + 1}</div><div class="ingset-step-text">${t}</div></div>`).join('')}</div>`
         : '';
       return `<div class="ingset-block">
-        <div class="ingset-header"><span class="ingset-icon">${SET_ICONS[i]||'🍴'}</span><span class="ingset-label">${displayLabel}</span></div>
+        <div class="ingset-header"><span class="ingset-icon">${icon}</span><span class="ingset-label">${displayLabel}</span></div>
         <div class="ingset-body">${ingHTML}${prepHTML}</div>
       </div>`;
     }).join('');
-    // Also show any direct ingredients not in a set
-    if(dish.ingredients.length){
-      const setIngs=new Set(sets.flatMap(s=>s.ingredients));
-      const direct=dish.ingredients.filter(i=>!setIngs.has(i));
-      if(direct.length){
-        ingWrap.innerHTML+=`<div class="direct-ing-grid">${direct.map(i=>`<div class="ingredient-item"><div class="ing-dot"></div>${i}</div>`).join('')}</div>`;
+
+    if (dish.ingredients.length) {
+      const setIngs = new Set(sets.flatMap(s => s.ingredients));
+      const direct  = dish.ingredients.filter(i => !setIngs.has(i));
+      if (direct.length) {
+        ingWrap.innerHTML += `<div class="direct-ing-grid">${direct.map(i => `<div class="ingredient-item"><div class="ing-dot"></div>${i}</div>`).join('')}</div>`;
       }
     }
-    document.getElementById('modal-assembly-title').textContent='Assembly';
+    document.getElementById('modal-assembly-title').textContent = 'Assembly';
   } else {
-    // No sets — flat ingredient grid
-    ingWrap.innerHTML=dish.ingredients.length
-      ? `<div class="ingredients-grid">${dish.ingredients.map(i=>`<div class="ingredient-item"><div class="ing-dot"></div>${i}</div>`).join('')}</div>`
+    ingWrap.innerHTML = dish.ingredients.length
+      ? `<div class="ingredients-grid">${dish.ingredients.map(i => `<div class="ingredient-item"><div class="ing-dot"></div>${i}</div>`).join('')}</div>`
       : '<p style="color:var(--text-muted);font-size:.9rem">Ingredients not available</p>';
-    document.getElementById('modal-assembly-title').textContent='How to Make It';
+    document.getElementById('modal-assembly-title').textContent = 'How to Make It';
   }
 
-  // Assembly / main instructions
-  const assemblyTitleEl=document.getElementById('modal-assembly-title');
-  const stepsEl=document.getElementById('modal-steps');
-  if(dish.instructions){
-    const steps=dish.instructions.split(/\.\s+|\n/).map(s=>s.trim()).filter(Boolean).map(s=>s.endsWith('.')?s:s+'.');
-    stepsEl.innerHTML=steps.map((s,i)=>`<div class="step-item"><div class="step-num">${i+1}</div><div class="step-text">${s}</div></div>`).join('');
-    assemblyTitleEl.style.display='';
-    stepsEl.style.display='';
+  // Assembly steps
+  const assemblyTitleEl = document.getElementById('modal-assembly-title');
+  const stepsEl         = document.getElementById('modal-steps');
+  if (dish.instructions) {
+    const steps = dish.instructions.split(/\.\s+|\n/).map(s => s.trim()).filter(Boolean).map(s => s.endsWith('.') ? s : s + '.');
+    stepsEl.innerHTML = steps.map((s, i) => `<div class="step-item"><div class="step-num">${i + 1}</div><div class="step-text">${s}</div></div>`).join('');
+    assemblyTitleEl.style.display = '';
+    stepsEl.style.display = '';
   } else {
-    assemblyTitleEl.style.display='none';
-    stepsEl.style.display='none';
+    assemblyTitleEl.style.display = 'none';
+    stepsEl.style.display = 'none';
   }
 
-  document.getElementById('modal-techniques').innerHTML=dish.techniques.map(t=>`<span class="technique-chip">${t}</span>`).join('');
+  document.getElementById('modal-techniques').innerHTML =
+    dish.techniques.map(t => `<span class="technique-chip">${t}</span>`).join('');
 
-  const varSec=document.getElementById('modal-variants-sec');
-  if(dish.variant?.length){
-    varSec.style.display='block';
-    document.getElementById('modal-variants').innerHTML=dish.variant.map(v=>{
-      const vd=DISHES.find(d=>d.name===v);
-      return `<span class="variant-link-chip" onclick="switchRecipe('${v}')">${FLAGS[vd?.country]||''} ${v} →</span>`;
-    }).join('');
-  } else {
-    varSec.style.display='none';
-  }
+  // LIVE Q2 — Regional Variants
+  const varSec = document.getElementById('modal-variants-sec');
+  varSec.style.display = 'none';
+  try {
+    const localName     = dish.uri.split('#')[1];
+    const variantBindings = await getRegionalVariants(localName);
+    if (variantBindings.length > 0) {
+      varSec.style.display = 'block';
+      document.getElementById('modal-variants').innerHTML = variantBindings.map(b => {
+        const vName  = uriLocalName(b.variant.value);
+        const cName  = uriLocalName(b.country.value);
+        return `<span class="variant-link-chip" onclick="switchRecipe('${vName}')">${FLAGS[cName] || '🌏'} ${vName} →</span>`;
+      }).join('');
+    }
+  } catch (err) { console.error('Failed to load variants:', err); }
 
-  // Related dishes (share at least one ingredient)
-  const sharedIngs=new Set(dish.ingredients);
-  const related=DISHES.filter(d=>d.name!==dish.name && d.ingredients.some(i=>sharedIngs.has(i)));
-  const rRow=document.getElementById('modal-related-row');
-  if(related.length){
-    rRow.style.display='block';
-    document.getElementById('modal-related').innerHTML=related.map(d=>`<span class="related-chip" onclick="switchRecipe('${d.name}')">${d.emoji} ${d.name}</span>`).join('');
+  // Related dishes (share ≥1 ingredient)
+  // const sharedIngs = new Set(dish.ingredients);
+  // const related    = DISHES.filter(d => d.name !== dish.name && d.ingredients.some(i => sharedIngs.has(i)));
+  // const rRow       = document.getElementById('modal-related-row');
+  // if (related.length) {
+  //   rRow.style.display = 'block';
+  //   document.getElementById('modal-related').innerHTML = related.map(d =>
+  //     `<span class="related-chip" onclick="switchRecipe('${d.name}')">${d.emoji} ${d.name}</span>`
+  //   ).join('');
+  // } else rRow.style.display = 'none';
+
+  // popular in Countries
+  const popularSec = document.getElementById('modal-popular-sec');
+  console.log('dish.popularIn:', dish.popularIn);
+  if (dish.popularIn && dish.popularIn.length) {
+    popularSec.style.display = 'block';
+    document.getElementById('modal-popular').innerHTML =
+      dish.popularIn
+        .filter(country => country !== dish.country)
+        .map(country =>
+          `<span class="variant-link-chip">
+            ${FLAGS[country] || '🌏'} ${country}
+          </span>`
+        ).join('');
   } else {
-    rRow.style.display='none';
+    popularSec.style.display = 'none';
   }
 
   document.getElementById('recipe-overlay').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
-function switchRecipe(n){openRecipe(n);}
-function closeRecipe(){document.getElementById('recipe-overlay').classList.remove('open');document.body.style.overflow='';}
-document.getElementById('recipe-close').addEventListener('click',closeRecipe);
-document.getElementById('recipe-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeRecipe();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeRecipe();});
+
+function switchRecipe(n) { openRecipe(n); }
+window.switchRecipe = switchRecipe;
+
+function closeRecipe() { document.getElementById('recipe-overlay').classList.remove('open'); document.body.style.overflow = ''; }
+document.getElementById('recipe-close').addEventListener('click', closeRecipe);
+document.getElementById('recipe-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeRecipe(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeRecipe(); });
 
 /* ============================================================
-   DISHES GRID
+   DISHES GRID RENDERING
    ============================================================ */
-function renderDishes(animate=true){
-  const grid=document.getElementById('dishes-grid');
-  cardBatches.forEach(t=>t.kill());
-  cardBatches=[];
-  grid.innerHTML='';
+function renderDishes(animate = true, dishesList = DISHES) {
+  const grid = document.getElementById('dishes-grid');
+  cardBatches.forEach(t => t.kill());
+  cardBatches = [];
+  grid.innerHTML = '';
 
-  const visibleDishes=DISHES.filter(dish=>{
-    const cl=dish.country.toLowerCase();
-    const matchC=activeCountry==='all'||cl.includes(activeCountry);
-    const isVeg=dish.dietary==='Vegetarian';
-    const matchD=!activeDiet||(activeDiet==='veg'&&isVeg)||(activeDiet==='nonveg'&&!isVeg);
-    return matchC&&matchD;
-  });
+  if (!dishesList.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted)">
+      <div style="font-size:2.5rem;margin-bottom:14px">🔍</div>
+      <div style="font-size:1rem;font-weight:600">No dishes match your filters</div>
+      <div style="font-size:.85rem;margin-top:8px">Try adjusting or clearing the active filters.</div>
+    </div>`;
+    return;
+  }
 
-  visibleDishes.forEach(dish=>{
-    const isVeg=dish.dietary==='Vegetarian';
-    const card=document.createElement('div');
-    card.className='dish-card';
-    const imgSrc=dish.imgKey && window.DISH_IMGS && window.DISH_IMGS[dish.imgKey];
-    const imgHTML=imgSrc
-      ? `<div class="dish-img dish-img--photo"><img src="${imgSrc}" alt="${dish.name}" loading="lazy"><div class="country-badge">${FLAGS[dish.country]||'🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg?'🌿':'🍖'}</div></div>`
-      : `<div class="dish-img" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})"><div class="img-pattern"></div><span class="big-emoji">${dish.emoji}</span><div class="country-badge">${FLAGS[dish.country]||'🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg?'🌿':'🍖'}</div></div>`;
-    card.innerHTML=`${imgHTML}
+  dishesList.forEach(dish => {
+    const isVeg = dish.dietary === 'Vegetarian';
+    const card  = document.createElement('div');
+    card.className = 'dish-card';
+    const imgSrc  = dish.imgKey && window.DISH_IMGS && window.DISH_IMGS[dish.imgKey];
+    const imgHTML = imgSrc
+      ? `<div class="dish-img dish-img--photo"><img src="${imgSrc}" alt="${dish.name}" loading="lazy"><div class="country-badge">${FLAGS[dish.country] || '🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg ? '🌿' : '🍖'}</div></div>`
+      : `<div class="dish-img" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})"><div class="img-pattern"></div><span class="big-emoji">${dish.emoji}</span><div class="country-badge">${FLAGS[dish.country] || '🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg ? '🌿' : '🍖'}</div></div>`;
+    card.innerHTML = `${imgHTML}
       <div class="dish-card-body">
         <div class="dish-name">${dish.name}</div>
-        <div class="techniques-row">${dish.techniques.map(t=>`<span class="technique-tag">${t}</span>`).join('')}</div>
-        <button class="view-recipe-btn" onclick="openRecipe('${dish.name}')">
+        <div class="techniques-row">${dish.techniques.map(t => `<span class="technique-tag">${t}</span>`).join('')}</div>
+        <button class="view-recipe-btn" onclick="selectDish('${dish.name}')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          View Recipe & Ingredients
+          View Recipe &amp; Ingredients
         </button>
       </div>`;
     grid.appendChild(card);
   });
 
-  if(animate && visibleDishes.length){
-    gsap.set('.dish-card',{opacity:0,y:55,scale:0.93});
-    cardBatches=ScrollTrigger.batch('.dish-card',{
-      onEnter:batch=>gsap.to(batch,{opacity:1,y:0,scale:1,duration:.65,stagger:.07,ease:'power3.out',overwrite:true}),
-      start:'top 92%',
-      once:true
+  if (animate && dishesList.length) {
+    gsap.set('.dish-card', { opacity: 0, y: 55, scale: 0.93 });
+    cardBatches = ScrollTrigger.batch('.dish-card', {
+      onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, scale: 1, duration: .65, stagger: .07, ease: 'power3.out', overwrite: true }),
+      start: 'top 92%', once: true
     });
     ScrollTrigger.refresh();
   }
 }
 
-function filterAndScroll(c){
-  activeCountry=c;
-  document.querySelectorAll('[data-country]').forEach(b=>b.classList.toggle('active',b.dataset.country===c));
-  renderDishes(true);
-  document.getElementById('browse').scrollIntoView({behavior:'smooth'});
-}
-
 /* ============================================================
-   COUNT-UP
+   Q3: LOAD SHARED CULINARY BASES
    ============================================================ */
-function countUp(el,target,suffix){
-  const start=performance.now(), dur=1400;
-  const step=now=>{
-    const p=Math.min((now-start)/dur,1);
-    el.textContent=Math.round(p*target)+(p===1?suffix:'');
-    if(p<1)requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
+async function loadSharedBases() {
+  const container = document.getElementById('ingredient-sets-grid');
+  if (!container) return;
+
+  try {
+    const results = await getDishesFromIngredientSet();
+    container.innerHTML = '';
+
+    results.forEach(b => {
+      const setURI    = b.ingSet.value;
+      const count     = parseInt(b.numberOfDishes.value);
+      const dishesStr = b.dishNames.value;
+      const ingsStr   = b.ingredientNames.value;
+
+      const title  = getFriendlyBaseName(setURI);
+      const icon   = getFriendlyBaseIcon(setURI);
+      const setID  = setURI.split('#')[1];
+
+      const dishChipsHTML = dishesStr.split(', ').map(dName =>
+        `<span class="base-dish-chip-link" onclick="selectDish('${dName}')">${dName}</span>`
+      ).join('');
+
+      const ingChipsHTML = ingsStr
+        ? ingsStr.split(', ').map(ing => `<span class="base-ing-chip-item">${ing}</span>`).join('')
+        : '<span style="color:var(--text-muted);font-style:italic">No direct ingredients</span>';
+
+      const card = document.createElement('div');
+      card.className = 'base-card';
+      card.innerHTML = `
+        <div class="base-header-row">
+          <div class="base-title-wrap">
+            <span class="base-title-text">${icon} ${title}</span>
+            <span class="base-id-text">${setID}</span>
+          </div>
+          <span class="base-badge-pill">${count} Dishes</span>
+        </div>
+        <div class="base-dishes-box">
+          <div class="base-section-lbl">Shared By</div>
+          <div class="base-dishes-chips">${dishChipsHTML}</div>
+        </div>
+        <div>
+          <div class="base-section-lbl">Base Ingredients</div>
+          <div class="base-ings-chips">${ingChipsHTML}</div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+
+  } catch (err) {
+    console.error('Q3 load failed:', err);
+    container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#e05">Failed to load culinary bases.</div>`;
+  }
 }
 
 /* ============================================================
    GSAP ANIMATIONS
    ============================================================ */
-function initGSAP(){
+function initGSAP() {
   gsap.registerPlugin(ScrollTrigger);
 
-  gsap.to('#scroll-progress',{scaleX:1,ease:'none',scrollTrigger:{start:'top top',end:'max',scrub:0}});
+  gsap.to('#scroll-progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 'top top', end: 'max', scrub: 0 } });
 
-  gsap.fromTo('.hero-eyebrow',{clipPath:'inset(0 100% 0 0)',opacity:1},{clipPath:'inset(0 0% 0 0)',duration:.9,ease:'power3.out',delay:.15});
-  gsap.fromTo('.hero-title',{y:90,opacity:0,scale:.94},{y:0,opacity:1,scale:1,duration:1.1,ease:'power4.out',delay:.35});
-  gsap.fromTo('.hero-sub',{y:40,opacity:0},{y:0,opacity:1,duration:.9,ease:'power3.out',delay:.55});
-  gsap.fromTo('.search-wrap',{y:50,opacity:0},{y:0,opacity:1,duration:1,ease:'power3.out',delay:.85});
-  gsap.fromTo('.hero-scroll',{opacity:0,y:-8},{opacity:1,y:0,duration:.5,delay:1.5});
-  gsap.to('.hero-video',{scale:1.1,duration:12,ease:'none',transformOrigin:'center center'});
+  gsap.fromTo('.hero-title',  { y: 90, opacity: 0, scale: .94 }, { y: 0, opacity: 1, scale: 1, duration: 1.1, ease: 'power4.out', delay: .35 });
+  gsap.fromTo('.hero-sub',    { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .9, ease: 'power3.out', delay: .55 });
+  gsap.fromTo('.search-wrap', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: .85 });
+  gsap.fromTo('.hero-scroll', { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: .5, delay: 1.5 });
+  gsap.to('.hero-video', { scale: 1.1, duration: 12, ease: 'none', transformOrigin: 'center center' });
 
-  gsap.fromTo('.dish-marquee-section',{opacity:0,y:30},{opacity:1,y:0,duration:.8,ease:'power2.out',scrollTrigger:{trigger:'.dish-marquee-section',start:'top 90%'}});
+  gsap.fromTo('.dish-marquee-section', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .8, ease: 'power2.out', scrollTrigger: { trigger: '.dish-marquee-section', start: 'top 90%' } });
 
-  const browseHeader=document.querySelector('#browse .section-header');
-  if(browseHeader){
-    const browseLabel=browseHeader.querySelector('.section-label');
-    gsap.fromTo(browseLabel,{opacity:0,y:16},{opacity:1,y:0,duration:.6,ease:'power2.out',scrollTrigger:{trigger:browseHeader,start:'top 88%'}});
-    gsap.fromTo(browseHeader.querySelector('.section-title'),{opacity:0,y:30},{opacity:1,y:0,duration:.75,ease:'power2.out',delay:.1,scrollTrigger:{trigger:browseHeader,start:'top 88%'}});
-    gsap.fromTo(browseHeader.querySelector('.section-desc'),{opacity:0,y:20},{opacity:1,y:0,duration:.65,ease:'power2.out',delay:.22,scrollTrigger:{trigger:browseHeader,start:'top 88%'}});
+  const browseHeader = document.querySelector('#browse .section-header');
+  if (browseHeader) {
+    gsap.fromTo(browseHeader.querySelector('.section-label'), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .6, ease: 'power2.out', scrollTrigger: { trigger: browseHeader, start: 'top 88%' } });
+    gsap.fromTo(browseHeader.querySelector('.section-title'), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .75, ease: 'power2.out', delay: .1, scrollTrigger: { trigger: browseHeader, start: 'top 88%' } });
+    gsap.fromTo(browseHeader.querySelector('.section-desc'),  { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .65, ease: 'power2.out', delay: .22, scrollTrigger: { trigger: browseHeader, start: 'top 88%' } });
   }
 
-  gsap.fromTo('#explorer-controls .pill-btn',{opacity:0,y:16,scale:.9},{opacity:1,y:0,scale:1,duration:.5,stagger:.05,ease:'back.out(1.3)',scrollTrigger:{trigger:'#explorer-controls',start:'top 88%'}});
-
-  gsap.fromTo('#footer-inner > *',{opacity:0,y:30},{opacity:1,y:0,duration:.8,stagger:.15,ease:'power2.out',scrollTrigger:{trigger:'footer',start:'top 88%'}});
+  gsap.fromTo('#footer-inner > *', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .8, stagger: .15, ease: 'power2.out', scrollTrigger: { trigger: 'footer', start: 'top 88%' } });
 }
 
 /* ============================================================
-   DOM READY
+   DOM READY INITIALIZATION
    ============================================================ */
 document.addEventListener('DOMContentLoaded', async () => {
-  // Ontology chips (section may be removed)
-  const pkgEl=document.getElementById('pkg-ings');
-  const customEl=document.getElementById('custom-ings');
-  if(pkgEl) pkgEl.innerHTML=PKG.map(i=>`<span class="ing-chip pkg">${i}</span>`).join('');
-  if(customEl) customEl.innerHTML=CUSTOM.map(i=>`<span class="ing-chip custom">${i}</span>`).join('');
+  initSPARQLConsole();
+  initFilterPanels();
 
   // Show loading state
-  const grid=document.getElementById('dishes-grid');
-  grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted);font-family:var(--font-sans);font-size:.95rem;letter-spacing:.05em">Loading dishes from knowledge graph…</div>`;
+  const grid = document.getElementById('dishes-grid');
+  grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted);font-family:var(--font-sans);font-size:.95rem;letter-spacing:.05em">Loading dishes from knowledge graph…</div>`;
+  document.getElementById('results-count').textContent = 'Loading…';
+
+  console.table(
+    DISHES.map(d => ({
+      name: d.name,
+      popularIn: d.popularIn.join(', ')
+    }))
+  );
 
   try {
     DISHES = await loadDishData();
-  } catch(e) {
-    console.error('SPARQL load failed:', e);
-    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#e05;font-family:var(--font-sans);font-size:.95rem">Failed to load dishes. Please refresh.</div>`;
+    console.log("Loaded dishes:", DISHES.length);
+
+      console.table(
+        DISHES.map(d => ({
+          name: d.name,
+          dietary: d.dietary
+        }))
+      );
+    renderDishes(false);
+    updateResultsCount(DISHES.length);
+  } catch (e) {
+    console.error('SPARQL initial load failed:', e);
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#e05;font-family:var(--font-sans);font-size:.95rem">Failed to load dishes from SPARQL endpoint. Please refresh.</div>`;
+    document.getElementById('results-count').textContent = 'Error loading data';
     return;
   }
 
-  // Render dishes
-  renderDishes(false);
-
-  // Filter buttons
-  document.querySelectorAll('[data-country]').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('[data-country]').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      activeCountry=btn.dataset.country;
-      renderDishes(true);
-    });
+  /* ── Page Tab Switching ── */
+  document.querySelectorAll('.page-tab').forEach(tab => {
+    tab.addEventListener('click', () => switchPage(tab.dataset.page));
   });
-  document.querySelectorAll('[data-diet]').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      if(btn.classList.contains('active')&&activeDiet===btn.dataset.diet){
-        btn.classList.remove('active'); activeDiet=null;
-      } else {
-        document.querySelectorAll('[data-diet]').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active'); activeDiet=btn.dataset.diet;
-      }
-      renderDishes(true);
+
+  /* ── Nav links for Culinary Bases ── */
+  ['nav-culinary-bases', 'mobile-nav-culinary-bases', 'footer-culinary-bases'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('browse').scrollIntoView({ behavior: 'smooth' });
+      switchPage('culinary-bases');
     });
   });
 
-  // Init GSAP
-  requestAnimationFrame(()=>{
-    gsap.set('.dish-card',{opacity:0,y:55,scale:0.93});
-    cardBatches=ScrollTrigger.batch('.dish-card',{
-      onEnter:batch=>gsap.to(batch,{opacity:1,y:0,scale:1,duration:.65,stagger:.07,ease:'power3.out',overwrite:true}),
-      start:'top 92%',
-      once:true
+  ['nav-dishes', 'mobile-nav-dishes', 'footer-dishes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', () => switchPage('dishes'));
+  });
+
+  /* ── Sidebar filter change listeners ── */
+  document.querySelectorAll('input[name="f-country"]').forEach(r =>
+    r.addEventListener('change', applyAllFilters)
+  );
+
+  ['diet-veg', 'diet-nonveg'].forEach(id => {
+    document.getElementById(id)?.addEventListener('change', applyAllFilters);
+  });
+
+  document.querySelectorAll('input[name="f-maxing"]').forEach(r =>
+    r.addEventListener('change', applyAllFilters)
+  );
+
+  document.querySelectorAll('.method-check').forEach(cb =>
+    cb.addEventListener('change', applyAllFilters)
+  );
+
+  /* ── Q6 Ingredient search button ── */
+  const q6SearchBtn = document.getElementById('filter-ing-search-btn');
+  const q6Input     = document.getElementById('filter-ingredient-input');
+
+  const triggerQ6 = () => {
+    const rawText    = (q6Input?.value || '').trim();
+    const ingredients = rawText.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+    filterState.q6Ingredients = ingredients;
+    filterState.q6Results     = null; // force re-fetch
+    const status = document.getElementById('filter-q6-status');
+    if (ingredients.length === 0 && status) status.textContent = '';
+    applyAllFilters();
+  };
+
+  if (q6SearchBtn) q6SearchBtn.addEventListener('click', triggerQ6);
+  if (q6Input)     q6Input.addEventListener('keydown', e => { if (e.key === 'Enter') triggerQ6(); });
+
+  /* ── Clear All Filters button ── */
+  document.getElementById('clear-filters-btn')?.addEventListener('click', clearAllFilters);
+
+  /* ── Init GSAP ── */
+  requestAnimationFrame(() => {
+    gsap.set('.dish-card', { opacity: 0, y: 55, scale: 0.93 });
+    cardBatches = ScrollTrigger.batch('.dish-card', {
+      onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, scale: 1, duration: .65, stagger: .07, ease: 'power3.out', overwrite: true }),
+      start: 'top 92%', once: true
     });
     initGSAP();
   });
-
-  initSmartFinder();
 });

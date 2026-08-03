@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>South Asian Street Food</title>
+  <title>South Asian Street Food KG — Explore Dishes, Recipes & Culinary Connections</title>
+  <meta name="description"
+    content="Explore 14 iconic South Asian street foods from India, Pakistan and Bangladesh. Powered by a knowledge graph — discover recipes, ingredients, regional variants and shared culinary bases.">
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
@@ -26,18 +28,18 @@
       </div>
       <div class="nav-links">
         <a href="#home">Search</a>
-        <a href="#browse">Dishes</a>
-        <a href="#story">About</a>
-        <a href="#ontology">Ontology</a>
+        <a href="#browse" id="nav-dishes">Dishes</a>
+        <a href="#browse" id="nav-culinary-bases">Culinary Bases</a>
+        <a href="#about">About</a>
       </div>
       <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
   <div class="mobile-menu" id="mobile-menu">
     <a href="#home">Search</a>
-    <a href="#browse">Browse Dishes</a>
-    <a href="#story">About</a>
-    <a href="#ontology">Ontology</a>
+    <a href="#browse" id="mobile-nav-dishes">Browse Dishes</a>
+    <a href="#browse" id="mobile-nav-culinary-bases">Culinary Bases</a>
+    <a href="#about">About</a>
   </div>
 
   <!-- RECIPE MODAL -->
@@ -69,9 +71,13 @@
           <div class="rs-title">Regional Variants</div>
           <div class="variant-links" id="modal-variants"></div>
         </div>
-        <div class="related-row" id="modal-related-row" style="display:none">
+        <!-- <div class="related-row" id="modal-related-row" style="display:none">
           <div class="related-title">Dishes sharing the same ingredients</div>
           <div class="related-grid" id="modal-related"></div>
+        </div> -->
+        <div id="modal-popular-sec" style="display:none">
+          <div class="rs-title">Also Widely Eaten In</div>
+          <div class="variant-links" id="modal-popular"></div>
         </div>
       </div>
     </div>
@@ -98,33 +104,6 @@
           </button>
         </div>
         <div class="search-suggestions" id="search-suggestions"></div>
-
-        <div class="smart-finder" id="smart-finder">
-          <div class="smart-finder-head">
-            <span class="smart-finder-title">Find Dishes Easily</span>
-          </div>
-          <p class="smart-finder-sub">Use one dropdown to run useful dish queries and quickly discover what to cook.</p>
-
-          <div class="smart-controls">
-            <label for="smart-mode" class="smart-label">Filter Type</label>
-            <select id="smart-mode" class="smart-input">
-              <option value="variants">Regional variants of a dish</option>
-              <option value="fewest">Dish with fewest ingredients</option>
-              <option value="vegNoDeep">Vegetarian and not deep-fried</option>
-              <option value="potatoChickpea">Dishes using potato + chickpea</option>
-              <option value="ingSetCount">Dishes per ingredient set</option>
-            </select>
-
-            <div id="smart-dish-wrap" class="smart-dish-wrap">
-              <label for="smart-dish" class="smart-label">Dish Class</label>
-              <input id="smart-dish" class="smart-input" type="text" value="PaniPuri" placeholder="Example: PaniPuri">
-            </div>
-
-            <button id="smart-run" class="smart-run-btn" type="button">Show Results</button>
-          </div>
-
-          <div class="smart-results" id="smart-results"></div>
-        </div>
       </div>
     </div>
     <div class="hero-scroll"><span>Explore</span>
@@ -142,110 +121,6 @@
           spice, and soul.</p>
       </div>
       <div class="dish-marquee-track-wrap">
-        <div class="dish-marquee-track" id="dm-track">
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/chana-chaat.jpg" alt="Chana Chaat" loading="lazy"></div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Chana Chaat</div>
-              <div class="dm-card-origin">India · Street Snack</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/dahi-baray.jpg" alt="Dahi Baray" loading="lazy"></div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Dahi Baray</div>
-              <div class="dm-card-origin">Pakistan · Chaat</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/baingan-bhaja.jpg" alt="Baingan Bhaja" loading="lazy"></div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Baingan Bhaja</div>
-              <div class="dm-card-origin">Bangladesh · Classic</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/golgappay.jpg" alt="Golgappay" loading="lazy"></div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Golgappay</div>
-              <div class="dm-card-origin">Pakistan · Street Icon</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/chotpoti-fuchka.jpg" alt="Chotpoti &amp; Fuchka" loading="lazy">
-            </div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Chotpoti &amp; Fuchka</div>
-              <div class="dm-card-origin">Bangladesh · Street Food</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/vada-pav.jpg" alt="Vada Pav" loading="lazy"></div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Vada Pav</div>
-              <div class="dm-card-origin">India · Street Burger</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/aloo-tikki-chaat.jpg" alt="Aloo Tikki Chaat" loading="lazy">
-            </div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Aloo Tikki Chaat</div>
-              <div class="dm-card-origin">India · Chaat</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/chana-chaat.jpg" alt="Chana Chaat" loading="lazy"></div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Chana Chaat</div>
-              <div class="dm-card-origin">India · Street Snack</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/dahi-baray.jpg" alt="Dahi Baray" loading="lazy"></div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Dahi Baray</div>
-              <div class="dm-card-origin">Pakistan · Chaat</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/baingan-bhaja.jpg" alt="Baingan Bhaja" loading="lazy"></div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Baingan Bhaja</div>
-              <div class="dm-card-origin">Bangladesh · Classic</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/golgappay.jpg" alt="Golgappay" loading="lazy"></div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Golgappay</div>
-              <div class="dm-card-origin">Pakistan · Street Icon</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/chotpoti-fuchka.jpg" alt="Chotpoti &amp; Fuchka" loading="lazy">
-            </div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Chotpoti &amp; Fuchka</div>
-              <div class="dm-card-origin">Bangladesh · Street Food</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/vada-pav.jpg" alt="Vada Pav" loading="lazy"></div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Vada Pav</div>
-              <div class="dm-card-origin">India · Street Burger</div>
-            </div>
-          </div>
-          <div class="dm-card">
-            <div class="dm-card-bg"><img src="./images/aloo-tikki-chaat.jpg" alt="Aloo Tikki Chaat" loading="lazy">
-            </div>
-            <div class="dm-card-info">
-              <div class="dm-card-name">Aloo Tikki Chaat</div>
-              <div class="dm-card-origin">India · Chaat</div>
-            </div>
-          </div>
-        </div>
         <div class="dish-marquee-track dish-marquee-track--rev" id="dm-track-rev">
           <div class="dm-card">
             <div class="dm-card-bg"><img src="./images/golgappay.jpg" alt="Golgappay" loading="lazy"></div>
@@ -294,10 +169,11 @@
           <div class="dm-card">
             <div class="dm-card-bg"><img src="./images/dahi-baray.jpg" alt="Dahi Baray" loading="lazy"></div>
             <div class="dm-card-info">
-              <div class="dm-card-name">Dahi Baray</div>
+              <div class="dm-card-name">Dahi Bharay</div>
               <div class="dm-card-origin">Pakistan · Chaat</div>
             </div>
           </div>
+          <!-- duplicates for infinite scroll -->
           <div class="dm-card">
             <div class="dm-card-bg"><img src="./images/golgappay.jpg" alt="Golgappay" loading="lazy"></div>
             <div class="dm-card-info">
@@ -345,7 +221,7 @@
           <div class="dm-card">
             <div class="dm-card-bg"><img src="./images/dahi-baray.jpg" alt="Dahi Baray" loading="lazy"></div>
             <div class="dm-card-info">
-              <div class="dm-card-name">Dahi Baray</div>
+              <div class="dm-card-name">Dahi Bharay</div>
               <div class="dm-card-origin">Pakistan · Chaat</div>
             </div>
           </div>
@@ -354,69 +230,193 @@
     </div>
   </div>
 
-  <!-- QUERY RESULTS SECTION -->
-  <section class="query-results-section" id="query-results-section" style="display:none">
-    <div class="container">
-      <div class="qr-header">
-        <div class="qr-eyebrow">Smart Finder Results</div>
-        <h2 class="qr-title" id="qr-title">Matching <em>Dishes</em></h2>
-        <p class="qr-desc" id="qr-desc">Dishes matching your query are shown below. Click any card to explore its full
-          recipe.</p>
-      </div>
-      <div class="qr-grid" id="qr-grid"></div>
-      <button class="qr-clear-btn" id="qr-clear-btn">✕ Clear Results</button>
-    </div>
-  </section>
-
-  <!-- BROWSE -->
+  <!-- BROWSE + CULINARY BASES — Combined section with page tabs -->
   <section class="section explore-bg" id="browse">
-    <div class="container">
+    <div class="container container--wide">
+
       <div class="section-header">
-        <span class="section-label">Explore</span>
-        <h2 class="section-title">Browse All <em>Dishes</em></h2>
-        <p class="section-desc">Click any dish for its full recipe, ingredients, and step-by-step cooking guide.</p>
+        <span class="section-label" id="browse-section-label">Explore</span>
+        <h2 class="section-title" id="browse-section-title">Browse All <em>Dishes</em></h2>
+        <p class="section-desc" id="browse-section-desc">Click any dish for its full recipe, ingredients, and
+          step-by-step cooking guide. Use the filters to narrow your results.</p>
       </div>
-      <div class="explorer-controls" id="explorer-controls">
-        <div class="filter-group">
-          <button class="pill-btn active" data-country="all">All Countries</button>
-          <button class="pill-btn" data-country="india">🇮🇳 India</button>
-          <button class="pill-btn" data-country="pakistan">🇵🇰 Pakistan</button>
-          <button class="pill-btn" data-country="bangladesh">🇧🇩 Bangladesh</button>
-        </div>
-        <div class="filter-group">
-          <button class="pill-btn veg-btn" data-diet="veg">🌿 Veg Only</button>
-          <button class="pill-btn veg-btn" data-diet="nonveg">🍖 Non-Veg</button>
-        </div>
+
+      <!-- Page Tab Switcher -->
+      <div class="page-tabs" id="page-tabs">
+        <button class="page-tab active" data-page="dishes" id="tab-dishes">🍛 All Dishes</button>
+        <button class="page-tab" data-page="culinary-bases" id="tab-culinary-bases">🫙 Culinary Bases</button>
       </div>
-      <div class="dishes-grid" id="dishes-grid"></div>
+
+      <!-- ─── DISHES PAGE VIEW ─── -->
+      <div class="page-view active" id="dishes-page">
+        <div class="browse-layout">
+
+          <!-- Filter Sidebar -->
+          <aside class="filter-sidebar" id="filter-sidebar">
+            <div class="filter-sidebar-head">
+              <span class="filter-sidebar-title">Filter Dishes</span>
+              <button class="clear-filters-btn" id="clear-filters-btn">Clear All</button>
+            </div>
+
+            <!-- Active filter tag chips -->
+            <div class="active-filters" id="active-filters"></div>
+
+            <!-- Country of Origin -->
+            <div class="filter-panel" id="fp-country">
+              <button class="filter-panel-toggle" aria-expanded="true" data-target="fp-country">
+                <span>🌍 Country of Origin</span>
+                <svg class="fp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="filter-panel-body" id="fp-country-body">
+                <label class="filter-radio-label"><input type="radio" name="f-country" value="all" id="f-country-all"
+                    checked> All Countries</label>
+                <label class="filter-radio-label"><input type="radio" name="f-country" value="india"
+                    id="f-country-india"> 🇮🇳 India</label>
+                <label class="filter-radio-label"><input type="radio" name="f-country" value="pakistan"
+                    id="f-country-pakistan"> 🇵🇰 Pakistan</label>
+                <label class="filter-radio-label"><input type="radio" name="f-country" value="bangladesh"
+                    id="f-country-bangladesh"> 🇧🇩 Bangladesh</label>
+              </div>
+            </div>
+
+            <!-- Dietary -->
+            <div class="filter-panel" id="fp-dietary">
+              <button class="filter-panel-toggle" aria-expanded="true" data-target="fp-dietary">
+                <span>🥗 Dietary</span>
+                <svg class="fp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="filter-panel-body" id="fp-dietary-body">
+                <label class="filter-check-label"><input type="checkbox" id="diet-veg" value="veg"> 🌿
+                  Vegetarian</label>
+                <label class="filter-check-label"><input type="checkbox" id="diet-nonveg" value="nonveg"> 🍖
+                  Non-Vegetarian</label>
+              </div>
+            </div>
+
+            <!-- Ingredient Complexity (Q4) -->
+            <div class="filter-panel" id="fp-complexity">
+              <button class="filter-panel-toggle" aria-expanded="true" data-target="fp-complexity">
+                <span>🥄 Ingredient Complexity</span>
+                <svg class="fp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="filter-panel-body" id="fp-complexity-body">
+                <label class="filter-radio-label"><input type="radio" name="f-maxing" value="any" id="f-ing-any"
+                    checked> Any</label>
+                <label class="filter-radio-label"><input type="radio" name="f-maxing" value="8" id="f-ing-8"> Simple
+                  <span class="fp-meta">≤ 8 ingredients</span></label>
+                <label class="filter-radio-label"><input type="radio" name="f-maxing" value="12" id="f-ing-12"> Moderate
+                  <span class="fp-meta">≤ 12</span></label>
+                <label class="filter-radio-label"><input type="radio" name="f-maxing" value="20" id="f-ing-20">
+                  Elaborate <span class="fp-meta">≤ 20</span></label>
+              </div>
+            </div>
+
+            <!-- Exclude Cooking Methods (Q5) -->
+            <div class="filter-panel" id="fp-methods">
+              <button class="filter-panel-toggle" aria-expanded="true" data-target="fp-methods">
+                <span>🚫 Exclude Cooking Method</span>
+                <svg class="fp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="filter-panel-body" id="fp-methods-body">
+                <label class="filter-check-label"><input type="checkbox" class="method-check" value="DeepFrying"
+                    id="m-deepfrying"> Deep Frying</label>
+                <label class="filter-check-label"><input type="checkbox" class="method-check" value="PanFrying"
+                    id="m-panfrying"> Pan Frying</label>
+                <label class="filter-check-label"><input type="checkbox" class="method-check" value="Boiling"
+                    id="m-boiling"> Boiling</label>
+                <label class="filter-check-label"><input type="checkbox" class="method-check" value="Steaming"
+                    id="m-steaming"> Steaming</label>
+              </div>
+            </div>
+
+            <!-- Search by Ingredients (Q6) -->
+            <div class="filter-panel filter-panel--last" id="fp-ingredients">
+              <button class="filter-panel-toggle" aria-expanded="true" data-target="fp-ingredients">
+                <span>🧺 Search by Ingredients</span>
+                <svg class="fp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="filter-panel-body" id="fp-ingredients-body">
+                <div class="filter-ing-wrap">
+                  <input type="text" id="filter-ingredient-input" placeholder="e.g. potato, chickpea…"
+                    autocomplete="off">
+                  <button class="filter-ing-btn" id="filter-ing-search-btn" aria-label="Search ingredients">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2.5">
+                      <circle cx="11" cy="11" r="8" />
+                      <path d="m21 21-4.35-4.35" />
+                    </svg>
+                  </button>
+                </div>
+                <p class="fp-hint">Comma-separated. Finds dishes containing ALL listed ingredients.</p>
+                <div class="filter-q6-status" id="filter-q6-status"></div>
+              </div>
+            </div>
+
+          </aside>
+
+          <!-- Results Area -->
+          <div class="browse-results">
+            <div class="browse-results-bar" id="browse-results-bar">
+              <span class="results-count" id="results-count">Loading dishes…</span>
+            </div>
+            <div class="dishes-grid" id="dishes-grid"></div>
+          </div>
+
+        </div>
+      </div><!-- end dishes-page -->
+
+      <!-- ─── CULINARY BASES PAGE VIEW ─── -->
+      <div class="page-view" id="culinary-bases-page">
+        <div class="bases-intro">
+          <p class="bases-intro-text">Explore the common building blocks — chutneys, spiced waters, batters, and
+            fillings — that are <strong>shared across multiple South Asian street foods</strong>. Each card shows which
+            dishes share that base and what ingredients it contains. Click any dish name to open its full recipe.</p>
+        </div>
+        <div class="ingredient-sets-grid" id="ingredient-sets-grid">
+          <div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted)">Loading culinary bases
+            from knowledge graph…</div>
+        </div>
+      </div><!-- end culinary-bases-page -->
+
     </div>
   </section>
 
-
-  <!-- FOOTER -->
-  <footer>
+  <!-- ABOUT / FOOTER -->
+  <footer id="about">
     <div class="footer-inner" id="footer-inner">
       <div>
         <div class="footer-logo-row">
           <div class="footer-logo-icon">🍛</div>
           <div class="footer-logo-text">South Asian Street Food KG</div>
         </div>
-        <p>A formal knowledge graph representing 14 street foods from India, Pakistan, and Bangladesh — built for the
-          AKR 2025 course at Universität Bremen.</p>
-        <div>
-          <span class="footer-team-name">Ananya Chowdury</span>
-          <span class="footer-team-name">Areesha Maqsood</span>
-          <span class="footer-team-name">Harrith Chenniappan</span>
-          <span class="footer-team-name">Areesha Malik</span>
-        </div>
+        <p>
+          This website is part of a project of the course "Actionable Knowledge Representation (AKR)" at Universität
+          Bremen. Developed by a team of students to explore the rich culinary heritage of South Asia through a
+          knowledge graph of street food dishes.
+        </p>
       </div>
       <div>
         <div class="footer-col-title">Navigation</div>
         <div class="footer-links">
           <a href="#home">Search Dishes</a>
-          <a href="#browse">Browse All</a>
-          <a href="#story">About the Project</a>
-          <a href="#ontology">Ontology</a>
+          <a href="#browse" id="footer-dishes">Browse All Dishes</a>
+          <a href="#browse" id="footer-culinary-bases">Culinary Bases</a>
+          <a href="#about">About the Project</a>
         </div>
       </div>
       <div>
