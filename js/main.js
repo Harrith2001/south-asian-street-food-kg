@@ -71,6 +71,731 @@ function uriLocalName(uri) {
   return decodeURIComponent(uri.replace(/^.*[#/]/, '').replace(/_/g, ' '));
 }
 
+function escapeHtml(txt) {
+  return String(txt)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function normalizeClassName(raw) {
+  return String(raw || '').replace(/[^A-Za-z0-9]/g, '');
+}
+
+function findDishByLabel(label) {
+  const norm = String(label || '').toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '');
+  return DISHES.find(d => d.name.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '') === norm);
+}
+
+function showCQLoading(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = `<div class="cq-note">Running query…</div>`;
+}
+
+function showCQError(containerId, err) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = `<div class="cq-note cq-note--err">Query failed: ${escapeHtml(err.message || String(err))}</div>`;
+}
+
+function showCQEmpty(containerId, msg = 'No results found.') {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = `<div class="cq-note">${escapeHtml(msg)}</div>`;
+}
+
+function renderCQDishCards(containerId, dishNames) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  if (!dishNames.length) {
+    showCQEmpty(containerId);
+    return;
+  }
+  el.innerHTML = `<div class="cq-dish-grid">${dishNames.map(name => {
+    const dish = findDishByLabel(name);
+    if (!dish) {
+      return `<div class="cq-dish-card">
+        <div class="cq-dish-head"><strong>${escapeHtml(name)}</strong></div>
+        <div class="cq-dish-meta">Dish present in query result</div>
+      </div>`;
+    }
+    const encodedName = encodeURIComponent(dish.name);
+    return `<div class="cq-dish-card">
+      <div class="cq-dish-head"><span>${dish.emoji}</span><strong>${escapeHtml(dish.name)}</strong></div>
+      <div class="cq-dish-meta">${escapeHtml(FLAGS[dish.country] || '🌏')} ${escapeHtml(dish.country)} · ${escapeHtml(dish.dietary)}</div>
+      <button class="cq-mini-btn" onclick="openRecipe(decodeURIComponent('${encodedName}'))">View Recipe</button>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function renderCQPairs(containerId, rows, colA, colB, headA, headB) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  if (!rows.length) {
+    showCQEmpty(containerId);
+    return;
+  }
+  const sortedRows = [...rows].sort((x, y) => {
+    const xa = x[colA]?.value ? uriLocalName(x[colA].value) : '';
+    const xb = x[colB]?.value ? uriLocalName(x[colB].value) : '';
+    const ya = y[colA]?.value ? uriLocalName(y[colA].value) : '';
+    const yb = y[colB]?.value ? uriLocalName(y[colB].value) : '';
+    return xa.localeCompare(ya) || xb.localeCompare(yb);
+  });
+
+  const cards = sortedRows.map(r => {
+    const a = r[colA]?.value ? uriLocalName(r[colA].value) : '-';
+    const b = r[colB]?.value ? uriLocalName(r[colB].value) : '-';
+    return `<div class="cq-pair-card"><div><span class="cq-k">${escapeHtml(headA)}:</span> ${escapeHtml(a)}</div><div><span class="cq-k">${escapeHtml(headB)}:</span> ${escapeHtml(b)}</div></div>`;
+  }).join('');
+  el.innerHTML = `<div class="cq-pair-grid">${cards}</div>`;
+}
+
+function renderSmartVariants(containerId, rows) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  if (!rows.length) return showCQEmpty(containerId);
+
+  const sorted = [...rows].sort((x, y) => {
+    const xv = x.variant?.value ? uriLocalName(x.variant.value) : '';
+    const yv = y.variant?.value ? uriLocalName(y.variant.value) : '';
+    return xv.localeCompare(yv);
+  });
+
+  el.innerHTML = `<div class="smart-variant-grid">${sorted.map(r => {
+    const variantName = r.variant?.value ? uriLocalName(r.variant.value) : '-';
+    const countryName = r.country?.value ? uriLocalName(r.country.value) : '-';
+    const matchDish = findDishByLabel(variantName);
+    const action = matchDish
+      ? `<button class="cq-mini-btn" onclick="openRecipe(decodeURIComponent('${encodeURIComponent(matchDish.name)}'))">View Dish</button>`
+      : '';
+    return `<div class="smart-variant-card">
+      <div class="smart-variant-title">${escapeHtml(variantName)}</div>
+      <div class="smart-variant-meta">${escapeHtml(FLAGS[countryName] || '🌏')} ${escapeHtml(countryName)}</div>
+      ${action}
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function renderIngredientMatchGroups(containerId, dishToIngredients) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const names = Object.keys(dishToIngredients).sort((a, b) => a.localeCompare(b));
+  if (!names.length) return showCQEmpty(containerId);
+
+  el.innerHTML = `<div class="cq-pair-grid">${names.map(name => {
+    const tags = [...dishToIngredients[name]].sort((a, b) => a.localeCompare(b));
+    const dish = findDishByLabel(name);
+    const encoded = dish ? encodeURIComponent(dish.name) : '';
+    return `<div class="cq-pair-card">
+      <div><span class="cq-k">Dish:</span> ${escapeHtml(name)}</div>
+      <div class="smart-tag-row">${tags.map(t => `<span class="smart-ing-tag">${escapeHtml(t)}</span>`).join('')}</div>
+      ${dish ? `<button class="cq-mini-btn" onclick="openRecipe(decodeURIComponent('${encoded}'))">View Recipe</button>` : ''}
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function renderIngredientSetsWithDishes(containerId, rows) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  if (!rows.length) return showCQEmpty(containerId);
+
+  const map = new Map();
+  for (const row of rows) {
+    const setName = row.ingSet?.value ? uriLocalName(row.ingSet.value) : 'Unknown Ingredient Set';
+    const dishName = row.dish?.value ? uriLocalName(row.dish.value) : null;
+    if (!map.has(setName)) map.set(setName, new Set());
+    if (dishName) map.get(setName).add(dishName);
+  }
+
+  const blocks = [...map.entries()]
+    .map(([setName, dishSet]) => ({ setName, dishes: [...dishSet].sort((a, b) => a.localeCompare(b)) }))
+    .sort((a, b) => b.dishes.length - a.dishes.length || a.setName.localeCompare(b.setName));
+
+  el.innerHTML = `<div class="smart-ingset-grid">${blocks.map(block => `
+    <div class="smart-ingset-card">
+      <div class="smart-ingset-head">
+        <div class="smart-ingset-name">${escapeHtml(block.setName)}</div>
+        <div class="smart-ingset-count">${block.dishes.length} dish${block.dishes.length === 1 ? '' : 'es'}</div>
+      </div>
+      <div class="smart-ingset-dishes">${block.dishes.map(d => `<span class="smart-dish-pill">${escapeHtml(d)}</span>`).join('')}</div>
+    </div>
+  `).join('')}</div>`;
+}
+
+function uniqueNamesFromBindings(rows, varName) {
+  return [...new Set(rows.map(r => r[varName]?.value).filter(Boolean).map(uriLocalName))]
+    .sort((a, b) => a.localeCompare(b));
+}
+
+async function runCQ1() {
+  const country = document.getElementById('cq1-country')?.value || 'India';
+  const allowed = ['India', 'Pakistan', 'Bangladesh'];
+  const safeCountry = allowed.includes(country) ? country : 'India';
+  showCQLoading('cq1-results');
+  const q = `
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sasf: <http://example.org/southasianstreetfood#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?streetFood WHERE {
+?streetFood rdfs:subClassOf sasf:StreetFood.
+?streetFood rdfs:subClassOf ?restriction.
+?restriction owl:onProperty sasf:originatesFrom.
+?restriction owl:someValuesFrom sasf:${safeCountry}.
+}`;
+  try {
+    const rows = await querySPARQL(q);
+    renderCQDishCards('cq1-results', uniqueNamesFromBindings(rows, 'streetFood'));
+  } catch (err) {
+    showCQError('cq1-results', err);
+  }
+}
+
+async function runCQ2() {
+  const dishClassRaw = document.getElementById('cq2-dish')?.value || 'PaniPuri';
+  const dishClass = normalizeClassName(dishClassRaw) || 'PaniPuri';
+  showCQLoading('cq2-results');
+  const q = `
+PREFIX sasf: <http://example.org/southasianstreetfood#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?variant ?country WHERE {
+?variant rdfs:subClassOf ?r1 .
+?r1 owl:onProperty sasf:isVariantOf.
+?r1 owl:someValuesFrom sasf:${dishClass}.
+?variant rdfs:subClassOf ?r2.
+?r2 owl:onProperty sasf:originatesFrom.
+?r2 owl:someValuesFrom ?country.
+}`;
+  try {
+    const rows = await querySPARQL(q);
+    renderCQPairs('cq2-results', rows, 'variant', 'country', 'Variant', 'Country');
+  } catch (err) {
+    showCQError('cq2-results', err);
+  }
+}
+
+async function runCQ3() {
+  showCQLoading('cq3-results');
+  const q = `
+PREFIX sasf: <http://example.org/southasianstreetfood#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?ingSet (COUNT(?dish) AS ?numberOfDishes) WHERE {
+?dish rdfs:subClassOf sasf:StreetFood .
+?dish rdfs:subClassOf ?restriction .
+?restriction owl:onProperty sasf:hasIngredientSet .
+?restriction owl:someValuesFrom ?ingSet .
+}
+GROUP BY ?ingSet
+ORDER BY DESC(?numberOfDishes)`;
+  try {
+    const rows = await querySPARQL(q);
+    const el = document.getElementById('cq3-results');
+    if (!rows.length) return showCQEmpty('cq3-results');
+    el.innerHTML = `<div class="cq-pair-grid">${rows.map(r => {
+      const ingSet = uriLocalName(r.ingSet.value);
+      const count = r.numberOfDishes.value;
+      return `<div class="cq-pair-card"><div><span class="cq-k">Ingredient Set:</span> ${escapeHtml(ingSet)}</div><div><span class="cq-k">Dishes:</span> ${escapeHtml(count)}</div></div>`;
+    }).join('')}</div>`;
+  } catch (err) {
+    showCQError('cq3-results', err);
+  }
+}
+
+async function runCQ4() {
+  showCQLoading('cq4-results');
+  const q = `
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX food: <http://example.org/southasianstreetfood#>
+PREFIX recipe: <http://purl.org/ProductKG/RecipeOn#>
+SELECT ?dish (COUNT(DISTINCT ?ingredient) AS ?numIngredients)
+WHERE {
+?dish rdfs:subClassOf* food:StreetFood .
+FILTER(?dish != food:StreetFood)
+{
+?dish rdfs:subClassOf [owl:onProperty food:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
+}
+UNION
+{
+?dish rdfs:subClassOf [owl:intersectionOf ?list] .
+?list rdf:rest*/rdf:first [owl:onProperty food:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
+}
+{
+?ingSet rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
+}
+UNION
+{
+?ingSet rdfs:subClassOf [owl:intersectionOf ?listIng] .
+?listIng rdf:rest*/rdf:first [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
+}
+}
+GROUP BY ?dish
+ORDER BY ?numIngredients`;
+  try {
+    const rows = await querySPARQL(q);
+    if (!rows.length) return showCQEmpty('cq4-results');
+    const min = Number(rows[0].numIngredients.value);
+    const dishes = rows
+      .filter(r => Number(r.numIngredients.value) === min)
+      .map(r => ({ name: uriLocalName(r.dish.value), count: r.numIngredients.value }));
+    const el = document.getElementById('cq4-results');
+    el.innerHTML = `<div class="cq-note">Minimum ingredient count: <strong>${min}</strong></div>` +
+      `<div class="cq-pair-grid">${dishes.map(d => `<div class="cq-pair-card"><div><span class="cq-k">Dish:</span> ${escapeHtml(d.name)}</div><div><span class="cq-k">Ingredients:</span> ${escapeHtml(d.count)}</div></div>`).join('')}</div>`;
+  } catch (err) {
+    showCQError('cq4-results', err);
+  }
+}
+
+async function runCQ5() {
+  showCQLoading('cq5-results');
+  const q = `
+PREFIX sasf: <http://example.org/southasianstreetfood#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+SELECT ?dish WHERE {
+?dish rdfs:subClassOf sasf:StreetFood .
+?dish rdfs:subClassOf ?restriction .
+?restriction owl:onProperty sasf:hasDietaryProperty .
+?restriction owl:someValuesFrom sasf:Vegetarian .
+FILTER NOT EXISTS {
+?dish rdfs:subClassOf ?methodRestriction .
+?methodRestriction owl:onProperty sasf:usesMethod .
+?methodRestriction owl:someValuesFrom sasf:DeepFrying .
+}
+FILTER NOT EXISTS {
+?dish rdfs:subClassOf ?setRestriction .
+?setRestriction owl:onProperty sasf:hasIngredientSet .
+?setRestriction owl:someValuesFrom ?ingredientSet .
+?ingredientSet rdfs:subClassOf ?ingredientMethodRestriction .
+?ingredientMethodRestriction owl:onProperty sasf:usesMethod .
+?ingredientMethodRestriction owl:someValuesFrom sasf:DeepFrying .
+}
+}`;
+  try {
+    const rows = await querySPARQL(q);
+    renderCQDishCards('cq5-results', uniqueNamesFromBindings(rows, 'dish'));
+  } catch (err) {
+    showCQError('cq5-results', err);
+  }
+}
+
+async function runCQ6() {
+  showCQLoading('cq6-results');
+  const q = `
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sasf: <http://example.org/southasianstreetfood#>
+PREFIX recipe: <http://purl.org/ProductKG/RecipeOn#>
+SELECT ?dish WHERE {
+?dish rdfs:subClassOf* sasf:StreetFood .
+FILTER(?dish != sasf:StreetFood)
+{
+{
+?dish rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
+}
+UNION
+{
+?dish rdfs:subClassOf [owl:onProperty sasf:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
+?ingSet rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
+}
+UNION
+{
+?dish rdfs:subClassOf [owl:intersectionOf ?list] .
+?list rdf:rest*/rdf:first [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
+}
+UNION
+{
+?dish rdfs:subClassOf [owl:intersectionOf ?list] .
+?list rdf:rest*/rdf:first [owl:onProperty sasf:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
+?ingSet rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
+}
+?ingredient rdfs:label ?label .
+FILTER (contains(lcase(?label), "potato") || contains(lcase(?label), "chickpea"))
+}
+}
+GROUP BY ?dish
+HAVING (COUNT(DISTINCT ?ingredient) >= 2)`;
+  try {
+    const rows = await querySPARQL(q);
+    renderCQDishCards('cq6-results', uniqueNamesFromBindings(rows, 'dish'));
+  } catch (err) {
+    showCQError('cq6-results', err);
+  }
+}
+
+function initCompetencyQueries() {
+  const q1 = document.getElementById('cq1-run');
+  const q2 = document.getElementById('cq2-run');
+  const q3 = document.getElementById('cq3-run');
+  const q4 = document.getElementById('cq4-run');
+  const q5 = document.getElementById('cq5-run');
+  const q6 = document.getElementById('cq6-run');
+  if (!q1 || !q2 || !q3 || !q4 || !q5 || !q6) return;
+
+  q1.addEventListener('click', runCQ1);
+  q2.addEventListener('click', runCQ2);
+  q3.addEventListener('click', runCQ3);
+  q4.addEventListener('click', runCQ4);
+  q5.addEventListener('click', runCQ5);
+  q6.addEventListener('click', runCQ6);
+
+  runCQ1();
+}
+
+function setSmartDishFieldVisibility() {
+  const mode = document.getElementById('smart-mode')?.value;
+  const wrap = document.getElementById('smart-dish-wrap');
+  if (!wrap) return;
+  wrap.style.display = mode === 'variants' ? 'flex' : 'none';
+}
+
+/* ── QUERY RESULTS SECTION RENDERER ────────────────────────────── */
+function renderQueryResultsSection(dishNames, queryLabel) {
+  const section = document.getElementById('query-results-section');
+  const grid    = document.getElementById('qr-grid');
+  const title   = document.getElementById('qr-title');
+  const desc    = document.getElementById('qr-desc');
+  if (!section || !grid) return;
+
+  const modeLabels = {
+    variants:       'Regional Variants',
+    fewest:         'Fewest Ingredients',
+    vegNoDeep:      'Vegetarian & Not Deep-Fried',
+    potatoChickpea: 'Potato + Chickpea Dishes',
+    ingSetCount:    'Dishes per Ingredient Set'
+  };
+  title.innerHTML = `${escapeHtml(modeLabels[queryLabel] || 'Matching')} <em>Dishes</em>`;
+
+  if (!dishNames.length) {
+    grid.innerHTML = `<div class="qr-state">No dishes found for this query.</div>`;
+    desc.textContent = 'Try a different filter type or dish class.';
+    section.style.display = 'block';
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
+  desc.textContent = `${dishNames.length} dish${dishNames.length === 1 ? '' : 'es'} matched your query. Click any card to explore its full recipe.`;
+
+  grid.innerHTML = dishNames.map((name, idx) => {
+    const dish = findDishByLabel(name);
+    const delay = (idx * 0.06).toFixed(2);
+    if (!dish) {
+      return `<div class="qr-card" style="animation-delay:${delay}s">
+        <div class="qr-card-img-grad" style="background:linear-gradient(135deg,#5c4a3a,#9a7b60)">
+          <div class="qr-img-pattern"></div>
+          <span class="qr-big-emoji">🍛</span>
+        </div>
+        <div class="qr-card-body">
+          <div class="qr-card-name">${escapeHtml(name)}</div>
+          <div class="qr-card-meta">Listed in query result</div>
+        </div>
+      </div>`;
+    }
+    const isVeg = dish.dietary === 'Vegetarian';
+    const flag  = FLAGS[dish.country] || '🌏';
+    const encodedName = encodeURIComponent(dish.name);
+    const imgSrc = dish.imgKey && window.DISH_IMGS && window.DISH_IMGS[dish.imgKey];
+
+    const imgBlock = imgSrc
+      ? `<div class="qr-card-img" style="position:relative">
+           <img src="${imgSrc}" alt="${escapeHtml(dish.name)}" loading="lazy">
+           <div class="qr-country-badge">${flag} ${escapeHtml(dish.country)}</div>
+           <div class="qr-diet-dot" title="${escapeHtml(dish.dietary)}">${isVeg ? '🌿' : '🍖'}</div>
+         </div>`
+      : `<div class="qr-card-img-grad" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})">
+           <div class="qr-img-pattern"></div>
+           <span class="qr-big-emoji">${dish.emoji}</span>
+           <div class="qr-country-badge">${flag} ${escapeHtml(dish.country)}</div>
+           <div class="qr-diet-dot" title="${escapeHtml(dish.dietary)}">${isVeg ? '🌿' : '🍖'}</div>
+         </div>`;
+
+    const techTags = dish.techniques.slice(0,3).map(t => `<span class="qr-technique-tag">${escapeHtml(t)}</span>`).join('');
+    const dietBadge = `<span class="qr-diet-badge ${isVeg ? 'veg' : 'nonveg'}">${isVeg ? '🌿 Veg' : '🍖 Non-Veg'}</span>`;
+
+    return `<div class="qr-card" style="animation-delay:${delay}s">
+      ${imgBlock}
+      <div class="qr-card-body">
+        <div class="qr-card-name">${escapeHtml(dish.name)}</div>
+        <div class="qr-card-meta">${dietBadge}</div>
+        ${techTags ? `<div class="qr-technique-row">${techTags}</div>` : ''}
+        <button class="qr-view-btn" onclick="openRecipe(decodeURIComponent('${encodedName}'))">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          View Recipe
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+
+  section.style.display = 'block';
+  // Small delay so display:block takes effect before scrolling
+  setTimeout(() => section.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+}
+
+async function runSmartFinder() {
+  const mode = document.getElementById('smart-mode')?.value || 'variants';
+  const container = 'smart-results';
+  showCQLoading(container);
+
+  try {
+    if (mode === 'variants') {
+      const dishClassRaw = document.getElementById('smart-dish')?.value || 'PaniPuri';
+      const dishClass = normalizeClassName(dishClassRaw) || 'PaniPuri';
+      const q = `
+PREFIX sasf: <http://example.org/southasianstreetfood#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?variant ?country WHERE {
+?variant rdfs:subClassOf ?r1 .
+?r1 owl:onProperty sasf:isVariantOf.
+?r1 owl:someValuesFrom sasf:${dishClass}.
+?variant rdfs:subClassOf ?r2.
+?r2 owl:onProperty sasf:originatesFrom.
+?r2 owl:someValuesFrom ?country.
+}`;
+      const rows = await querySPARQL(q);
+      renderSmartVariants(container, rows);
+      // Also extract variant names for the results section
+      const variantNames = [...new Set(rows.map(r => r.variant?.value).filter(Boolean).map(uriLocalName))].sort();
+      renderQueryResultsSection(variantNames, 'variants');
+      return;
+    }
+
+    if (mode === 'fewest') {
+      const q = `
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX food: <http://example.org/southasianstreetfood#>
+PREFIX recipe: <http://purl.org/ProductKG/RecipeOn#>
+SELECT ?dish (COUNT(DISTINCT ?ingredient) AS ?numIngredients)
+WHERE {
+?dish rdfs:subClassOf* food:StreetFood .
+FILTER(?dish != food:StreetFood)
+{
+?dish rdfs:subClassOf [owl:onProperty food:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
+}
+UNION
+{
+?dish rdfs:subClassOf [owl:intersectionOf ?list] .
+?list rdf:rest*/rdf:first [owl:onProperty food:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
+}
+{
+?ingSet rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
+}
+UNION
+{
+?ingSet rdfs:subClassOf [owl:intersectionOf ?listIng] .
+?listIng rdf:rest*/rdf:first [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
+}
+}
+GROUP BY ?dish
+ORDER BY ?numIngredients`;
+      const rows = await querySPARQL(q);
+      if (!rows.length) return showCQEmpty(container);
+      const min = Number(rows[0].numIngredients.value);
+      const dishes = rows
+        .filter(r => Number(r.numIngredients.value) === min)
+        .map(r => ({ name: uriLocalName(r.dish.value), count: r.numIngredients.value }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+      const el = document.getElementById(container);
+      el.innerHTML = `<div class="cq-note">Minimum ingredient count: <strong>${min}</strong></div>` +
+        `<div class="cq-pair-grid">${dishes.map(d => `<div class="cq-pair-card"><div><span class="cq-k">Dish:</span> ${escapeHtml(d.name)}</div><div><span class="cq-k">Ingredients:</span> ${escapeHtml(d.count)}</div></div>`).join('')}</div>`;
+      renderQueryResultsSection(dishes.map(d => d.name), 'fewest');
+      return;
+    }
+
+    if (mode === 'vegNoDeep') {
+      const q = `
+PREFIX sasf: <http://example.org/southasianstreetfood#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+SELECT ?dish WHERE {
+?dish rdfs:subClassOf sasf:StreetFood .
+?dish rdfs:subClassOf ?restriction .
+?restriction owl:onProperty sasf:hasDietaryProperty .
+?restriction owl:someValuesFrom sasf:Vegetarian .
+FILTER NOT EXISTS {
+?dish rdfs:subClassOf ?methodRestriction .
+?methodRestriction owl:onProperty sasf:usesMethod .
+?methodRestriction owl:someValuesFrom sasf:DeepFrying .
+}
+FILTER NOT EXISTS {
+?dish rdfs:subClassOf ?setRestriction .
+?setRestriction owl:onProperty sasf:hasIngredientSet .
+?setRestriction owl:someValuesFrom ?ingredientSet .
+?ingredientSet rdfs:subClassOf ?ingredientMethodRestriction .
+?ingredientMethodRestriction owl:onProperty sasf:usesMethod .
+?ingredientMethodRestriction owl:someValuesFrom sasf:DeepFrying .
+}
+}`;
+      const rows = await querySPARQL(q);
+      const names = uniqueNamesFromBindings(rows, 'dish');
+      renderCQDishCards(container, names);
+      renderQueryResultsSection(names, 'vegNoDeep');
+      return;
+    }
+
+    if (mode === 'potatoChickpea') {
+      const q = `
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sasf: <http://example.org/southasianstreetfood#>
+PREFIX recipe: <http://purl.org/ProductKG/RecipeOn#>
+SELECT ?dish ?label WHERE {
+  {
+    SELECT ?dish WHERE {
+      ?dish rdfs:subClassOf* sasf:StreetFood .
+      FILTER(?dish != sasf:StreetFood)
+      {
+      {
+      ?dish rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
+      }
+      UNION
+      {
+      ?dish rdfs:subClassOf [owl:onProperty sasf:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
+      ?ingSet rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
+      }
+      UNION
+      {
+      ?dish rdfs:subClassOf [owl:intersectionOf ?list] .
+      ?list rdf:rest*/rdf:first [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
+      }
+      UNION
+      {
+      ?dish rdfs:subClassOf [owl:intersectionOf ?list] .
+      ?list rdf:rest*/rdf:first [owl:onProperty sasf:hasIngredientSet ; owl:someValuesFrom ?ingSet] .
+      ?ingSet rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient] .
+      }
+      ?ingredient rdfs:label ?label .
+      FILTER (contains(lcase(?label), "potato") || contains(lcase(?label), "chickpea"))
+      }
+    }
+    GROUP BY ?dish
+    HAVING (COUNT(DISTINCT ?ingredient) >= 2)
+  }
+  {
+  {
+  ?dish rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient2] .
+  }
+  UNION
+  {
+  ?dish rdfs:subClassOf [owl:onProperty sasf:hasIngredientSet ; owl:someValuesFrom ?ingSet2] .
+  ?ingSet2 rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient2] .
+  }
+  UNION
+  {
+  ?dish rdfs:subClassOf [owl:intersectionOf ?list2] .
+  ?list2 rdf:rest*/rdf:first [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient2] .
+  }
+  UNION
+  {
+  ?dish rdfs:subClassOf [owl:intersectionOf ?list2] .
+  ?list2 rdf:rest*/rdf:first [owl:onProperty sasf:hasIngredientSet ; owl:someValuesFrom ?ingSet2] .
+  ?ingSet2 rdfs:subClassOf [owl:onProperty recipe:hasIngredient ; owl:someValuesFrom ?ingredient2] .
+  }
+  ?ingredient2 rdfs:label ?label .
+  FILTER (contains(lcase(?label), "potato") || contains(lcase(?label), "chickpea"))
+  }
+}`;
+      const rows = await querySPARQL(q);
+      const dishToIngredients = {};
+      for (const row of rows) {
+        const dishName = row.dish?.value ? uriLocalName(row.dish.value) : null;
+        const label = row.label?.value || '';
+        if (!dishName) continue;
+        if (!dishToIngredients[dishName]) dishToIngredients[dishName] = new Set();
+        if (label) dishToIngredients[dishName].add(label);
+      }
+      renderIngredientMatchGroups(container, dishToIngredients);
+      renderQueryResultsSection(Object.keys(dishToIngredients).sort(), 'potatoChickpea');
+      return;
+    }
+
+    const q = `
+PREFIX sasf: <http://example.org/southasianstreetfood#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?ingSet ?dish WHERE {
+?dish rdfs:subClassOf sasf:StreetFood .
+?dish rdfs:subClassOf ?restriction .
+?restriction owl:onProperty sasf:hasIngredientSet .
+?restriction owl:someValuesFrom ?ingSet .
+}
+ORDER BY ?ingSet ?dish`;
+    const rows = await querySPARQL(q);
+    renderIngredientSetsWithDishes(container, rows);
+    // Extract unique dish names from ingSet rows
+    const ingSetDishNames = [...new Set(rows.map(r => r.dish?.value).filter(Boolean).map(uriLocalName))].sort();
+    renderQueryResultsSection(ingSetDishNames, 'ingSetCount');
+    return;
+  } catch (err) {
+    showCQError(container, err);
+  }
+}
+
+function initSmartFinder() {
+  const mode = document.getElementById('smart-mode');
+  const run = document.getElementById('smart-run');
+  const dishInput = document.getElementById('smart-dish');
+  if (!mode || !run) return;
+
+  mode.addEventListener('change', () => {
+    setSmartDishFieldVisibility();
+    runSmartFinder();
+  });
+  run.addEventListener('click', runSmartFinder);
+  dishInput?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') runSmartFinder();
+  });
+
+  // Clear results button
+  document.getElementById('qr-clear-btn')?.addEventListener('click', () => {
+    const section = document.getElementById('query-results-section');
+    if (section) section.style.display = 'none';
+  });
+
+  setSmartDishFieldVisibility();
+}
+
+function setActiveCQPanel(panelNum) {
+  const tabs = document.querySelectorAll('[data-cq-tab]');
+  const panels = document.querySelectorAll('[data-cq-panel]');
+  tabs.forEach(t => t.classList.toggle('active', t.dataset.cqTab === String(panelNum)));
+  panels.forEach(p => p.classList.toggle('active', p.dataset.cqPanel === String(panelNum)));
+}
+
+function initCompetencyJourney() {
+  const tabs = document.querySelectorAll('[data-cq-tab]');
+  const nextButtons = document.querySelectorAll('[data-cq-next]');
+  if (!tabs.length) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      setActiveCQPanel(tab.dataset.cqTab);
+      document.getElementById('competency')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  nextButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const next = btn.dataset.cqNext;
+      setActiveCQPanel(next);
+      document.getElementById('competency')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  setActiveCQPanel('1');
+}
+
 async function loadDishData() {
   const PFX = `
     PREFIX sakg: <http://example.org/southasianstreetfood#>
@@ -538,4 +1263,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     initGSAP();
   });
+
+  initSmartFinder();
 });
