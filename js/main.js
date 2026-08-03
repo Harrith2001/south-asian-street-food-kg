@@ -7,25 +7,26 @@ const SPARQL_ENDPOINT = 'https://triplydb.com/_api/datasets/Areesha/South-Asian-
 const DISH_UI = {
   'Pani Puri':    { emoji: '🫙', grad: ['#006994','#00B4D8'],  imgKey: 'Golgappay' },
   'Gol Gappay':  { emoji: '🫙', grad: ['#6B21A8','#A855F7'],  imgKey: 'Golgappay' },
-  'Fuchka':      { emoji: '🫙', grad: ['#16633C','#2DC653'],   imgKey: 'Chotpoti & Fuchka' },
+  'Fuchka':      { emoji: '🫙', grad: ['#16633C','#2DC653'],   imgKey: 'Fuchka' },
   'Aloo Tikki':  { emoji: '🥔', grad: ['#B7791F','#F6C90E'],  imgKey: 'Aloo Tikki Chaat' },
   'Beguni':      { emoji: '🍆', grad: ['#5B21B6','#8B5CF6'],  imgKey: 'Baingan Bhaja' },
   'Bhel Puri':   { emoji: '🌾', grad: ['#C2410C','#FB923C'],  imgKey: 'Bhel Puri' },
   'Chana Chaat': { emoji: '🫘', grad: ['#92400E','#F59E0B'],  imgKey: 'Chana Chaat' },
   'Chapli Kebab':{ emoji: '🥩', grad: ['#7F1D1D','#DC2626'],  imgKey: 'Chapli Kabab' },
-  'Chotpoti':    { emoji: '🫘', grad: ['#14532D','#16A34A'],  imgKey: 'Chotpoti & Fuchka' },
+  'Chotpoti':    { emoji: '🫘', grad: ['#14532D','#16A34A'],  imgKey: 'Chotpoti' },
   'Dahi Bharay': { emoji: '🥣', grad: ['#1E3A5F','#3B82F6'],  imgKey: 'Dahi Baray' },
   'Idli Sambar': { emoji: '🍚', grad: ['#78350F','#F59E0B'],  imgKey: 'Idli Sambhar' },
   'Jhalmuri':    { emoji: '🌿', grad: ['#365314','#84CC16'],  imgKey: 'Jhalmuri' },
   'Masala Dosa': { emoji: '🫓', grad: ['#9A3412','#EA580C'],  imgKey: 'Masala Dosa' },
   'Samosa':      { emoji: '🥟', grad: ['#92400E','#D97706'],  imgKey: 'Samosa' },
-  'Shingara':    { emoji: '🥟', grad: ['#78350F','#A16207'],  imgKey: 'Samosa' },
+  'Shingara':    { emoji: '🥟', grad: ['#78350F','#A16207'],  imgKey: 'Shingara' },
   'VadaPav':     { emoji: '🫓', grad: ['#9F1239','#E11D48'],  imgKey: 'Vada Pav' },
 };
 
 const STATIC_IMGS = {
   "Golgappay":          "./images/golgappay.jpg",
-  "Chotpoti & Fuchka":  "./images/chotpoti-fuchka.jpg",
+  "Chotpoti":           "./images/chotpoti-fuchka.jpg",
+  "Fuchka":             "./images/fuchka.jpg",
   "Aloo Tikki Chaat":   "./images/aloo-tikki-chaat.jpg",
   "Baingan Bhaja":      "./images/baingan-bhaja.jpg",
   "Chana Chaat":        "./images/chana-chaat.jpg",
@@ -36,10 +37,18 @@ const STATIC_IMGS = {
   "Idli Sambhar":       "./images/idli-sambhar.jpg",
   "Jhalmuri":           "./images/jhalmuri.jpg",
   "Masala Dosa":        "./images/masala-dosa.jpg",
-  "Samosa":             "./images/samosa.jpg"
+  "Samosa":             "./images/samosa.jpg",
+  "Shingara":           "./images/shingara.jpg"
+  
 };
 window.DISH_IMGS = STATIC_IMGS;
 
+const FLAG_SVG = {
+  India: `<svg viewBox="0 0 900 600" class="flag-icon"><rect width="900" height="200" fill="#FF9933"/><rect y="200" width="900" height="200" fill="#fff"/><rect y="400" width="900" height="200" fill="#138808"/><circle cx="450" cy="300" r="60" fill="none" stroke="#000080" stroke-width="4"/></svg>`,
+  Pakistan: `<svg viewBox="0 0 900 600" class="flag-icon"><rect width="225" height="600" fill="#fff"/><rect x="225" width="675" height="600" fill="#01411C"/><circle cx="510" cy="300" r="130" fill="#fff"/><circle cx="540" cy="300" r="110" fill="#01411C"/><polygon points="590,220 600,255 635,255 607,275 617,310 590,290 563,310 573,275 545,255 580,255" fill="#fff"/></svg>`,
+  Bangladesh: `<svg viewBox="0 0 900 600" class="flag-icon"><rect width="900" height="600" fill="#006a4e"/><circle cx="400" cy="300" r="150" fill="#F42A41"/></svg>`,
+};
+FLAG_SVG["India/Pakistan"] = FLAG_SVG.India + FLAG_SVG.Pakistan;
 const FLAGS = { India: "🇮🇳", Pakistan: "🇵🇰", Bangladesh: "🇧🇩", "India/Pakistan": "🇮🇳🇵🇰" };
 
 const SET_NAME_MAPPINGS = {
@@ -615,7 +624,7 @@ function renderActiveFilterTags() {
   const tags = [];
 
   if (filterState.country !== 'all') {
-    const label = { india: '🇮🇳 India', pakistan: '🇵🇰 Pakistan', bangladesh: '🇧🇩 Bangladesh' }[filterState.country] || filterState.country;
+    const label = { india: (FLAG_SVG.India + ' India'), pakistan: (FLAG_SVG.Pakistan + ' Pakistan'), bangladesh: (FLAG_SVG.Bangladesh + ' Bangladesh') }[filterState.country] || filterState.country;
     tags.push({ label, clear: () => { document.getElementById('f-country-all').checked = true; filterState.country = 'all'; applyAllFilters(); } });
   }
 
@@ -810,7 +819,7 @@ async function openRecipe(name) {
     emojiEl.textContent = dish.emoji;
   }
 
-  document.getElementById('modal-flag').textContent    = FLAGS[dish.country] || '🌏';
+  document.getElementById('modal-flag').innerHTML       = FLAG_SVG[dish.country] || '🌏';
   document.getElementById('modal-country').textContent = dish.country;
   document.getElementById('modal-name').textContent    = dish.name;
 
@@ -956,8 +965,8 @@ function renderDishes(animate = true, dishesList = DISHES) {
     card.className = 'dish-card';
     const imgSrc  = dish.imgKey && window.DISH_IMGS && window.DISH_IMGS[dish.imgKey];
     const imgHTML = imgSrc
-      ? `<div class="dish-img dish-img--photo"><img src="${imgSrc}" alt="${dish.name}" loading="lazy"><div class="country-badge">${FLAGS[dish.country] || '🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg ? '🌿' : '🍖'}</div></div>`
-      : `<div class="dish-img" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})"><div class="img-pattern"></div><span class="big-emoji">${dish.emoji}</span><div class="country-badge">${FLAGS[dish.country] || '🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg ? '🌿' : '🍖'}</div></div>`;
+      ? `<div class="dish-img dish-img--photo"><img src="${imgSrc}" alt="${dish.name}" loading="lazy"><div class="country-badge">${FLAG_SVG[dish.country] || '🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg ? '🌿' : '🍖'}</div></div>`
+      : `<div class="dish-img" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})"><div class="img-pattern"></div><span class="big-emoji">${dish.emoji}</span><div class="country-badge">${FLAG_SVG[dish.country] || '🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg ? '🌿' : '🍖'}</div></div>`;
     card.innerHTML = `${imgHTML}
       <div class="dish-card-body">
         <div class="dish-name">${dish.name}</div>
@@ -993,16 +1002,14 @@ async function loadSharedBases() {
 
     results.forEach(b => {
       const setURI    = b.ingSet.value;
-      const count     = parseInt(b.numberOfDishes.value);
       const dishesStr = b.dishNames.value;
       const ingsStr   = b.ingredientNames.value;
 
       const title  = getFriendlyBaseName(setURI);
       const icon   = getFriendlyBaseIcon(setURI);
-      const setID  = setURI.split('#')[1];
 
       const dishChipsHTML = dishesStr.split(', ').map(dName =>
-        `<span class="base-dish-chip-link" onclick="selectDish('${dName}')">${dName}</span>`
+        `<span class="base-dish-chip-link" onclick="event.stopPropagation();selectDish('${dName}')">${dName}</span>`
       ).join('');
 
       const ingChipsHTML = ingsStr
@@ -1012,22 +1019,29 @@ async function loadSharedBases() {
       const card = document.createElement('div');
       card.className = 'base-card';
       card.innerHTML = `
-        <div class="base-header-row">
-          <div class="base-title-wrap">
-            <span class="base-title-text">${icon} ${title}</span>
-            <span class="base-id-text">${setID}</span>
+        <div class="base-card-title" role="button" tabindex="0">
+          <span class="base-title-text">${icon} ${title}</span>
+          <svg class="base-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="base-card-details">
+          <div class="base-card-details-inner">
+            <div class="base-dishes-box">
+              <div class="base-section-lbl">Shared By</div>
+              <div class="base-dishes-chips">${dishChipsHTML}</div>
+            </div>
+            <div>
+              <div class="base-section-lbl">Base Ingredients</div>
+              <div class="base-ings-chips">${ingChipsHTML}</div>
+            </div>
           </div>
-          <span class="base-badge-pill">${count} Dishes</span>
-        </div>
-        <div class="base-dishes-box">
-          <div class="base-section-lbl">Shared By</div>
-          <div class="base-dishes-chips">${dishChipsHTML}</div>
-        </div>
-        <div>
-          <div class="base-section-lbl">Base Ingredients</div>
-          <div class="base-ings-chips">${ingChipsHTML}</div>
         </div>
       `;
+
+      const titleEl = card.querySelector('.base-card-title');
+      titleEl.addEventListener('click', () => card.classList.toggle('open'));
+      titleEl.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.classList.toggle('open'); }});
+
       container.appendChild(card);
     });
 
@@ -1149,6 +1163,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     filterState.q6Results     = null; // force re-fetch
     const status = document.getElementById('filter-q6-status');
     if (ingredients.length === 0 && status) status.textContent = '';
+    if (ingredients.length) switchPage('dishes'); // results only show on the Dishes grid
     applyAllFilters();
   };
 

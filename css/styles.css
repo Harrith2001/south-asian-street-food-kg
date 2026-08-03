@@ -1394,6 +1394,15 @@ nav.nav--scrolled {
   z-index: 1;
 }
 
+.flag-icon {
+  width: 18px;
+  height: 12px;
+  border-radius: 2px;
+  vertical-align: middle;
+  box-shadow: 0 0 1px rgba(0,0,0,.3);
+  flex-shrink: 0;
+}
+
 .diet-dot {
   position: absolute;
   top: 10px;
@@ -2310,55 +2319,73 @@ footer {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 18px;
-  padding: 22px;
   box-shadow: var(--sh-sm);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
 }
 
 .base-card:hover {
   box-shadow: var(--sh-md);
-  transform: translateY(-4px);
 }
 
-.base-header-row {
+.base-card.open {
+  grid-column: 1 / -1;
+}
+
+/* ── Clickable title row ── */
+.base-card-title {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
+  padding: 18px 22px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
   gap: 12px;
 }
 
-.base-title-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+.base-card-title:hover {
+  background: var(--surface);
 }
 
 .base-title-text {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 800;
   color: var(--text);
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
-.base-id-text {
-  font-size: 0.75rem;
-  font-weight: 600;
+.base-chevron {
+  flex-shrink: 0;
   color: var(--text-muted);
-  font-family: monospace;
+  transition: transform 0.25s ease;
 }
 
-.base-badge-pill {
-  padding: 4px 10px;
-  border-radius: 8px;
-  background: var(--terra-dim);
-  color: var(--terra);
-  font-size: 0.72rem;
-  font-weight: 700;
-  border: 1px solid rgba(196, 80, 26, 0.15);
-  white-space: nowrap;
+.base-card.open .base-chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Expandable details ── */
+.base-card-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.base-card-details-inner {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0 22px;
+}
+
+.base-card.open .base-card-details {
+  grid-template-rows: 1fr;
+}
+
+.base-card.open .base-card-details-inner {
+  padding-bottom: 20px;
 }
 
 .base-dishes-box {
@@ -2366,6 +2393,7 @@ footer {
   border-radius: 12px;
   padding: 12px;
   border: 1px solid var(--border);
+  margin-bottom: 14px;
 }
 
 .base-section-lbl {
@@ -2444,15 +2472,47 @@ footer {
 /* ============================================================
    PAGE TAB SWITCHER
    ============================================================ */
+.page-tabs-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
 .page-tabs {
   display: flex;
   gap: 4px;
-  margin-bottom: 32px;
   background: var(--surface);
   padding: 5px;
   border-radius: 14px;
   width: fit-content;
   box-shadow: var(--sh-sm);
+}
+
+/* ── Quick ingredient search, beside the page tabs ── */
+.quick-ing-search {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  max-width: 380px;
+}
+
+.quick-ing-search .filter-ing-wrap input {
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  border-radius: 11px;
+}
+
+.quick-ing-search .filter-ing-btn {
+  padding: 10px 13px;
+  border-radius: 11px;
+}
+
+.quick-ing-search .filter-q6-status {
+  padding-inline: 2px;
 }
 
 .page-tab {
@@ -2808,5 +2868,12 @@ footer {
   .page-tabs {
     width: 100%;
     justify-content: center;
+  }
+  .page-tabs-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .quick-ing-search {
+    max-width: none;
   }
 }

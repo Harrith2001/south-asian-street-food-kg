@@ -241,10 +241,27 @@
           step-by-step cooking guide. Use the filters to narrow your results.</p>
       </div>
 
-      <!-- Page Tab Switcher -->
-      <div class="page-tabs" id="page-tabs">
-        <button class="page-tab active" data-page="dishes" id="tab-dishes">🍛 All Dishes</button>
-        <button class="page-tab" data-page="culinary-bases" id="tab-culinary-bases">🫙 Culinary Bases</button>
+      <!-- Page Tab Switcher + Quick Ingredient Search -->
+      <div class="page-tabs-row" id="page-tabs-row">
+        <div class="page-tabs" id="page-tabs">
+          <button class="page-tab active" data-page="dishes" id="tab-dishes">🍛 All Dishes</button>
+          <button class="page-tab" data-page="culinary-bases" id="tab-culinary-bases">🫙 Culinary Bases</button>
+        </div>
+
+        <div class="quick-ing-search" id="quick-ing-search">
+          <div class="filter-ing-wrap">
+            <input type="text" id="filter-ingredient-input"
+              placeholder="🧺 Search by ingredient — e.g. potato, chickpea…" autocomplete="off"
+              title="Comma-separated. Finds dishes containing ALL listed ingredients.">
+            <button class="filter-ing-btn" id="filter-ing-search-btn" aria-label="Search ingredients">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+              </svg>
+            </button>
+          </div>
+          <div class="filter-q6-status" id="filter-q6-status"></div>
+        </div>
       </div>
 
       <!-- ─── DISHES PAGE VIEW ─── -->
@@ -274,11 +291,11 @@
                 <label class="filter-radio-label"><input type="radio" name="f-country" value="all" id="f-country-all"
                     checked> All Countries</label>
                 <label class="filter-radio-label"><input type="radio" name="f-country" value="india"
-                    id="f-country-india"> 🇮🇳 India</label>
+                    id="f-country-india"> <svg viewBox="0 0 900 600" class="flag-icon"><rect width="900" height="200" fill="#FF9933"/><rect y="200" width="900" height="200" fill="#fff"/><rect y="400" width="900" height="200" fill="#138808"/><circle cx="450" cy="300" r="60" fill="none" stroke="#000080" stroke-width="4"/></svg> India</label>
                 <label class="filter-radio-label"><input type="radio" name="f-country" value="pakistan"
-                    id="f-country-pakistan"> 🇵🇰 Pakistan</label>
+                    id="f-country-pakistan"> <svg viewBox="0 0 900 600" class="flag-icon"><rect width="225" height="600" fill="#fff"/><rect x="225" width="675" height="600" fill="#01411C"/><circle cx="510" cy="300" r="130" fill="#fff"/><circle cx="540" cy="300" r="110" fill="#01411C"/><polygon points="590,220 600,255 635,255 607,275 617,310 590,290 563,310 573,275 545,255 580,255" fill="#fff"/></svg> Pakistan</label>
                 <label class="filter-radio-label"><input type="radio" name="f-country" value="bangladesh"
-                    id="f-country-bangladesh"> 🇧🇩 Bangladesh</label>
+                    id="f-country-bangladesh"> <svg viewBox="0 0 900 600" class="flag-icon"><rect width="900" height="600" fill="#006a4e"/><circle cx="400" cy="300" r="150" fill="#F42A41"/></svg> Bangladesh</label>
               </div>
             </div>
 
@@ -321,7 +338,7 @@
             </div>
 
             <!-- Exclude Cooking Methods (Q5) -->
-            <div class="filter-panel" id="fp-methods">
+            <div class="filter-panel filter-panel--last" id="fp-methods">
               <button class="filter-panel-toggle" aria-expanded="true" data-target="fp-methods">
                 <span>🚫 Exclude Cooking Method</span>
                 <svg class="fp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -338,32 +355,6 @@
                     id="m-boiling"> Boiling</label>
                 <label class="filter-check-label"><input type="checkbox" class="method-check" value="Steaming"
                     id="m-steaming"> Steaming</label>
-              </div>
-            </div>
-
-            <!-- Search by Ingredients (Q6) -->
-            <div class="filter-panel filter-panel--last" id="fp-ingredients">
-              <button class="filter-panel-toggle" aria-expanded="true" data-target="fp-ingredients">
-                <span>🧺 Search by Ingredients</span>
-                <svg class="fp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2.5">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-              <div class="filter-panel-body" id="fp-ingredients-body">
-                <div class="filter-ing-wrap">
-                  <input type="text" id="filter-ingredient-input" placeholder="e.g. potato, chickpea…"
-                    autocomplete="off">
-                  <button class="filter-ing-btn" id="filter-ing-search-btn" aria-label="Search ingredients">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2.5">
-                      <circle cx="11" cy="11" r="8" />
-                      <path d="m21 21-4.35-4.35" />
-                    </svg>
-                  </button>
-                </div>
-                <p class="fp-hint">Comma-separated. Finds dishes containing ALL listed ingredients.</p>
-                <div class="filter-q6-status" id="filter-q6-status"></div>
               </div>
             </div>
 
