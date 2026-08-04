@@ -1122,7 +1122,7 @@ async function openRecipe(name) {
   const sets    = dish.ingredientSets || [];
   if (sets.length) {
     ingWrap.innerHTML = sets.map(s => {
-      const displayLabel = getFriendlyBaseName(s.uri);
+      const displayLabel = s.label;
       const icon         = getFriendlyBaseIcon(s.uri);
       const ingHTML      = s.ingredients.length
         ? `<div class="ingset-ing-grid">${s.ingredients.map(ing => `<div class="ingredient-item"><div class="ing-dot"></div>${ing}</div>`).join('')}</div>`
@@ -1134,6 +1134,7 @@ async function openRecipe(name) {
         ? `<div class="ingset-prep-title">Preparation</div><div class="ingset-steps">${prepSteps.map((t, n) => `<div class="ingset-step"><div class="ingset-step-num">${n + 1}</div><div class="ingset-step-text">${t}</div></div>`).join('')}</div>`
         : '';
       return `<div class="ingset-block">
+        <div class="ingset-header"><span class="ingset-icon">${icon}</span><span class="ingset-label">${displayLabel}</span></div>
         <div class="ingset-body">${ingHTML}${prepHTML}</div>
       </div>`;
     }).join('');

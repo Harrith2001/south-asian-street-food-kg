@@ -263,6 +263,13 @@ nav.nav--scrolled .hamburger span {
   gap: 10px;
 }
 
+.nav-logo-img {
+  height: 36px;
+  width: 36px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+
 .nav-logo-icon {
   width: 34px;
   height: 34px;
