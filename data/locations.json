@@ -116,6 +116,18 @@
       "openingHours": "Mon–Sat 09:30–19:00"
     },
     {
+      "id": "g6",
+      "name": "Al Syed Orientalischer Supermarkt",
+      "type": "grocery",
+      "address": "Bürgermeister-Smidt-Straße, 28195 Bremen",
+      "lat": 53.0845731,
+      "lng": 8.8142129,
+      "phone": "",
+      "stocks": ["Chickpeas", "Lentils", "Tamarind", "Cumin", "Turmeric", "Coriander", "Gram flour", "Rice", "Dried chilies", "Spice mixes"],
+      "description": "Oriental supermarket in central Bremen with a wide selection of Middle Eastern and South Asian groceries, spices, and pantry staples.",
+      "openingHours": "Please check Google Maps for current hours"
+    },
+    {
       "id": "g5",
       "name": "Global Foods Bremen",
       "type": "grocery",
