@@ -108,7 +108,7 @@ const filterState = {
   country: 'all',       // 'all' | 'india' | 'pakistan' | 'bangladesh'
   dietary: [],          // [] | ['veg'] | ['nonveg'] | ['veg','nonveg']
   maxPrepTime: 'any',   // 'any' | '30' | '60' | '90'
-  spiceLevels: [],      // [] | ['Mild','Medium','Hot','VeryHot']
+
   excludeMethods: [],   // e.g. ['DeepFrying', 'Boiling']
   q6Ingredients: [],    // string array from input
   q6Results: null,      // Set<uri> from last Q6 SPARQL call | null = not yet fetched
@@ -875,9 +875,8 @@ function getFilterState() {
   const country      = document.querySelector('input[name="f-country"]:checked')?.value || 'all';
   const dietary      = [...document.querySelectorAll('#fp-dietary-body input:checked')].map(cb => cb.value);
   const maxPrepTime  = document.querySelector('input[name="f-preptime"]:checked')?.value || 'any';
-  const spiceLevels  = [...document.querySelectorAll('.spice-check:checked')].map(cb => cb.value);
   const excluded     = [...document.querySelectorAll('.method-check:checked')].map(cb => cb.value);
-  return { country, dietary, maxPrepTime, spiceLevels, excluded };
+  return { country, dietary, maxPrepTime, excluded };
 }
 
 /* ── Check if a dish technique matches an excluded method ── */
@@ -913,15 +912,6 @@ function renderActiveFilterTags() {
     tags.push({ label: `≤ ${filterState.maxPrepTime} min`, clear: () => { document.getElementById('f-preptime-any').checked = true; filterState.maxPrepTime = 'any'; applyAllFilters(); } });
   }
 
-  filterState.spiceLevels.forEach(s => {
-    const nice = { Mild: '🟢 Mild', Medium: '🟡 Medium', Hot: '🔴 Hot', VeryHot: '🌶️ Very Hot' }[s] || s;
-    tags.push({ label: nice, clear: () => {
-      const cb = document.querySelector(`.spice-check[value="${s}"]`);
-      if (cb) cb.checked = false;
-      filterState.spiceLevels = filterState.spiceLevels.filter(x => x !== s);
-      applyAllFilters();
-    }});
-  });
 
   filterState.excludeMethods.forEach(m => {
     const nice = { DeepFrying: 'No Deep Frying', PanFrying: 'No Pan Frying', Boiling: 'No Boiling', Steaming: 'No Steaming' }[m] || ('No ' + m);
@@ -959,11 +949,10 @@ window.__clearTag = i => { if (window.__filterTagClears?.[i]) window.__filterTag
 async function applyAllFilters() {
   renderActiveFilterTags();
 
-  const { country, dietary, maxPrepTime, spiceLevels, excluded } = getFilterState();
+  const { country, dietary, maxPrepTime, excluded } = getFilterState();
   filterState.country        = country;
   filterState.dietary        = dietary;
   filterState.maxPrepTime    = maxPrepTime;
-  filterState.spiceLevels    = spiceLevels;
   filterState.excludeMethods = excluded;
 
   let result = [...DISHES];
@@ -987,10 +976,6 @@ async function applyAllFilters() {
     result = result.filter(d => d.prepTime != null && d.prepTime <= max);
   }
 
-  // Spice level filter
-  if (spiceLevels.length > 0) {
-    result = result.filter(d => d.spiceLevel != null && spiceLevels.includes(d.spiceLevel));
-  }
 
   // Exclude cooking methods (local, using loaded technique data — Q5)
   if (excluded.length > 0) {
@@ -1030,7 +1015,7 @@ function clearAllFilters() {
   document.getElementById('diet-veg').checked           = false;
   document.getElementById('diet-nonveg').checked        = false;
   document.getElementById('f-preptime-any').checked     = true;
-  document.querySelectorAll('.spice-check').forEach(cb => { cb.checked = false; });
+
   document.querySelectorAll('.method-check').forEach(cb => { cb.checked = false; });
   const inp = document.getElementById('filter-ingredient-input');
   if (inp) inp.value = '';
@@ -1040,7 +1025,7 @@ function clearAllFilters() {
   filterState.country        = 'all';
   filterState.dietary        = [];
   filterState.maxPrepTime    = 'any';
-  filterState.spiceLevels    = [];
+
   filterState.excludeMethods = [];
   filterState.q6Ingredients  = [];
   filterState.q6Results      = null;
@@ -2017,9 +2002,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     r.addEventListener('change', applyAllFilters)
   );
 
-  document.querySelectorAll('.spice-check').forEach(cb =>
-    cb.addEventListener('change', applyAllFilters)
-  );
 
   document.querySelectorAll('.method-check').forEach(cb =>
     cb.addEventListener('change', applyAllFilters)
