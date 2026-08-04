@@ -2175,6 +2175,16 @@ footer::before {
   color: var(--turmeric-l);
 }
 
+.footer-about-text {
+  width: 100%;
+  font-size: .88rem;
+  line-height: 1.7;
+  color: rgba(255, 240, 228, .6);
+  /* border-top: 1px solid rgba(255, 240, 228, .1); */
+  /* padding-top: 24px;
+  margin-top: 8px; */
+}
+
 .footer-bottom {
   border-top: 1px solid rgba(255, 240, 228, .14);
   padding-top: 22px;
