@@ -792,7 +792,7 @@ function renderActiveFilterTags() {
   }
 
   filterState.dietary.forEach(d => {
-    const label = d === 'veg' ? '🌿 Veg' : '🍖 Non-Veg';
+    const label = d === 'veg' ? '🥕 Veg' : '🍖 Non-Veg';
     tags.push({ label, clear: () => {
       document.getElementById(d === 'veg' ? 'diet-veg' : 'diet-nonveg').checked = false;
       filterState.dietary = filterState.dietary.filter(x => x !== d);
@@ -1009,7 +1009,7 @@ async function openRecipe(name) {
   const SPICE_EMOJI = { Mild: '🌶️', Medium: '🌶️🌶️', Hot: '🌶️🌶️🌶️', VeryHot: '🌶️🌶️🌶️🌶️' };
   const SPICE_LABEL = { Mild: '', Medium: '', Hot: '', VeryHot: '' };
   document.getElementById('modal-badges').innerHTML =
-    `<span class="rbadge ${isVeg ? 'veg' : 'nonveg'}">${isVeg ? '🌿 Vegetarian' : '🍖 Non-Vegetarian'}</span>`
+    `<span class="rbadge ${isVeg ? 'veg' : 'nonveg'}">${isVeg ? '🥕 Vegetarian' : '🍖 Non-Vegetarian'}</span>`
     + (dish.spiceLevel ? `<span class="rbadge spice">${SPICE_EMOJI[dish.spiceLevel] || '🌶️'}</span>` : '')
     + (dish.prepTime   ? `<span class="rbadge preptime">⏱ ${dish.prepTime} min</span>` : '');
 
@@ -1153,7 +1153,7 @@ function renderDishes(animate = true, dishesList = DISHES) {
     card.className = 'dish-card';
 
     const badgesHTML = `<div class="card-badges-col">
-      <div class="card-badge card-badge--diet" title="${dish.dietary}">${isVeg ? '🌿' : '🍖'}</div>
+      <div class="card-badge card-badge--diet" title="${dish.dietary}">${isVeg ? '🥕' : '🍖'}</div>
       ${dish.spiceLevel ? `<div class="card-badge card-badge--spice" title="${dish.spiceLevel}">${SPICE_EMOJI[dish.spiceLevel] || '🌶️'}</div>` : ''}
       ${dish.prepTime  ? `<div class="card-badge card-badge--time" title="Prep time">⏱ ${dish.prepTime}m</div>` : ''}
     </div>`;
