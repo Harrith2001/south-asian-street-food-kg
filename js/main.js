@@ -84,6 +84,22 @@ let locationsLoaded = false;
 let locMap = null;
 let locMarkers = [];
 let locData = { restaurants: [], groceries: [] };
+let chatGreeted = false;
+const KNOWN_INGREDIENTS = new Set([
+  // Common South Asian ingredients — seeded immediately so fuzzy matching works before SPARQL loads
+  'potato','chickpea','chickpeas','tamarind','mint','coriander','cumin','turmeric','semolina',
+  'rice flour','gram flour','lentil','lentils','yoghurt','yogurt','onion','tomato',
+  'green chili','green chilli','ginger','garlic','mustard seeds','curry leaves','coconut',
+  'urad dal','fenugreek','asafoetida','puffed rice','sev','papdi','pomegranate',
+  'chaat masala','black pepper','salt','oil','water','tamarind paste','tamarind water',
+  'chickpea flour','rice','semolina dough','bread','puri','bread roll','vada',
+  'lamb','beef','meat','minced meat','egg','paneer','cottage cheese',
+  'mustard','fennel','carom seeds','dried red chili','bay leaf','cloves','cardamom',
+  'cinnamon','black cardamom','star anise','mace','nutmeg','saffron','rose water',
+  'vermicelli','lemon','lime','vinegar','sugar','jaggery','ghee','butter',
+  'baingan','eggplant','aubergine','potato filling','spiced potato',
+  'idli','sambar','dosa','chutney','coconut chutney','tomato chutney',
+]);
 
 /* ── FILTER STATE ── */
 const filterState = {
@@ -595,14 +611,20 @@ function switchPage(page) {
    LOCATIONS — BREMEN MAP
    ============================================================ */
 function loadLocations() {
+  const init = data => {
+    locData = data;
+    initLocMap();
+    renderLocList('all');
+    wireLocToggles();
+  };
+  // Use already-fetched data if available, otherwise fetch
+  if (locData.restaurants.length || locData.groceries.length) {
+    init(locData);
+    return;
+  }
   fetch('./data/locations.json')
     .then(r => r.json())
-    .then(data => {
-      locData = data;
-      initLocMap();
-      renderLocList('all');
-      wireLocToggles();
-    })
+    .then(init)
     .catch(() => {
       document.getElementById('locations-list').innerHTML =
         '<div class="loc-empty">Could not load location data. Please try again.</div>';
@@ -1541,11 +1563,278 @@ function initGSAP() {
 }
 
 /* ============================================================
+   CHATBOT — INGREDIENT ASSISTANT
+   ============================================================ */
+
+/* ── Levenshtein edit distance ── */
+function levenshtein(a, b) {
+  const m = a.length, n = b.length;
+  const dp = Array.from({ length: m + 1 }, (_, i) => Array.from({ length: n + 1 }, (_, j) => i === 0 ? j : j === 0 ? i : 0));
+  for (let i = 1; i <= m; i++)
+    for (let j = 1; j <= n; j++)
+      dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+  return dp[m][n];
+}
+
+/* ── Fuzzy-correct a single ingredient word ── */
+function fuzzyCorrectIngredient(word) {
+  const lower = word.toLowerCase().trim();
+  if (!lower) return { corrected: lower, changed: false };
+  if (KNOWN_INGREDIENTS.has(lower)) return { corrected: lower, changed: false };
+
+  // Also seed from grocery stocks at query time
+  const allKnown = new Set([...KNOWN_INGREDIENTS]);
+  locData.groceries.forEach(g => (g.stocks || []).forEach(s => allKnown.add(s.toLowerCase())));
+
+  const maxDist = lower.length <= 5 ? 2 : lower.length <= 9 ? 3 : 4;
+  let best = null, bestDist = Infinity;
+  for (const known of allKnown) {
+    // Quick prefix check to skip obviously distant words
+    if (Math.abs(known.length - lower.length) > maxDist) continue;
+    const d = levenshtein(lower, known);
+    if (d < bestDist) { bestDist = d; best = known; }
+  }
+  if (best && bestDist <= maxDist) return { corrected: best, changed: best !== lower };
+  return { corrected: lower, changed: false };
+}
+
+/* ── Parse user message into corrected ingredient list ── */
+function parseIngredients(text) {
+  const tokens = text.split(/[,&+]|\band\b/i)
+    .map(t => t.trim().toLowerCase())
+    .filter(t => t.length > 1);
+
+  const corrected = [];
+  const corrections = [];
+  for (const token of tokens) {
+    const { corrected: c, changed } = fuzzyCorrectIngredient(token);
+    corrected.push(c);
+    if (changed) corrections.push({ from: token, to: c });
+  }
+  return { corrected, corrections };
+}
+
+/* ── Append a message bubble to chat ── */
+function appendBubble(html, type = 'bot', wide = false) {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `chat-bubble chat-bubble--${type}${wide ? ' chat-bubble--wide' : ''}`;
+  div.innerHTML = html;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function appendTyping() {
+  const msgs = document.getElementById('chat-messages');
+  const el = document.createElement('div');
+  el.className = 'chat-typing';
+  el.id = 'chat-typing-indicator';
+  el.innerHTML = '<span></span><span></span><span></span>';
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+
+function removeTyping() {
+  document.getElementById('chat-typing-indicator')?.remove();
+}
+
+/* ── Match locations relevant to found dishes / ingredients ── */
+function chatMatchLocations(dishNames, ingredients) {
+  const dishSet = new Set(dishNames.map(n => n.toLowerCase()));
+  const ingSet  = new Set(ingredients.map(i => i.toLowerCase()));
+
+  const restaurants = locData.restaurants.filter(r =>
+    (r.dishes || []).some(d => dishSet.has(d.toLowerCase()))
+  );
+
+  const groceries = locData.groceries.filter(g =>
+    (g.stocks || []).some(s => ingSet.has(s.toLowerCase()) ||
+      [...ingSet].some(ing => s.toLowerCase().includes(ing) || ing.includes(s.toLowerCase())))
+  );
+
+  return { restaurants, groceries };
+}
+
+/* ── Render bot result cards ── */
+function renderChatResults(matchedDishes, restaurants, groceries) {
+  const msgs = document.getElementById('chat-messages');
+
+  // Dishes
+  if (matchedDishes.length) {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-bubble chat-bubble--bot chat-bubble--wide';
+    wrap.innerHTML = `<div class="chat-results-label">🍽️ Dishes you can make</div>` +
+      matchedDishes.map(dish => {
+        const imgKey = dish.imgKey;
+        const imgSrc = imgKey && window.DISH_IMGS && window.DISH_IMGS[imgKey];
+        const thumb = imgSrc
+          ? `<img src="${imgSrc}" style="width:34px;height:34px;border-radius:8px;object-fit:cover;flex-shrink:0;" alt="${dish.name}">`
+          : `<div class="chat-dish-emoji">${dish.emoji || '🍛'}</div>`;
+        return `<div class="chat-dish-card" onclick="selectDish('${dish.name.replace(/'/g,"\\'")}');document.getElementById('chat-panel').classList.remove('open');document.getElementById('chat-fab').classList.remove('open');document.getElementById('browse').scrollIntoView({behavior:'smooth'});">
+          ${thumb}
+          <div class="chat-dish-info">
+            <div class="chat-dish-name">${dish.name}</div>
+            <div class="chat-dish-meta">${dish.country || ''} · ${dish.dietary || ''}</div>
+          </div>
+          <button class="chat-view-btn">View</button>
+        </div>`;
+      }).join('');
+    msgs.appendChild(wrap);
+  }
+
+  // Restaurants
+  if (restaurants.length) {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-bubble chat-bubble--bot chat-bubble--wide';
+    wrap.innerHTML = `<div class="chat-results-label">📍 Where to eat in Bremen</div>` +
+      restaurants.map(r => `
+        <div class="chat-loc-card">
+          <div class="chat-loc-icon">🍽️</div>
+          <div>
+            <div class="chat-loc-name">${r.name}</div>
+            <div class="chat-loc-addr">${r.address}</div>
+          </div>
+        </div>`).join('');
+    msgs.appendChild(wrap);
+  }
+
+  // Groceries
+  if (groceries.length) {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-bubble chat-bubble--bot chat-bubble--wide';
+    wrap.innerHTML = `<div class="chat-results-label">🛒 Buy ingredients nearby</div>` +
+      groceries.map(g => `
+        <div class="chat-loc-card">
+          <div class="chat-loc-icon">🛒</div>
+          <div>
+            <div class="chat-loc-name">${g.name}</div>
+            <div class="chat-loc-addr">${g.address}</div>
+          </div>
+        </div>`).join('');
+    msgs.appendChild(wrap);
+  }
+
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+/* ── Main message handler ── */
+async function handleChatSend() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  // User bubble
+  appendBubble(text.replace(/</g,'&lt;'), 'user');
+
+  // Typing indicator
+  const typing = appendTyping();
+
+  // Parse + fuzzy correct
+  const { corrected, corrections } = parseIngredients(text);
+
+  if (!corrected.length) {
+    removeTyping();
+    appendBubble("I didn't catch any ingredients there. Try something like: <em>potato, chickpea, tamarind</em>", 'bot');
+    return;
+  }
+
+  // Small delay so typing animation is visible
+  await new Promise(r => setTimeout(r, 600));
+  removeTyping();
+
+  // Correction note
+  if (corrections.length) {
+    const msgs = document.getElementById('chat-messages');
+    const note = document.createElement('div');
+    note.className = 'chat-correction';
+    note.innerHTML = '✏️ Corrected: ' + corrections.map(c =>
+      `<em>${c.from}</em> → <strong>${c.to}</strong>`).join(', ');
+    msgs.appendChild(note);
+  }
+
+  appendBubble(`Searching for dishes with <strong>${corrected.join(', ')}</strong>…`, 'bot');
+  appendTyping();
+
+  try {
+    // SPARQL Q6 query (reuse existing function)
+    const bindings = await getDishesFromIngredients(corrected);
+    removeTyping();
+
+    const uriSet = new Set(bindings.map(b => b.dish.value));
+    const matchedDishes = DISHES.filter(d => uriSet.has(d.uri));
+
+    if (!matchedDishes.length) {
+      appendBubble(
+        `<span class="chat-no-results">No dishes found for those ingredients. Try other combinations like <em>tamarind, mint, semolina</em> or <em>lentil, yoghurt</em>.</span>`,
+        'bot'
+      );
+      return;
+    }
+
+    const dishNames = matchedDishes.map(d => d.name);
+    const { restaurants, groceries } = chatMatchLocations(dishNames, corrected);
+
+    appendBubble(`Found <strong>${matchedDishes.length} dish${matchedDishes.length > 1 ? 'es' : ''}</strong> matching your ingredients! 🎉`, 'bot');
+    renderChatResults(matchedDishes, restaurants, groceries);
+
+    if (!restaurants.length && !groceries.length) {
+      appendBubble('💡 Open the <strong>📍 Find in Bremen</strong> tab to explore all restaurants and grocery stores on the map.', 'bot');
+    }
+  } catch {
+    removeTyping();
+    appendBubble('Sorry, something went wrong querying the knowledge graph. Please try again.', 'bot');
+  }
+}
+
+/* ── Init chatbot ── */
+function initChatbot() {
+  const fab   = document.getElementById('chat-fab');
+  const panel = document.getElementById('chat-panel');
+  const close = document.getElementById('chat-close');
+  const send  = document.getElementById('chat-send');
+  const input = document.getElementById('chat-input');
+
+  function openChat() {
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    fab.classList.add('open');
+    input.focus();
+    if (!chatGreeted) {
+      chatGreeted = true;
+      setTimeout(() => {
+        appendBubble('👋 Hi! Tell me what ingredients you have and I\'ll find South Asian dishes you can make — plus where to eat or buy them in Bremen.', 'bot');
+        setTimeout(() => appendBubble('Try typing something like: <em>potato, chickpea, tamarind</em>', 'bot'), 500);
+      }, 200);
+    }
+  }
+
+  function closeChat() {
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    fab.classList.remove('open');
+  }
+
+  fab.addEventListener('click', () => panel.classList.contains('open') ? closeChat() : openChat());
+  close.addEventListener('click', closeChat);
+  send.addEventListener('click', handleChatSend);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') handleChatSend(); });
+}
+
+/* ============================================================
    DOM READY INITIALIZATION
    ============================================================ */
 document.addEventListener('DOMContentLoaded', async () => {
   initSPARQLConsole();
   initFilterPanels();
+
+  // Eagerly load location data so chatbot fuzzy matching has grocery stocks available immediately
+  fetch('./data/locations.json').then(r => r.json()).then(data => {
+    locData = data;
+    data.groceries.forEach(g => (g.stocks || []).forEach(s => KNOWN_INGREDIENTS.add(s.toLowerCase())));
+  }).catch(() => {});
 
   // Show loading state
   const grid = document.getElementById('dishes-grid');
@@ -1561,6 +1850,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     DISHES = await loadDishData();
+    DISHES.forEach(d => d.ingredients.forEach(i => KNOWN_INGREDIENTS.add(i.toLowerCase())));
     console.log("Loaded dishes:", DISHES.length);
 
       console.table(
@@ -1635,6 +1925,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   /* ── Clear All Filters button ── */
   document.getElementById('clear-filters-btn')?.addEventListener('click', clearAllFilters);
+
+  /* ── Chatbot ── */
+  initChatbot();
 
   /* ── Init GSAP ── */
   requestAnimationFrame(() => {
