@@ -107,7 +107,7 @@ const KNOWN_INGREDIENTS = new Set([
 const filterState = {
   country: 'all',       // 'all' | 'india' | 'pakistan' | 'bangladesh'
   dietary: [],          // [] | ['veg'] | ['nonveg'] | ['veg','nonveg']
-  maxPrepTime: 'any',   // 'any' | '30' | '60' | '90'
+  maxPrepTime: 'any',   // 'any' | 'lte30' | '31to60' | 'gt60'
 
   excludeMethods: [],   // e.g. ['DeepFrying', 'Boiling']
   q6Ingredients: [],    // string array from input
@@ -909,7 +909,8 @@ function renderActiveFilterTags() {
   });
 
   if (filterState.maxPrepTime !== 'any') {
-    tags.push({ label: `≤ ${filterState.maxPrepTime} min`, clear: () => { document.getElementById('f-preptime-any').checked = true; filterState.maxPrepTime = 'any'; applyAllFilters(); } });
+    const ptLabel = { lte30: '≤ 30 min', '31to60': '30–60 min', gt60: '> 60 min' }[filterState.maxPrepTime] || filterState.maxPrepTime;
+    tags.push({ label: ptLabel, clear: () => { document.getElementById('f-preptime-any').checked = true; filterState.maxPrepTime = 'any'; applyAllFilters(); } });
   }
 
 
@@ -971,9 +972,12 @@ async function applyAllFilters() {
   }
 
   // Prep time filter
-  if (maxPrepTime !== 'any') {
-    const max = parseInt(maxPrepTime);
-    result = result.filter(d => d.prepTime != null && d.prepTime <= max);
+  if (maxPrepTime === 'lte30') {
+    result = result.filter(d => d.prepTime != null && d.prepTime <= 30);
+  } else if (maxPrepTime === '31to60') {
+    result = result.filter(d => d.prepTime != null && d.prepTime > 30 && d.prepTime <= 60);
+  } else if (maxPrepTime === 'gt60') {
+    result = result.filter(d => d.prepTime != null && d.prepTime > 60);
   }
 
 
