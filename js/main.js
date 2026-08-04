@@ -5,21 +5,21 @@ const SPARQL_ENDPOINT = 'https://api.triplydb.com/datasets/Areesha/South-Asian-S
 
 /* ── UI METADATA (not in KG: emoji, gradient, image key, prepTime, spiceLevel) ── */
 const DISH_UI = {
-  'Pani Puri':    { emoji: '🫙', grad: ['#006994','#00B4D8'],  imgKey: 'Pani Puri',       prepTime: 45,  spiceLevel: 'Hot' },
-  'Gol Gappay':  { emoji: '🫙', grad: ['#6B21A8','#A855F7'],  imgKey: 'Gol Gappay',       prepTime: 45,  spiceLevel: 'Hot' },
-  'Fuchka':      { emoji: '🫙', grad: ['#16633C','#2DC653'],   imgKey: 'Fuchka',          prepTime: 45,  spiceLevel: 'Hot' },
-  'Aloo Tikki':  { emoji: '🥔', grad: ['#B7791F','#F6C90E'],  imgKey: 'Aloo Tikki Chaat',prepTime: 30,  spiceLevel: 'Medium' },
-  'Beguni':      { emoji: '🍆', grad: ['#5B21B6','#8B5CF6'],  imgKey: 'Baingan Bhaja',   prepTime: 20,  spiceLevel: 'Mild' },
-  'Bhel Puri':   { emoji: '🌾', grad: ['#C2410C','#FB923C'],  imgKey: 'Bhel Puri',       prepTime: 15,  spiceLevel: 'Medium' },
+  'Pani Puri':    { emoji: '🫙', grad: ['#006994','#00B4D8'],  imgKey: 'Pani Puri',       prepTime: 60,  spiceLevel: 'Hot' },
+  'Gol Gappay':  { emoji: '🫙', grad: ['#6B21A8','#A855F7'],  imgKey: 'Gol Gappay',       prepTime: 60,  spiceLevel: 'Hot' },
+  'Fuchka':      { emoji: '🫙', grad: ['#16633C','#2DC653'],   imgKey: 'Fuchka',          prepTime: 60,  spiceLevel: 'Hot' },
+  'Aloo Tikki':  { emoji: '🥔', grad: ['#B7791F','#F6C90E'],  imgKey: 'Aloo Tikki Chaat',prepTime: 45,  spiceLevel: 'Medium' },
+  'Beguni':      { emoji: '🍆', grad: ['#5B21B6','#8B5CF6'],  imgKey: 'Baingan Bhaja',   prepTime: 25,  spiceLevel: 'Mild' },
+  'Bhel Puri':   { emoji: '🌾', grad: ['#C2410C','#FB923C'],  imgKey: 'Bhel Puri',       prepTime: 20,  spiceLevel: 'Medium' },
   'Chana Chaat': { emoji: '🫘', grad: ['#92400E','#F59E0B'],  imgKey: 'Chana Chaat',     prepTime: 30,  spiceLevel: 'Medium' },
-  'Chapli Kebab':{ emoji: '🥩', grad: ['#7F1D1D','#DC2626'],  imgKey: 'Chapli Kabab',    prepTime: 60,  spiceLevel: 'Hot' },
-  'Chotpoti':    { emoji: '🫘', grad: ['#14532D','#16A34A'],  imgKey: 'Chotpoti',        prepTime: 45,  spiceLevel: 'Hot' },
+  'Chapli Kebab':{ emoji: '🥩', grad: ['#7F1D1D','#DC2626'],  imgKey: 'Chapli Kabab',    prepTime: 70,  spiceLevel: 'Hot' },
+  'Chotpoti':    { emoji: '🫘', grad: ['#14532D','#16A34A'],  imgKey: 'Chotpoti',        prepTime: 35,  spiceLevel: 'Hot' },
   'Dahi Bharay': { emoji: '🥣', grad: ['#1E3A5F','#3B82F6'],  imgKey: 'Dahi Baray',      prepTime: 90,  spiceLevel: 'Mild' },
-  'Idli Sambar': { emoji: '🍚', grad: ['#78350F','#F59E0B'],  imgKey: 'Idli Sambhar',    prepTime: 90,  spiceLevel: 'Medium' },
+  'Idli Sambar': { emoji: '🍚', grad: ['#78350F','#F59E0B'],  imgKey: 'Idli Sambhar',    prepTime: 120, spiceLevel: 'Medium' },
   'Jhalmuri':    { emoji: '🌿', grad: ['#365314','#84CC16'],  imgKey: 'Jhalmuri',        prepTime: 15,  spiceLevel: 'VeryHot' },
   'Masala Dosa': { emoji: '🫓', grad: ['#9A3412','#EA580C'],  imgKey: 'Masala Dosa',     prepTime: 90,  spiceLevel: 'Medium' },
-  'Samosa':      { emoji: '🥟', grad: ['#92400E','#D97706'],  imgKey: 'Samosa',          prepTime: 60,  spiceLevel: 'Medium' },
-  'Shingara':    { emoji: '🥟', grad: ['#78350F','#A16207'],  imgKey: 'Shingara',        prepTime: 60,  spiceLevel: 'Medium' },
+  'Samosa':      { emoji: '🥟', grad: ['#92400E','#D97706'],  imgKey: 'Samosa',          prepTime: 80,  spiceLevel: 'Medium' },
+  'Shingara':    { emoji: '🥟', grad: ['#78350F','#A16207'],  imgKey: 'Shingara',        prepTime: 80,  spiceLevel: 'Medium' },
   'VadaPav':     { emoji: '🫓', grad: ['#9F1239','#E11D48'],  imgKey: 'Vada Pav',        prepTime: 45,  spiceLevel: 'Hot' },
 };
 
