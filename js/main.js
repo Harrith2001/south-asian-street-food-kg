@@ -980,6 +980,7 @@ function renderDishes(animate = true, dishesList = DISHES) {
         </button>
       </div>`;
     grid.appendChild(card);
+    initCard3D(card);
   });
 
   if (animate && dishesList.length) {
@@ -1057,27 +1058,336 @@ async function loadSharedBases() {
 /* ============================================================
    GSAP ANIMATIONS
    ============================================================ */
+
+/* ── Hero word-reveal ── */
+function initHeroReveal() {
+  gsap.set('.ht-word', { yPercent: 115 });
+  gsap.to('.ht-word', {
+    yPercent: 0,
+    duration: 0.95,
+    stagger: 0.12,
+    ease: 'power4.out',
+    delay: 0.2
+  });
+  gsap.fromTo('.hero-sub',    { y: 36, opacity: 0 }, { y: 0, opacity: 1, duration: .9, ease: 'power3.out', delay: .7  });
+  gsap.fromTo('.search-wrap', { y: 44, opacity: 0 }, { y: 0, opacity: 1, duration: 1,  ease: 'power3.out', delay: .9  });
+  gsap.fromTo('.hero-scroll', { opacity: 0 },         { opacity: 1, duration: .5, delay: 1.6 });
+}
+
+/* ── Floating gold particles in hero ── */
+function initHeroParticles() {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w, h, particles, raf;
+
+  function resize() {
+    const hero = document.querySelector('.hero');
+    w = canvas.width  = hero ? hero.offsetWidth  : window.innerWidth;
+    h = canvas.height = hero ? hero.offsetHeight : window.innerHeight;
+  }
+
+  function spawn() {
+    particles = Array.from({ length: 55 }, () => ({
+      x:  Math.random() * w,
+      y:  Math.random() * h,
+      r:  Math.random() * 1.8 + 0.4,
+      vy: Math.random() * 0.45 + 0.15,
+      vx: (Math.random() - 0.5) * 0.25,
+      o:  Math.random() * 0.45 + 0.08,
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(240,178,74,${p.o})`;
+      ctx.fill();
+      p.y -= p.vy;
+      p.x += p.vx;
+      if (p.y < -4) { p.y = h + 4; p.x = Math.random() * w; }
+      if (p.x <  -4) p.x = w + 4;
+      if (p.x > w + 4) p.x = -4;
+    });
+    raf = requestAnimationFrame(draw);
+  }
+
+  resize();
+  spawn();
+  draw();
+
+  window.addEventListener('resize', () => { cancelAnimationFrame(raf); resize(); spawn(); draw(); });
+
+  /* pause when hero scrolls out of view — perf */
+  ScrollTrigger.create({
+    trigger: '.hero',
+    start: 'top top',
+    end: 'bottom top',
+    onLeave:      () => cancelAnimationFrame(raf),
+    onEnterBack:  () => { resize(); draw(); },
+  });
+}
+
+/* ── Marquee: GSAP-driven, scroll-velocity reactive ──
+   Previously this mutated CSS `animation-duration` on every scroll tick.
+   The browser re-maps elapsed time onto the new duration each time, so the
+   track teleported to a new offset — that is what read as "rapidly fast".
+   Driving it with GSAP and nudging timeScale() keeps position continuous. */
+function initMarquee() {
+  const section = document.querySelector('.dish-marquee-section');
+  const tracks  = document.querySelectorAll('.dish-marquee-track');
+  if (!section || !tracks.length) return;
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const loops  = [];
+
+  tracks.forEach(track => {
+    const reversed = track.classList.contains('dish-marquee-track--rev');
+    /* Content is duplicated in markup, so -50% is exactly one seamless cycle. */
+    const base = reversed
+      ? gsap.fromTo(track, { xPercent: -50 }, {
+          xPercent: 0, duration: 46, ease: 'none', repeat: -1
+        })
+      : gsap.fromTo(track, { xPercent: 0 }, {
+          xPercent: -50, duration: 42, ease: 'none', repeat: -1
+        });
+
+    if (reduce) base.pause();
+    loops.push(base);
+
+    const wrap = track.closest('.dish-marquee-track-wrap');
+    if (wrap) {
+      wrap.addEventListener('mouseenter', () => gsap.to(base, { timeScale: 0.15, duration: .5 }));
+      wrap.addEventListener('mouseleave', () => gsap.to(base, { timeScale: 1,    duration: .7 }));
+    }
+  });
+
+  if (reduce) return;
+
+  /* Scroll velocity nudges speed within a tight, clamped band. Decay back to
+     rest is a tween, not a jump, so the tracks never visibly snap. */
+  let decay;
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top bottom',
+    end: 'bottom top',
+    onUpdate(self) {
+      const v      = self.getVelocity();
+      const boost  = gsap.utils.clamp(-2.2, 2.2, v / 900);
+      const scale  = gsap.utils.clamp(0.3, 3.2, 1 + Math.abs(boost));
+      /* Flip direction with the scroll — reads as the row being "pushed". */
+      const signed = v < 0 ? -scale : scale;
+
+      loops.forEach(l => gsap.to(l, { timeScale: signed, duration: .25, overwrite: true }));
+
+      clearTimeout(decay);
+      decay = setTimeout(() => {
+        loops.forEach(l => gsap.to(l, { timeScale: 1, duration: 1.1, ease: 'power2.out', overwrite: true }));
+      }, 180);
+    }
+  });
+}
+
+/* ── Marquee section scroll graphics ──
+   Counter-drift, photo parallax and a velocity skew so the band feels like
+   it is moving through the viewport rather than sitting behind it. */
+function initMarqueeGraphics() {
+  const section = document.querySelector('.dish-marquee-section');
+  if (!section) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  /* Parallax photo layer, injected so the section keeps its flat background */
+  if (!section.querySelector('.dm-parallax-bg')) {
+    const bg = document.createElement('div');
+    bg.className = 'dm-parallax-bg';
+    section.prepend(bg);
+    gsap.fromTo(bg, { yPercent: -8 }, {
+      yPercent: 8, ease: 'none',
+      scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+  }
+
+  /* Vertical parallax only — the head and the track column share a row, so
+     any horizontal drift slides the cards straight over the copy. */
+  gsap.fromTo('.dish-marquee-head', { y: 54 }, {
+    y: -54, ease: 'none',
+    scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1 }
+  });
+
+  /* Rows counter-drift against each other for depth */
+  gsap.utils.toArray('.dish-marquee-track').forEach((track, i) => {
+    const dir = i % 2 === 0 ? 1 : -1;
+    gsap.fromTo(track, { y: 26 * dir }, {
+      y: -26 * dir, ease: 'none',
+      scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1.2 }
+    });
+  });
+
+  /* Warm glow sweeps across as you scroll through */
+  gsap.fromTo(section, { '--dm-sweep': '0%' }, {
+    '--dm-sweep': '100%', ease: 'none',
+    scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true }
+  });
+
+  /* Velocity skew — cards lean into the scroll direction, then settle */
+  const cards = gsap.utils.toArray('.dm-card');
+  if (!cards.length) return;
+
+  const skewSetter = gsap.quickSetter(cards, 'skewX', 'deg');
+  const scaleSetter = gsap.quickSetter(cards, 'scaleY');
+  let skew = 0;
+
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top bottom',
+    end: 'bottom top',
+    onUpdate(self) {
+      skew = gsap.utils.clamp(-9, 9, self.getVelocity() / -260);
+      skewSetter(skew);
+      scaleSetter(1 + Math.abs(skew) * 0.006);
+    }
+  });
+
+  /* Ease the skew back to flat every frame the user is not scrolling */
+  gsap.ticker.add(() => {
+    if (Math.abs(skew) < 0.01) return;
+    skew *= 0.88;
+    skewSetter(skew);
+    scaleSetter(1 + Math.abs(skew) * 0.006);
+  });
+}
+
+/* ── Per-card 3D tilt + spotlight ── */
+function initCard3D(card) {
+  const spotlight = document.createElement('div');
+  spotlight.className = 'card-spotlight';
+  card.appendChild(spotlight);
+
+  card.addEventListener('mousemove', e => {
+    const r   = card.getBoundingClientRect();
+    const x   = e.clientX - r.left;
+    const y   = e.clientY - r.top;
+    const rx  = ((y - r.height / 2) / r.height) * -10;
+    const ry  = ((x - r.width  / 2) / r.width)  *  12;
+
+    gsap.to(card, {
+      rotateX: rx, rotateY: ry,
+      transformPerspective: 900,
+      transformOrigin: 'center center',
+      duration: 0.25, ease: 'power2.out',
+    });
+    spotlight.style.setProperty('--sx', x + 'px');
+    spotlight.style.setProperty('--sy', y + 'px');
+    spotlight.style.opacity = '1';
+  });
+
+  card.addEventListener('mouseleave', () => {
+    gsap.to(card, {
+      rotateX: 0, rotateY: 0,
+      duration: 0.55, ease: 'power3.out',
+    });
+    spotlight.style.opacity = '0';
+  });
+
+  card.addEventListener('mousedown', () => {
+    gsap.to(card, { scale: 0.97, duration: 0.1, ease: 'power2.out' });
+  });
+
+  card.addEventListener('mouseup', () => {
+    gsap.to(card, { scale: 1, duration: 0.25, ease: 'back.out(1.5)' });
+  });
+}
+
+/* ── Nav magnetic hover ── */
+function initNavMagnetic() {
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('mousemove', e => {
+      const r  = link.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width  / 2)) * 0.25;
+      const dy = (e.clientY - (r.top  + r.height / 2)) * 0.25;
+      gsap.to(link, { x: dx, y: dy, duration: 0.25, ease: 'power2.out' });
+    });
+    link.addEventListener('mouseleave', () => {
+      gsap.to(link, { x: 0, y: 0, duration: 0.45, ease: 'elastic.out(1, 0.4)' });
+    });
+  });
+}
+
+/* ── Main GSAP init ── */
 function initGSAP() {
   gsap.registerPlugin(ScrollTrigger);
 
-  gsap.to('#scroll-progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 'top top', end: 'max', scrub: 0 } });
+  /* scroll progress bar */
+  gsap.to('#scroll-progress', {
+    scaleX: 1, ease: 'none',
+    scrollTrigger: { start: 'top top', end: 'max', scrub: 0 }
+  });
 
-  gsap.fromTo('.hero-title',  { y: 90, opacity: 0, scale: .94 }, { y: 0, opacity: 1, scale: 1, duration: 1.1, ease: 'power4.out', delay: .35 });
-  gsap.fromTo('.hero-sub',    { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .9, ease: 'power3.out', delay: .55 });
-  gsap.fromTo('.search-wrap', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: .85 });
-  gsap.fromTo('.hero-scroll', { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: .5, delay: 1.5 });
-  gsap.to('.hero-video', { scale: 1.1, duration: 12, ease: 'none', transformOrigin: 'center center' });
+  /* hero word-reveal + particles */
+  initHeroReveal();
+  initHeroParticles();
 
-  gsap.fromTo('.dish-marquee-section', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .8, ease: 'power2.out', scrollTrigger: { trigger: '.dish-marquee-section', start: 'top 90%' } });
+  /* hero bg parallax (separate from JS zoom) */
+  gsap.to('.hero-video', {
+    yPercent: 22, ease: 'none',
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+  });
 
-  const browseHeader = document.querySelector('#browse .section-header');
-  if (browseHeader) {
-    gsap.fromTo(browseHeader.querySelector('.section-label'), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .6, ease: 'power2.out', scrollTrigger: { trigger: browseHeader, start: 'top 88%' } });
-    gsap.fromTo(browseHeader.querySelector('.section-title'), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .75, ease: 'power2.out', delay: .1, scrollTrigger: { trigger: browseHeader, start: 'top 88%' } });
-    gsap.fromTo(browseHeader.querySelector('.section-desc'),  { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .65, ease: 'power2.out', delay: .22, scrollTrigger: { trigger: browseHeader, start: 'top 88%' } });
-  }
+  /* marquee: GSAP-driven loop + scroll graphics */
+  initMarquee();
+  initMarqueeGraphics();
 
-  gsap.fromTo('#footer-inner > *', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .8, stagger: .15, ease: 'power2.out', scrollTrigger: { trigger: 'footer', start: 'top 88%' } });
+  /* marquee head stagger — no opacity tween on the section itself, it would
+     fight the parallax transforms running on its children */
+  gsap.fromTo('.dm-eyebrow, .dm-title, .dm-desc',
+    { opacity: 0, y: 34 },
+    { opacity: 1, y: 0, duration: .85, stagger: .12, ease: 'power3.out',
+      scrollTrigger: { trigger: '.dish-marquee-head', start: 'top 90%' } }
+  );
+
+  /* section-header clip-path reveals */
+  document.querySelectorAll('.section-header').forEach(header => {
+    const label = header.querySelector('.section-label');
+    const title = header.querySelector('.section-title');
+    const desc  = header.querySelector('.section-desc');
+
+    if (label) gsap.fromTo(label,
+      { opacity: 0, yPercent: 60, clipPath: 'inset(0 0 100% 0)' },
+      { opacity: 1, yPercent: 0,  clipPath: 'inset(0 0 0% 0)',
+        duration: .65, ease: 'power3.out',
+        scrollTrigger: { trigger: header, start: 'top 88%' } }
+    );
+    if (title) gsap.fromTo(title,
+      { opacity: 0, y: 50, clipPath: 'inset(0 0 100% 0)' },
+      { opacity: 1, y: 0,  clipPath: 'inset(0 0 0% 0)',
+        duration: .85, ease: 'power4.out', delay: .12,
+        scrollTrigger: { trigger: header, start: 'top 88%' } }
+    );
+    if (desc) gsap.fromTo(desc,
+      { opacity: 0, y: 22 },
+      { opacity: 1, y: 0, duration: .75, ease: 'power2.out', delay: .3,
+        scrollTrigger: { trigger: header, start: 'top 88%' } }
+    );
+  });
+
+  /* filter sidebar slide in */
+  gsap.fromTo('.filter-sidebar',
+    { opacity: 0, x: -28 },
+    { opacity: 1, x: 0, duration: .75, ease: 'power3.out',
+      scrollTrigger: { trigger: '.browse-layout', start: 'top 85%' } }
+  );
+
+  /* footer stagger */
+  gsap.fromTo('#footer-inner > *',
+    { opacity: 0, y: 32 },
+    { opacity: 1, y: 0, duration: .8, stagger: .15, ease: 'power2.out',
+      scrollTrigger: { trigger: 'footer', start: 'top 88%' } }
+  );
+
+  /* nav magnetic */
+  initNavMagnetic();
 }
 
 /* ============================================================
