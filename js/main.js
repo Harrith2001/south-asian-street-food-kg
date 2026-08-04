@@ -610,6 +610,93 @@ function switchPage(page) {
 /* ============================================================
    LOCATIONS — BREMEN MAP
    ============================================================ */
+
+async function loadLocationsFromSPARQL() {
+  const PFX = `
+    PREFIX sasf: <http://example.org/southasianstreetfood#>
+    PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX owl:   <http://www.w3.org/2002/07/owl#>
+  `;
+
+  const [restRows, grocRows] = await Promise.all([
+    querySPARQL(PFX + `
+      SELECT ?place ?name ?comment ?address ?lat ?lng ?phone ?hours
+             (GROUP_CONCAT(DISTINCT ?resolvedDishLabel; separator="|||") AS ?dishList)
+      WHERE {
+        ?place rdfs:subClassOf sasf:Restaurant .
+        FILTER(?place != sasf:Restaurant)
+        ?place rdfs:label ?name .
+        OPTIONAL { ?place rdfs:comment ?comment }
+        OPTIONAL { ?place sasf:hasAddress ?address }
+        OPTIONAL { ?place sasf:hasLatitude ?lat }
+        OPTIONAL { ?place sasf:hasLongitude ?lng }
+        OPTIONAL { ?place sasf:hasPhoneNumber ?phone }
+        OPTIONAL { ?place sasf:hasOpeningHours ?hours }
+        OPTIONAL {
+          ?place rdfs:subClassOf ?r .
+          ?r owl:onProperty sasf:servesDish ; owl:someValuesFrom ?dish .
+          OPTIONAL { ?dish rdfs:label ?dLabel }
+          BIND(COALESCE(?dLabel, REPLACE(STR(?dish), "^.*[#]", "")) AS ?resolvedDishLabel)
+        }
+      }
+      GROUP BY ?place ?name ?comment ?address ?lat ?lng ?phone ?hours
+    `),
+    querySPARQL(PFX + `
+      SELECT ?place ?name ?comment ?address ?lat ?lng ?phone ?hours ?stockList
+      WHERE {
+        ?place rdfs:subClassOf sasf:GroceryStore .
+        FILTER(?place != sasf:GroceryStore)
+        ?place rdfs:label ?name .
+        OPTIONAL { ?place rdfs:comment ?comment }
+        OPTIONAL { ?place sasf:hasAddress ?address }
+        OPTIONAL { ?place sasf:hasLatitude ?lat }
+        OPTIONAL { ?place sasf:hasLongitude ?lng }
+        OPTIONAL { ?place sasf:hasPhoneNumber ?phone }
+        OPTIONAL { ?place sasf:hasOpeningHours ?hours }
+        OPTIONAL { ?place sasf:hasStockList ?stockList }
+      }
+    `)
+  ]);
+
+  const restaurants = restRows.map(row => {
+    const id = row.place.value.replace(/^.*[#/]/, '');
+    return {
+      id,
+      type:         'restaurant',
+      name:         row.name?.value || id,
+      description:  row.comment?.value || '',
+      address:      row.address?.value || '',
+      lat:          parseFloat(row.lat?.value  || '0'),
+      lng:          parseFloat(row.lng?.value  || '0'),
+      phone:        row.phone?.value || '',
+      openingHours: row.hours?.value || '',
+      dishes: row.dishList?.value
+        ? row.dishList.value.split('|||').map(s => s.trim()).filter(Boolean)
+        : [],
+    };
+  });
+
+  const groceries = grocRows.map(row => {
+    const id = row.place.value.replace(/^.*[#/]/, '');
+    return {
+      id,
+      type:         'grocery',
+      name:         row.name?.value || id,
+      description:  row.comment?.value || '',
+      address:      row.address?.value || '',
+      lat:          parseFloat(row.lat?.value  || '0'),
+      lng:          parseFloat(row.lng?.value  || '0'),
+      phone:        row.phone?.value || '',
+      openingHours: row.hours?.value || '',
+      stocks: row.stockList?.value
+        ? row.stockList.value.split(',').map(s => s.trim()).filter(Boolean)
+        : [],
+    };
+  });
+
+  return { restaurants, groceries };
+}
+
 function loadLocations() {
   const init = data => {
     locData = data;
@@ -617,13 +704,11 @@ function loadLocations() {
     renderLocList('all');
     wireLocToggles();
   };
-  // Use already-fetched data if available, otherwise fetch
   if (locData.restaurants.length || locData.groceries.length) {
     init(locData);
     return;
   }
-  fetch('./data/locations.json')
-    .then(r => r.json())
+  loadLocationsFromSPARQL()
     .then(init)
     .catch(() => {
       document.getElementById('locations-list').innerHTML =
@@ -1642,11 +1727,16 @@ function removeTyping() {
 
 /* ── Match locations relevant to found dishes / ingredients ── */
 function chatMatchLocations(dishNames, ingredients) {
-  const dishSet = new Set(dishNames.map(n => n.toLowerCase()));
-  const ingSet  = new Set(ingredients.map(i => i.toLowerCase()));
+  const dishSet   = new Set(dishNames.map(n => n.toLowerCase()));
+  // Squished set handles URI-local-name fallbacks e.g. "IdliSambar" vs "Idli Sambar"
+  const squishSet = new Set([...dishSet].map(n => n.replace(/\s+/g, '')));
+  const ingSet    = new Set(ingredients.map(i => i.toLowerCase()));
 
   const restaurants = locData.restaurants.filter(r =>
-    (r.dishes || []).some(d => dishSet.has(d.toLowerCase()))
+    (r.dishes || []).some(d => {
+      const dl = d.toLowerCase();
+      return dishSet.has(dl) || squishSet.has(dl.replace(/\s+/g, ''));
+    })
   );
 
   const groceries = locData.groceries.filter(g =>
@@ -1831,7 +1921,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   initFilterPanels();
 
   // Eagerly load location data so chatbot fuzzy matching has grocery stocks available immediately
-  fetch('./data/locations.json').then(r => r.json()).then(data => {
+  loadLocationsFromSPARQL().then(data => {
     locData = data;
     data.groceries.forEach(g => (g.stocks || []).forEach(s => KNOWN_INGREDIENTS.add(s.toLowerCase())));
   }).catch(() => {});

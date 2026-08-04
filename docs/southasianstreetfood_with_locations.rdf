@@ -1,0 +1,3771 @@
+﻿<?xml version="1.0"?>
+<rdf:RDF xmlns="http://example.org/southasianstreetfood#"
+     xml:base="http://example.org/southasianstreetfood"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:sasf="http://example.org/southasianstreetfood#"
+     xmlns:terms="http://purl.org/dc/terms/"
+     xmlns:RecipeOn="http://purl.org/ProductKG/RecipeOn#"
+     xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#"
+     xmlns:Ingredient="http://purl.org/ProductK/ingredientset-ingredient#"
+     xmlns:SpecificationMetadata="https://www.omg.org/techprocess/ab/SpecificationMetadata/">
+    <owl:Ontology rdf:about="http://example.org/southasianstreetfood">
+        <owl:imports rdf:resource="http://purl.org/ProductKG/ingredientset-ingredient"/>
+        <rdfs:comment>Ontology for South Asian Street foods from India, Pakistan, and Bangladesh. Includes 14 dishes with their ingredients, cooking methods, dietary properties, and regional origins. Ingredients are linked to FoodOn and Wikidata where available. Countries are linked to GeoNames.
+The Top Level Ontology connected to it is IngredientSet-Ingredient from the ProductKG. (this needs to be imported before you check the entities)
+
+Note:
+All the ingredients for the dish have been taken from different sources and we have tried to be as precise as possible. Still the way to make street food can be different for everyone and it can have a lot of variations. We went with the most common ones.</rdfs:comment>
+        <rdfs:label>South Asian Street Food Ontology</rdfs:label>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.org/southasianstreetfood#instructions -->
+
+    <owl:AnnotationProperty rdf:about="http://example.org/southasianstreetfood#instructions">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://purl.org/ProductKG/RecipeOn#hasIngredient -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.org/southasianstreetfood#hasDietaryProperty -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/southasianstreetfood#hasDietaryProperty">
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:range rdf:resource="http://example.org/southasianstreetfood#DietaryProperty"/>
+        <rdfs:label>hasDietaryProperty</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#hasIngredientSet -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/southasianstreetfood#hasIngredientSet">
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:label>hasIngredientSet</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#hasQuantity -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/southasianstreetfood#hasQuantity">
+        <rdfs:domain rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <rdfs:range rdf:resource="http://purl.org/ProductKG/RecipeOn#Quantity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#hasSpiceLevel -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/southasianstreetfood#hasSpiceLevel">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:range rdf:resource="http://example.org/southasianstreetfood#SpiceLevel"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#isVariantOf -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/southasianstreetfood#isVariantOf">
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:range rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:label>isVariantOf</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#originatesFrom -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/southasianstreetfood#originatesFrom">
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:range rdf:resource="http://example.org/southasianstreetfood#Country"/>
+        <rdfs:label>originatesFrom</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#popularIn -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/southasianstreetfood#popularIn">
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:range rdf:resource="http://example.org/southasianstreetfood#Country"/>
+        <rdfs:label>popularIn</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#usesMethod -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/southasianstreetfood#usesMethod">
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:range rdf:resource="http://example.org/southasianstreetfood#CookingTechnique"/>
+        <rdfs:label>usesMethod</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/ProductKG/RecipeOn#hasIngredient -->
+
+    <rdf:Description rdf:about="http://purl.org/ProductKG/RecipeOn#hasIngredient">
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.org/southasianstreetfood#hasPrepTime -->
+
+    <owl:DatatypeProperty rdf:about="http://example.org/southasianstreetfood#hasPrepTime">
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdfs:label>hasPrepTime</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#hasSpiceLevel -->
+
+    <owl:DatatypeProperty rdf:about="http://example.org/southasianstreetfood#hasSpiceLevel">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#instructions -->
+
+    <owl:DatatypeProperty rdf:about="http://example.org/southasianstreetfood#instructions"/>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#isVegetarian -->
+
+    <owl:DatatypeProperty rdf:about="http://example.org/southasianstreetfood#isVegetarian">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <rdfs:label>isVegetarian</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#servingTemperature -->
+
+    <owl:DatatypeProperty rdf:about="http://example.org/southasianstreetfood#servingTemperature">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:label>servingTemperature</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.org/southasianstreetfood#AlooTikki -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#AlooTikki">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9887"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Medium"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#India"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#popularIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Pakistan"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#PanFrying"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">45</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Boil potatoes until fork tender. 
+Peel, cool completely, mash. 
+Add finely chopped green chili, onion, ginger-garlic paste.
+Mix in roasted cumin, garam masala, red chili powder, turmeric, salt. 
+Add corn flour and breadcrumbs for binding. 
+Mix in fresh coriander. Shape into patties. 
+Chill 10 minutes. 
+Heat oil in pan over medium heat. 
+Fry patties 2-3 minutes each side until golden brown. 
+Serve hot with mint and tamarind chutneys.</instructions>
+        <rdfs:comment>Aloo Tikki (which translates to &quot;potato patty&quot; or &quot;potato croquette&quot;) is a popular vegetarian snack from the Indian subcontinent. It is made of boiled, mashed potatoes, peas, and various spices, shaped into small patties and pan-fried until golden and crispy.</rdfs:comment>
+        <rdfs:label>Aloo Tikki</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Asafoetida -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Asafoetida">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <rdfs:label>Asafoetida</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Assembling -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Assembling">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#CookingTechnique"/>
+        <oboInOwl:hasDbXref>https://www.wikidata.org/wiki/Q3480053</oboInOwl:hasDbXref>
+        <rdfs:comment>combining pre-prepared, semi-prepared, or raw ingredients into a finished dish without traditional cooking methods like heating or boiling</rdfs:comment>
+        <rdfs:label>Assembling</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Bangladesh -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Bangladesh">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#Country"/>
+        <oboInOwl:hasDbXref rdf:resource="http://www.geonames.org/1210997/"/>
+        <rdfs:comment>Country in South Asia</rdfs:comment>
+        <rdfs:label>Bangladesh</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Beguni -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Beguni">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                        <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Cutting"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                        <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#EggPlant"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9892"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9893"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mild"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bangladesh"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#popularIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#India"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#DeepFrying"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#mustard%20oil"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">25</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Slice eggplant lengthwise into 2mm thick slices. 
+Mix gram flour, rice flour, turmeric, red chili, cumin, salt and kalonji in bowl.
+Whisking continuously, add water to make smooth, medium-flowing batter. 
+Dip eggplant slices in batter, coating well. 
+Deep fry in mustard oil at medium-high heat until crispy, golden brown on both sides. 
+Drain on paper towels. 
+Serve hot with mint-coriander chutney.</instructions>
+        <rdfs:comment>Beguni is a popular Bengali snack made by dipping thin slices of eggplant (brinjal) into a spiced gram flour (besan) batter and deep-frying them until crispy and golden. It is a beloved street food and a comforting home-cooked treat native to West Bengal, India, and Bangladesh.</rdfs:comment>
+        <rdfs:label>Beguni</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#BhelPuri -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#BhelPuri">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9891"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9893"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9894"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Medium"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#India"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Assembling"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">20</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Mix puffed rice with vegetables, sev and chutneys. Serve immediately on leaf or plate. Eat with tamarind chutney and green chutney.</instructions>
+        <rdfs:comment>Bhelpuri is a wildly popular savory Indian snack and a type of chaat. It is celebrated for its addictive combination of textures, crispy, crunchy, and soft, and a flavor profile that is simultaneously sweet, spicy, tangy, and salty.</rdfs:comment>
+        <rdfs:label>Bhel Puri</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#BlackSalt -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#BlackSalt">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <oboInOwl:hasDbXref>https://www.wikidata.org/wiki/Q1572414</oboInOwl:hasDbXref>
+        <rdfs:label>Black Salt</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Boiling -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Boiling">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#CookingTechnique"/>
+        <oboInOwl:hasDbXref>http://purl.obolibrary.org/obo/FOODON_00004090</oboInOwl:hasDbXref>
+        <rdfs:comment>heating up water up to 100 deg celsius</rdfs:comment>
+        <rdfs:label>Boiling</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#CarumSeed -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#CarumSeed">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <oboInOwl:hasDbXref>https://www.wikidata.org/wiki/Q15372890</oboInOwl:hasDbXref>
+        <rdfs:label>Carum Seed (Ajowan)</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#ChaatMasala -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#ChaatMasala">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <rdfs:label>Chaat Masala</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://www.wikidata.org/wiki/Q2057159"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#ChanaChaat -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#ChanaChaat">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9891"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9893"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Medium"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#isVariantOf"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Chotpoti"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Pakistan"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#popularIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bangladesh"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#popularIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#India"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Cutting"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Seasoning"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#ChickPea(Cooked)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20leaf"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chilies%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#lemon%20juice"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#onions%20fine%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#tomato%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">30</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Boil chickpeas until soft, drain. In bowl add boiled chickpeas, finely chopped onion, tomato, green chili, coriander. Drizzle tamarind chutney and green chutney. Sprinkle chaat masala, roasted cumin, red chili powder, salt, black salt. Mix well. Add lemon juice. Serve immediately in bowl or leaf. Can be served hot or at room temperature.</instructions>
+        <rdfs:comment>Chana Chaat is a popular, protein-packed South Asian street food and snack. It is essentially a zesty chickpea salad tossed with fresh, crunchy vegetables and a vibrant mix of sweet, tangy, and spicy flavors.</rdfs:comment>
+        <rdfs:label>Chana Chaat</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Chanachur -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Chanachur">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <oboInOwl:hasDbXref>https://www.wikidata.org/wiki/Q2719719</oboInOwl:hasDbXref>
+        <rdfs:comment>An indian snack also known as bombay mix</rdfs:comment>
+        <rdfs:label>Chanachur</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#ChapliKebab -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#ChapliKebab">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#NonVegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Hot"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Pakistan"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#PanFrying"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#GingerGarlicPaste"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#black%20pepper%20(crushed)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#breadcrumbs%20(dried)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20powder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cumin%20seeds%20(roasted)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#eggs%20(beaten)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chilies%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#ground%20meat"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#lemons%20juice"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#oil%20frying"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#onion%20finley%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#pomegranate%20seeds"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">70</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Mix ground meat with finely chopped onion, green chili, ginger-garlic paste, fresh coriander. Add pomegranate seeds, breadcrumbs, beaten egg. Season with roasted cumin, coriander powder, salt, black pepper, lemon juice. Mix well. Shape into flat round patties, 2-3 inches diameter. Pan fry in ghee/oil over medium flame 4-5 minutes each side until cooked through and crispy exterior. Serve hot with mint chutney and naan/roti.</instructions>
+        <rdfs:comment>Chapli Kebab is a popular, spiced minced meat patty that originated in Peshawar, Pakistan. Heavily associated with Pashtun cuisine, it is made from ground beef, mutton, or chicken that is mixed with aromatic spices, herbs, tomatoes, and onions, then flattened into a wide disk and shallow-fried.</rdfs:comment>
+        <rdfs:label>Chapli Kebab</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Chotpoti -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Chotpoti">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9891"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9893"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Hot"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#isVariantOf"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#ChanaChaat"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bangladesh"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Boiling"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Cutting"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Seasoning"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#ChaatMasala"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#boiled%20eggs"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#boiling%20potatoes%20scrubbed%20(sliced)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#chickpeas%20cooked"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20leaf"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cumin%20seeds%20(roasted)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chilies%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#lemon%20juice"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#mustard%20oil"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#onion%20finley%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#red%20chili%20powder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">35</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Boil chickpeas, eggs, potatoes separately until soft. Peel eggs, chop. Dice potatoes. In bowl combine boiled chickpeas, chopped egg, potato cubes. Add finely chopped onion, green chili. Mix tamarind chutney and green chutney. Pour over mixture. Sprinkle chaat masala, roasted cumin, red chili powder, salt. Drizzle mustard oil. Squeeze lemon juice. Mix gently. Garnish with fresh coriander. Serve warm or at room temperature in bowl.</instructions>
+        <rdfs:comment>Chotpoti is a popular and savory Bengali street food that originated in Bangladesh and West Bengal, India. The name loosely translates to &quot;spicy&quot;. It is a tangy, hot, and flavorful dish consisting of boiled yellow peas and potatoes simmered in a spiced, tamarind-based broth.</rdfs:comment>
+        <rdfs:label>Chotpoti</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#CookingTechnique -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#CookingTechnique">
+        <rdfs:label>CookingTechnique</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Country -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Country">
+        <rdfs:label>Country</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Cutting -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Cutting">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#CookingTechnique"/>
+        <oboInOwl:hasDbXref>http://purl.obolibrary.org/obo/FOODON_00000071</oboInOwl:hasDbXref>
+        <rdfs:comment>A process of cutting food into smaller pieces, chunks or slices.</rdfs:comment>
+        <rdfs:label>Cutting</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#DahiBharay -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#DahiBharay">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9896"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mild"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Pakistan"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Seasoning"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#BlackSalt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#sugar"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#yogurt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20(fresh)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cumin%20(powdered)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#mint%20(fresh)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#tamarind%20paste"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">90</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>In bowl whisk together yogurt with tamarind paste, roasted cumin powder, black salt, crushed mint. 
+Add fried dumplings to yogurt mixture. 
+Sprinkle fresh coriander leaves. 
+Serve chilled or at room temperature. 
+Serve immediately after combining for best texture.</instructions>
+        <rdfs:comment>Dahi Baray (also known as dahi bhalla or dahi vada) is a highly popular and refreshing street food snack in the Indian subcontinent. It consists of soft, deep-fried lentil dumplings (baray) soaked in a creamy yogurt sauce and topped with an array of sweet, spicy, and tangy chutneys.</rdfs:comment>
+        <rdfs:label>Dahi Bharay</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#DeepFrying -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#DeepFrying">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#CookingTechnique"/>
+        <oboInOwl:hasDbXref>http://purl.obolibrary.org/obo/FOODON_03450029</oboInOwl:hasDbXref>
+        <rdfs:comment>Cooked in hot fat or oil deep enough to immerse the food entirely.</rdfs:comment>
+        <rdfs:label>Deep Frying</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#DietaryProperty -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#DietaryProperty">
+        <rdfs:label>DietaryProperty</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Drumstick -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Drumstick">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#EggPlant -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#EggPlant">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <oboInOwl:hasDbXref>http://purl.obolibrary.org/obo/FOODON_00003618</oboInOwl:hasDbXref>
+        <rdfs:comment>brinjal; egg plant; aubergine</rdfs:comment>
+        <rdfs:label>Egg plant</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Fuchka -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Fuchka">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9885"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9886"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9887"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Hot"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#isVariantOf"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#GolGappay"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#isVariantOf"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#PaniPuri"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bangladesh"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Assembling"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">60</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Use bigger shells made with whole wheat flour. Fill with potatoes and chickpeas. Use very spicy and savory pani. Often includes shredded hard boiled eggs.</instructions>
+        <rdfs:comment>Fuchka is a beloved South Asian street food consisting of small, crispy, hollow dough balls stuffed with a savory, spicy mixture and dipped in tangy tamarind water. It is the Bengali variation of the popular pani puri or golgappa</rdfs:comment>
+        <rdfs:label>Fuchka</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#GingerGarlicPaste -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#GingerGarlicPaste">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <oboInOwl:hasDbXref>https://www.wikidata.org/wiki/Q24236084</oboInOwl:hasDbXref>
+        <rdfs:label>Ginger Garlic Paste</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#GolGappay -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#GolGappay">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9884"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9886"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9887"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Hot"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#isVariantOf"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Fuchka"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#isVariantOf"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#PaniPuri"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Pakistan"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Assembling"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">60</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Crack open a crispy fried puri (hollow ball) and stuff with seasoned boiled potatoes 
+and chickpeas. Fill to the brim with mint based spiced water (pani) and eat 
+immediately in one mouthful.</instructions>
+        <rdfs:comment>Gol Gappay (also known as pani puri) is a popular, bite-sized South Asian street food. It consists of a hollow, crispy-fried shell (puri) filled with a mixture of boiled potatoes, chickpeas, and spices, which is then dipped into flavored, tangy water (usually mint or tamarind) and eaten in one whole bite.</rdfs:comment>
+        <rdfs:label>Gol Gappay</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#GramFlour -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#GramFlour">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <oboInOwl:hasDbXref>https://www.wikidata.org/wiki/Q651829</oboInOwl:hasDbXref>
+        <rdfs:comment>pulse flour made from ground chickpeas</rdfs:comment>
+        <rdfs:label>Gram Flour</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Hot -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Hot">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#SpiceLevel"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IdliSambhar -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IdliSambhar">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9889"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9897"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Medium"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#India"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Steaming"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">120</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Prepare fermented rice and lentil batter. Pour into idli molds. Steam for 10 minutes. Serve with lentil vegetable soup (sambhar) and chutneys.</instructions>
+        <rdfs:comment>Idli Sambar is a classic, deeply comforting South Indian breakfast combination. It pairs idli (soft, fluffy steamed rice-and-lentil cakes) with sambar (a hot, aromatic vegetable and lentil stew). The idli is typically torn into pieces and submerged in the sambar so it absorbs the savory flavors.</rdfs:comment>
+        <rdfs:label>Idli Sambar</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#India -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#India">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#Country"/>
+        <oboInOwl:hasDbXref rdf:resource="http://www.geonames.org/1269750/"/>
+        <rdfs:comment>Country in South Asia</rdfs:comment>
+        <rdfs:label>India</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9883 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9883">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cumin"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20or%20cilantro%20(fresh)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chilies%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#jaggery%20(powdered)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#mint%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#water%20(chilled)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Soak tamarind in water for 30 minutes. Blend fresh mint and green chili. Mix tamarind extract, blended herbs, jaggery, cumin and salt. Chill the water before serving.</instructions>
+        <rdfs:label>Pani Puri Water</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9884 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9884">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#BlackSalt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#water"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#chaat%20masala"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chilies%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#mint%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#tamarind%20puree"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Extract tamarind juice. Grind mint and green chili fresh. Mix tamarind extract, herbs, cumin, black salt and asafoetida. Serve chilled. Spicier and tangier than Indian version.</instructions>
+        <rdfs:label>Gol Gappay Water</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9885 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9885">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#BlackSalt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20(fresh)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#lemon%20juice%20(fresh)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#tamarind%20juice"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#water%20(chilled)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Extract Tamarind juice
+Add lime juice e, black salt, regular table salt and drinking water. 
+You can also add some chopped coriander leaves if you want.
+Taste the water and adjust sourness and salt to your liking.</instructions>
+        <rdfs:label>Fuchka Water</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9886 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9886">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#DeepFrying"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#all-purpose%20flour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#semolina%20flour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#warm%20water"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Mix flour and salt with water to form smooth dough. Rest for 30 minutes. Shape into small balls and fry in oil until hollow and crispy. Drain on paper towels.</instructions>
+        <rdfs:label>Hollow Fried Balls</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9887 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9887">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Boiling"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Cutting"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Seasoning"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#bread%20crumbs%20wheat"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#chickpeas%20cooked"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20(fresh)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#corn%20flour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cumin%20seeds%20(roasted)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#garam%20masala%20indian%20spice"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#ginger-garlic%20paste"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chilies%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#onions%20chop%20fine"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#potatoes%20boiled%20&amp;%20(mashed)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#red%20chili%20powder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#turmeric%20ground"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Boil potatoes with turmeric until soft. 
+Boil chickpeas separately. 
+Mash potatoes lightly. 
+Mix with chickpeas and season with chaat masala and salt.</instructions>
+        <rdfs:comment>The ingredients that needs combining to make aloo tikki. Can also be used in fuchka, gol gappy and pani puri</rdfs:comment>
+        <rdfs:label>Boiled Potatoes and Chickpeas mixture</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9888 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9888">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Kneading"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#CarumSeed"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#oil"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#water"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#all-purpose%20flour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Mix flour, salt, carom seeds (optional). Add oil/ghee, rub into flour until resembles breadcrumbs. Add water gradually, knead smooth dough. Cover, rest 30 minutes.</instructions>
+        <rdfs:label>Samosa Dough</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9889 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9889">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#water"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#oil%20cooking"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#rice%20flour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Soak rice and lentils overnight. Grind to smooth paste with water. Add salt. Ferment for 6-8 hours until batter rises and becomes airy.</instructions>
+        <rdfs:label>Dosa Batter</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9890 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9890">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#PanFrying"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#oil"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#boiling%20potatoes"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20(powdered)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cumin%20seeds"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#garam%20masala"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chiles%20(minced)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#onion%20well%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#turmeric%20(powdered)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Heat oil and add cumin seeds until they splutter. Add onions and green chili, 
+sauté until soft. Add mashed potatoes and peas. Season with turmeric, coriander, 
+garam masala, and salt. Mix well and cook for 2-3 minutes. Cool before using 
+as filling.</instructions>
+        <rdfs:label>Samosa Filling</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9891 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9891">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#ChaatMasala"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Jaggery"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cumin%20(powdered)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#ginger%20(powdered)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chiles%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#tamarind%20puree"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#water%20warm"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Soak tamarind in water 30 minutes. Extract tamarind juice. Blend fresh green chili and coriander leaves with water. Mix tamarind juice, blended herbs, chaat masala and salt. Adjust consistency with water. Serve at room temperature.</instructions>
+        <rdfs:label>Tamarind Chutney</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9892 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9892">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#GramFlour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#water"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cumin%20seeds"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#red%20chilies%20and%20thinly%20(fresh)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#rice%20flour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#turmeric%20ground"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Mix gram flour, rice flour, salt, turmeric, and cumin seeds. 
+Add water gradually to form a thick batter.</instructions>
+        <rdfs:label>Beguni Batter</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9893 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9893">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#water"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cumin%20seeds%20ground%20(roasted)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#garlc%20cloves%20(minced)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#ginger%20(peeled)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chilies%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#lemon%20juice%20(fresh)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#mint%20(fresh)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Take mint and coriander leaves, add it in a blender.
+Add garlic, ginger, salt, lemon juice in it.
+Blend it with a bit of water inside.
+Till it becomes a smooth paste.</instructions>
+        <rdfs:label>mint - coriander chutney</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9894 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9894">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                        <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Roasting"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                        <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#PuffedRice"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Papad"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Sev"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chilies%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#onions%20fine%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#potatoes%20boiled%20and%20cubes%20(cut)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#tomato%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Dry roast puffed rice 3-4 minutes until crispy. Cool. In large bowl mix roasted puffed rice, crushed papdi, sev. Add finely chopped onion, tomato, boiled potato cubes, green chili, coriander.</instructions>
+        <rdfs:label>Bhel Mix</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9895 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9895">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Kneading"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#oil"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#water"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#all-purpose%20flour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#turmeric%20powder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Mix flour, salt, and turmeric powder. Add oil and rub until the mixture resembles 
+coarse sand. Gradually add water while mixing to form a medium-soft dough. 
+Knead gently for 5 minutes until smooth. Cover with a damp cloth and let rest 
+for 20 minutes. The dough should be softer than samosa dough but not sticky.</instructions>
+        <rdfs:label>Shingara Dough</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9896 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9896">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#DeepFrying"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#MungBean"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cumin%20seeds"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#ginger%20paste%20(minced)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chiles%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#oil%20deep%20frying"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Soak moong dal 1 hour, grind to smooth paste. 
+Mix with chopped green chili, minced ginger, cumin seeds, salt. 
+Drop spoonfuls into hot oil, deep fry until golden. 
+Drain on paper towels.</instructions>
+        <rdfs:label>Bharay - Lentil Dumplings</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9897 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9897">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                        <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Boiling"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                        <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#split%20peas"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Tempering"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Asafoetida"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Drumstick"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#ghee"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#carrots%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20seeds"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#curry%20leaf"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#fenugreek%20seeds"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#mustard%20seeds"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#onions%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#potatoes%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#red%20chili%20powder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#tamarind%20paste"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#turmeric%20(powdered)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Boil toor dal until soft. In oil/ghee heat mustard seeds, cumin seeds, fenugreek, curry leaves, chana dal until seeds pop. 
+Add chopped vegetables, turmeric, red chili powder, salt. Sauté 3 minutes.
+Add boiled dal, 2 cups water, tamarind paste. Simmer 20 minutes until vegetables tender. 
+Finish with roasted coriander-cumin powder, asafoetida.</instructions>
+        <rdfs:label>Sambar</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#IngSet9898 -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#IngSet9898">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#IngredientSet"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#oil"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#boiling%20potatoes"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cumin%20seeds"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20peas"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chilies%20(minced)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#mustard%20seeds"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#onion%20fine%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#turmeric%20(powdered)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Heat oil and add mustard seeds until they crackle. Add cumin seeds, then onions 
+and green chili. Sauté until golden. Add mashed potatoes and peas with turmeric 
+and salt. Cook for 3-4 minutes, stirring gently. The mustard seeds give shingara 
+its distinctive Bengali flavor. Cool before filling.</instructions>
+        <rdfs:label>Shingara Filling</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Jaggery -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Jaggery">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <rdfs:label>Jaggery</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Jhalmuri -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Jhalmuri">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Medium"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bangladesh"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#PanFrying"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#BlackSalt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Chanachur"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#PuffedRice"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#salt"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#coriander%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cucumber%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#cumin%20powder%20ground"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#green%20chilies%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#lemon%20juice%20(fresh)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#mustard%20oil"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#onions%20chop%20fine"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#red%20chili%20powder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#tomato%20(chopped)"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">15</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Heat mustard oil in pan, add green chili, fry 30 seconds. 
+Add chopped onion, sauté until translucent. 
+Add tomato, cucumber, coriander. Season with salt, black salt, red chili, cumin. 
+Pour over puffed rice in bowl. Drizzle lemon juice. 
+Mix well with chanachur. 
+Serve immediately. 
+Unique Bengali variant, uses mustard oil (distinct flavor from Bhel Puri).</instructions>
+        <rdfs:comment>Jhalmuri is a popular, crunchy Indian street snack made from puffed rice, fresh vegetables, and an assortment of spices. In Bengali, jhal means &quot;spicy&quot; and muri means &quot;puffed rice&quot;.</rdfs:comment>
+        <rdfs:label>Jhalmuri</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Kneading -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Kneading">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#CookingTechnique"/>
+        <oboInOwl:hasDbXref>https://www.wikidata.org/wiki/Q3089784</oboInOwl:hasDbXref>
+        <rdfs:comment>mechanical process of agitating dough in order to accelerate gluten formation</rdfs:comment>
+        <rdfs:label>Kneading</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#MasalaDosa -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#MasalaDosa">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                        <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9887"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                        <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Mixing"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                        <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9889"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                        <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#PanFrying"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Medium"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#India"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Assembling"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">90</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Medium -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Medium">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#SpiceLevel"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Mild -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Mild">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#SpiceLevel"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Mixing -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Mixing">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#CookingTechnique"/>
+        <oboInOwl:hasDbXref>https://www.wikidata.org/wiki/Q379697</oboInOwl:hasDbXref>
+        <rdfs:comment>a fundamental food processing operation used to evenly distribute, combine, or homogenize multiple ingredients</rdfs:comment>
+        <rdfs:label>Mixing</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#MungBean -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#MungBean">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <oboInOwl:hasDbXref>https://www.wikidata.org/wiki/Q484447</oboInOwl:hasDbXref>
+        <rdfs:comment>Also Known as Moong Dal</rdfs:comment>
+        <rdfs:label>Mung Bean</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#NonVegetarian -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#NonVegetarian">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#DietaryProperty"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Pakistan -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Pakistan">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#Country"/>
+        <oboInOwl:hasDbXref rdf:resource="http://www.geonames.org/1174022/"/>
+        <rdfs:comment>Country in South Asia</rdfs:comment>
+        <rdfs:label>Pakistan</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#PanFrying -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#PanFrying">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#CookingTechnique"/>
+        <oboInOwl:hasDbXref>http://purl.obolibrary.org/obo/FOODON_03450026</oboInOwl:hasDbXref>
+        <rdfs:comment>Cooked with sufficient fat or oil to coat and moisten the food being prepared, but not cooked in enough fat or oil to immerse the food.</rdfs:comment>
+        <rdfs:label>Pan Frying</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#PaniPuri -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#PaniPuri">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9883"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9886"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9887"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Hot"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#India"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Assembling"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">60</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Crack open a crispy fried puri (hollow ball) and stuff with seasoned boiled potatoes 
+and chickpeas. Fill to the brim with tangy spiced tamarind water (pani) and eat 
+immediately in one mouthful.</instructions>
+        <rdfs:comment>Pani Puri is a popular, bite-sized Indian street food. It consists of a crispy, hollow fried dough ball (puri) stuffed with a mixture of potatoes and chickpeas, then filled to the brim with a tangy, spicy, and sweet flavored water (pani), and eaten in a single mouthful.</rdfs:comment>
+        <rdfs:label>Pani Puri</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Papad -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Papad">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <oboInOwl:hasDbXref>https://www.wikidata.org/wiki/Q918148</oboInOwl:hasDbXref>
+        <rdfs:label>Papad / Papdi</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Pomegranate -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Pomegranate">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <rdfs:label>Pomegranate Seeds</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#PuffedRice -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#PuffedRice">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <oboInOwl:hasDbXref>http://purl.obolibrary.org/obo/FOODON_03302841</oboInOwl:hasDbXref>
+        <rdfs:label>Puffed Rice</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Recipe -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Recipe"/>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Roasting -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Roasting">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#CookingTechnique"/>
+        <oboInOwl:hasDbXref>https://www.wikidata.org/wiki/Q4865573</oboInOwl:hasDbXref>
+        <rdfs:comment>cooking method that uses dry heat where hot air envelops the food, cooking it evenly on all sides</rdfs:comment>
+        <rdfs:label>Roasting</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Samosa -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Samosa">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9888"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9890"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Medium"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#isVariantOf"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Shingara"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Pakistan"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#popularIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#India"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Assembling"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#DeepFrying"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#water"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">80</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Roll dough into thin circles
+Cut in half to form a semi-circle
+Fold each semi-circle into a cone shape
+Seal edges with water
+Fill the cone with spiced potato-pea mixture
+Seal the open edge tightly
+Deep fry until golden and crispy on all sides
+Drain on paper towels and serve hot with chutney</instructions>
+        <rdfs:comment>Samosa is a crispy, triangular pastry from Pakistan, traditionally served 
+as a street snack or appetizer. It consists of a thin, flaky fried dough 
+shell (paratha-like texture) stuffed with a savory filling of spiced potatoes 
+and peas. Usually served with tamarind chutney or mint sauce.</rdfs:comment>
+        <rdfs:label>Samosa</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Seasoning -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Seasoning">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#CookingTechnique"/>
+        <oboInOwl:hasDbXref>http://purl.obolibrary.org/obo/FOODON_00002732</oboInOwl:hasDbXref>
+        <rdfs:comment>A process of applying a seasoning mixture to a given food.</rdfs:comment>
+        <rdfs:label>Seasoning</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Sev -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Sev">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <rdfs:label>Sev</rdfs:label>
+        <rdfs:seeAlso rdf:resource="https://www.wikidata.org/wiki/Q2062399"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Shingara -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Shingara">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9895"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9898"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Medium"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#isVariantOf"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Samosa"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bangladesh"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Assembling"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#DeepFrying"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#water"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">80</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Prepare dough and let it rest until pliable
+Divide into small balls and roll thin
+Cut into circles and fold in half, then into a triangle
+Create a pocket in the triangle and fill with potato-pea mixture
+Seal edges by pressing and crimping using a bit of water
+Deep fry in oil until golden brown and crispy
+Serve hot with chutney or with tea</instructions>
+        <rdfs:comment>Shingara is a popular Bengali street snack from Bangladesh, similar to samosa 
+but with its own distinct flavor profile. It features a crispy, triangular pastry 
+filled with a spiced potato and pea mixture with mustard seeds and turmeric. 
+Typically enjoyed as a breakfast or evening snack with tea.</rdfs:comment>
+        <rdfs:label>Shingara</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#SpiceLevel -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#SpiceLevel">
+        <rdfs:label>Spice Level</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Steaming -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Steaming">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#CookingTechnique"/>
+        <oboInOwl:hasDbXref>http://purl.obolibrary.org/obo/FOODON_03450023</oboInOwl:hasDbXref>
+        <rdfs:comment>Cooked suspended above boiling water.</rdfs:comment>
+        <rdfs:label>Steaming</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#StreetFood -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#StreetFood">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#Recipe"/>
+        <rdfs:label>StreetFood</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Tempering -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Tempering">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#CookingTechnique"/>
+        <oboInOwl:hasDbXref>https://www.wikidata.org/wiki/Q3222589</oboInOwl:hasDbXref>
+        <rdfs:comment>Tempering spices (also known as tadka, chaunk, or vaggarane) is a fundamental culinary technique in South Asian cooking. It involves blooming whole or ground spices in hot oil or ghee to extract fat-soluble flavors and aromas.</rdfs:comment>
+        <rdfs:label>Tempering</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#VadaPav -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#VadaPav">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasDietaryProperty"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Vegetarian"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9887"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasIngredientSet"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IngSet9893"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasSpiceLevel"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Medium"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#originatesFrom"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#India"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#popularIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bangladesh"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Assembling"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Cutting"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#usesMethod"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#PanFrying"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#GramFlour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://purl.org/ProductKG/RecipeOn#hasIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://purl.org/ProductKG/RecipeOn#hawaiian%20bread%20dinner%20rolls"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#hasPrepTime"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">45</owl:minQualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <instructions>Boil potatoes with chickpeas, mash, season with spices, and form into a round ball
+Coat the ball lightly with gram flour batter
+Deep fry until golden brown
+Prepare bread: Spread mint-coriander chutney on the inside of a pav (hawaiian bread roll)
+Place the hot vada inside the pav
+Serve hot with additional chutney on the side</instructions>
+        <rdfs:comment>Vada pav is a wildly popular, vegetarian street food from Mumbai, India, often referred to as the &quot;Indian burger&quot;. It consists of a spicy, deep-fried potato fritter (vada) sandwiched inside a soft, fluffy white bread roll (pav). The sandwich is typically slathered with vibrant, flavorful chutneys and served with a fried green chili.</rdfs:comment>
+        <rdfs:label>VadaPav</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#Vegetarian -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Vegetarian">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#DietaryProperty"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#VeryHot -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#VeryHot">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#SpiceLevel"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/southasianstreetfood#ChickPea(Cooked) -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#ChickPea(Cooked)">
+        <rdfs:subClassOf rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.org/southasianstreetfood#MasalaDosa -->
+
+    <owl:NamedIndividual rdf:about="http://example.org/southasianstreetfood#MasalaDosa"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotations
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://example.org/southasianstreetfood#MasalaDosa">
+        <instructions>Heat griddle. Pour thin layer of dosa batter. Spread evenly. Cook until crispy. Add spiced potato filling. Fold in half.</instructions>
+        <rdfs:comment>A masala dosa is a popular South Indian dish consisting of a thin, crispy, and slightly tangy crepe (dosa) made from a fermented batter of rice and lentils. It is wrapped around a savory, spiced filling of mashed potatoes, onions, mustard seeds, and curry leaves (the &quot;masala&quot;).</rdfs:comment>
+        <rdfs:label>Masala Dosa</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://example.org/southasianstreetfood#hasSpiceLevel">
+        <rdfs:label>hasSpiceLevel</rdfs:label>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://example.org/southasianstreetfood#instructions">
+        <rdfs:label>instructions</rdfs:label>
+    </rdf:Description>
+
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // LOCATION EXTENSION — New Annotation Properties
+    // (following the same pattern as sasf:instructions)
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://example.org/southasianstreetfood#hasAddress -->
+
+    <owl:AnnotationProperty rdf:about="http://example.org/southasianstreetfood#hasAddress">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:AnnotationProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/southasianstreetfood#hasAddress"/>
+
+
+    <!-- http://example.org/southasianstreetfood#hasLatitude -->
+
+    <owl:AnnotationProperty rdf:about="http://example.org/southasianstreetfood#hasLatitude">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:AnnotationProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/southasianstreetfood#hasLatitude"/>
+
+
+    <!-- http://example.org/southasianstreetfood#hasLongitude -->
+
+    <owl:AnnotationProperty rdf:about="http://example.org/southasianstreetfood#hasLongitude">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </owl:AnnotationProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/southasianstreetfood#hasLongitude"/>
+
+
+    <!-- http://example.org/southasianstreetfood#hasPhoneNumber -->
+
+    <owl:AnnotationProperty rdf:about="http://example.org/southasianstreetfood#hasPhoneNumber">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:AnnotationProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/southasianstreetfood#hasPhoneNumber"/>
+
+
+    <!-- http://example.org/southasianstreetfood#hasOpeningHours -->
+
+    <owl:AnnotationProperty rdf:about="http://example.org/southasianstreetfood#hasOpeningHours">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:AnnotationProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/southasianstreetfood#hasOpeningHours"/>
+
+
+    <!-- http://example.org/southasianstreetfood#hasStockList -->
+
+    <owl:AnnotationProperty rdf:about="http://example.org/southasianstreetfood#hasStockList">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:AnnotationProperty>
+
+    <owl:DatatypeProperty rdf:about="http://example.org/southasianstreetfood#hasStockList"/>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // LOCATION EXTENSION — New Object Properties
+    // (following the same pattern as sasf:originatesFrom, sasf:popularIn)
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://example.org/southasianstreetfood#locatedIn -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/southasianstreetfood#locatedIn">
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#FoodPlace"/>
+        <rdfs:range rdf:resource="http://example.org/southasianstreetfood#City"/>
+        <rdfs:label>locatedIn</rdfs:label>
+    </owl:ObjectProperty>
+
+
+    <!-- http://example.org/southasianstreetfood#inCountry -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/southasianstreetfood#inCountry">
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#City"/>
+        <rdfs:range rdf:resource="http://example.org/southasianstreetfood#Country"/>
+        <rdfs:label>inCountry</rdfs:label>
+    </owl:ObjectProperty>
+
+
+    <!-- http://example.org/southasianstreetfood#servesDish -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/southasianstreetfood#servesDish">
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#Restaurant"/>
+        <rdfs:range rdf:resource="http://example.org/southasianstreetfood#StreetFood"/>
+        <rdfs:label>servesDish</rdfs:label>
+    </owl:ObjectProperty>
+
+
+    <!-- http://example.org/southasianstreetfood#stocksIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://example.org/southasianstreetfood#stocksIngredient">
+        <rdfs:domain rdf:resource="http://example.org/southasianstreetfood#GroceryStore"/>
+        <rdfs:range rdf:resource="http://purl.org/ProductKG/RecipeOn#Ingredient"/>
+        <rdfs:label>stocksIngredient</rdfs:label>
+    </owl:ObjectProperty>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // LOCATION EXTENSION — New Classes (Geographic Hierarchy)
+    // (following the same pattern as sasf:Bangladesh, sasf:India, sasf:Pakistan)
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://example.org/southasianstreetfood#GeographicArea -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#GeographicArea">
+        <rdfs:label>GeographicArea</rdfs:label>
+        <rdfs:comment>Abstract superclass for all geographic regions. Country and City are subclasses. Extensible to new countries and cities without changing the existing ontology.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- Extend existing Country class to be subclass of GeographicArea (non-destructive) -->
+
+    <rdf:Description rdf:about="http://example.org/southasianstreetfood#Country">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#GeographicArea"/>
+    </rdf:Description>
+
+
+    <!-- http://example.org/southasianstreetfood#City -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#City">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#GeographicArea"/>
+        <rdfs:label>City</rdfs:label>
+        <rdfs:comment>A city in which food places are located. Linked to a Country via inCountry.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#Germany -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Germany">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#Country"/>
+        <oboInOwl:hasDbXref rdf:resource="http://www.geonames.org/2921044/"/>
+        <rdfs:label>Germany</rdfs:label>
+        <rdfs:comment>Federal Republic of Germany, Central Europe. GeoNames ID: 2921044.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#Bremen -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Bremen">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#City"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#inCountry"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Germany"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <oboInOwl:hasDbXref rdf:resource="http://www.geonames.org/2944388/"/>
+        <rdfs:label>Bremen</rdfs:label>
+        <rdfs:comment>City-state in north-western Germany. GeoNames ID: 2944388. Current base city for this knowledge graph.</rdfs:comment>
+    </owl:Class>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // LOCATION EXTENSION — New Classes (Place Hierarchy)
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://example.org/southasianstreetfood#FoodPlace -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#FoodPlace">
+        <rdfs:label>FoodPlace</rdfs:label>
+        <rdfs:comment>A physical establishment where South Asian street food can be eaten or its ingredients purchased. Restaurant and GroceryStore are subclasses.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#Restaurant -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#Restaurant">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#FoodPlace"/>
+        <rdfs:label>Restaurant</rdfs:label>
+        <rdfs:comment>An eatery that serves South Asian street food dishes.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#GroceryStore -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#GroceryStore">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#FoodPlace"/>
+        <rdfs:label>GroceryStore</rdfs:label>
+        <rdfs:comment>A grocery or specialist food store stocking South Asian cooking ingredients.</rdfs:comment>
+    </owl:Class>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // LOCATION EXTENSION — Bremen Restaurant Subclasses
+    // (following the same pattern as sasf:AlooTikki, sasf:ChapliKebab etc.)
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://example.org/southasianstreetfood#MaharajaRestaurant -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#MaharajaRestaurant">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#Restaurant"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#locatedIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bremen"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Samosa"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#ChanaChaat"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#MasalaDosa"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IdliSambar"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <sasf:hasAddress>S&#246;gestra&#223;e 40, 28195 Bremen</sasf:hasAddress>
+        <sasf:hasLatitude>53.0761</sasf:hasLatitude>
+        <sasf:hasLongitude>8.8074</sasf:hasLongitude>
+        <sasf:hasPhoneNumber>+49 421 123456</sasf:hasPhoneNumber>
+        <sasf:hasOpeningHours>Mon-Sat 11:30-22:00, Sun 12:00-21:00</sasf:hasOpeningHours>
+        <rdfs:label>Maharaja Restaurant</rdfs:label>
+        <rdfs:comment>Authentic North and South Indian cuisine in the heart of Bremen. Known for crispy samosas and aromatic chaats. Cuisine: Indian.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#KarachiCorner -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#KarachiCorner">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#Restaurant"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#locatedIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bremen"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#GolGappay"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#ChapliKebab"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#DahiBharay"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#AlooTikki"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <sasf:hasAddress>Ostertorsteinweg 58, 28203 Bremen</sasf:hasAddress>
+        <sasf:hasLatitude>53.0767</sasf:hasLatitude>
+        <sasf:hasLongitude>8.8224</sasf:hasLongitude>
+        <sasf:hasPhoneNumber>+49 421 234567</sasf:hasPhoneNumber>
+        <sasf:hasOpeningHours>Tue-Sun 12:00-22:00</sasf:hasOpeningHours>
+        <rdfs:label>Karachi Corner</rdfs:label>
+        <rdfs:comment>Pakistani street food spot in the Viertel district. Known for Gol Gappay and Chapli Kebab. Cuisine: Pakistani.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#DhakaDelight -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#DhakaDelight">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#Restaurant"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#locatedIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bremen"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Fuchka"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Chotpoti"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#BhelPuri"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Jhalmuri"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <sasf:hasAddress>Herdentorsteinweg 12, 28195 Bremen</sasf:hasAddress>
+        <sasf:hasLatitude>53.0797</sasf:hasLatitude>
+        <sasf:hasLongitude>8.8052</sasf:hasLongitude>
+        <sasf:hasPhoneNumber>+49 421 345678</sasf:hasPhoneNumber>
+        <sasf:hasOpeningHours>Mon-Sat 11:00-21:30</sasf:hasOpeningHours>
+        <rdfs:label>Dhaka Delight</rdfs:label>
+        <rdfs:comment>Bremen's Bangladeshi spot. Authentic Fuchka and Chotpoti with tangy tamarind water. Cuisine: Bangladeshi.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#SpiceRoute -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#SpiceRoute">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#Restaurant"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#locatedIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bremen"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#VadaPav"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#BhelPuri"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#MasalaDosa"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#IdliSambar"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <sasf:hasAddress>Fedelh&#246;ren 90, 28203 Bremen</sasf:hasAddress>
+        <sasf:hasLatitude>53.0780</sasf:hasLatitude>
+        <sasf:hasLongitude>8.8190</sasf:hasLongitude>
+        <sasf:hasPhoneNumber>+49 421 456789</sasf:hasPhoneNumber>
+        <sasf:hasOpeningHours>Mon-Fri 11:00-20:00, Sat-Sun 11:00-21:00</sasf:hasOpeningHours>
+        <rdfs:label>Spice Route</rdfs:label>
+        <rdfs:comment>Modern South Indian and street food cafe. Classic Vada Pav and Mumbai-style Bhel Puri. Cuisine: Indian.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#PunjabPalace -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#PunjabPalace">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#Restaurant"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#locatedIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bremen"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Samosa"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#ChapliKebab"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#ChanaChaat"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#servesDish"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#AlooTikki"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <sasf:hasAddress>Am Dobben 47, 28203 Bremen</sasf:hasAddress>
+        <sasf:hasLatitude>53.0755</sasf:hasLatitude>
+        <sasf:hasLongitude>8.8245</sasf:hasLongitude>
+        <sasf:hasPhoneNumber>+49 421 567890</sasf:hasPhoneNumber>
+        <sasf:hasOpeningHours>Daily 12:00-22:30</sasf:hasOpeningHours>
+        <rdfs:label>Punjab Palace</rdfs:label>
+        <rdfs:comment>Punjab-style eatery. Freshly fried samosas and a beloved Chana Chaat. Cuisine: Indian/Pakistani.</rdfs:comment>
+    </owl:Class>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // LOCATION EXTENSION — Bremen Grocery Store Subclasses
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <!-- http://example.org/southasianstreetfood#AsiaSupermarktBremen -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#AsiaSupermarktBremen">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#GroceryStore"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#locatedIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bremen"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#stocksIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#GramFlour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <sasf:hasAddress>Bahnhofsplatz 7, 28195 Bremen</sasf:hasAddress>
+        <sasf:hasLatitude>53.0832</sasf:hasLatitude>
+        <sasf:hasLongitude>8.8134</sasf:hasLongitude>
+        <sasf:hasPhoneNumber>+49 421 678901</sasf:hasPhoneNumber>
+        <sasf:hasOpeningHours>Mon-Sat 09:00-20:00</sasf:hasOpeningHours>
+        <sasf:hasStockList>Tamarind paste, Chickpeas, Cumin, Coriander seeds, Curry leaves, Rice flour, Semolina, Lentils, Gram flour</sasf:hasStockList>
+        <rdfs:label>Asia Supermarkt Bremen</rdfs:label>
+        <rdfs:comment>Large Asian supermarket near Bremen central station. Wide range of South Asian spices, lentils, flours, and fresh produce.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#BollywoodSpicesAndFoods -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#BollywoodSpicesAndFoods">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#GroceryStore"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#locatedIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bremen"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#stocksIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#ChaatMasala"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#stocksIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Asafoetida"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <sasf:hasAddress>Kornstra&#223;e 28, 28201 Bremen</sasf:hasAddress>
+        <sasf:hasLatitude>53.0812</sasf:hasLatitude>
+        <sasf:hasLongitude>8.8081</sasf:hasLongitude>
+        <sasf:hasPhoneNumber>+49 421 789012</sasf:hasPhoneNumber>
+        <sasf:hasOpeningHours>Mon-Sat 10:00-19:30, Sun 11:00-17:00</sasf:hasOpeningHours>
+        <sasf:hasStockList>Tamarind, Mint chutney paste, Puri shells, Chaat masala, Paneer, Mustard seeds, Turmeric, Fenugreek, Asafoetida</sasf:hasStockList>
+        <rdfs:label>Bollywood Spices and Foods</rdfs:label>
+        <rdfs:comment>Specialist Indian grocery. Best in Bremen for authentic chaat masala and hard-to-find South Asian pantry staples.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#HalalWorldMarkt -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#HalalWorldMarkt">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#GroceryStore"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#locatedIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bremen"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#stocksIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#GramFlour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <sasf:hasAddress>Gr&#246;pelinger Heerstra&#223;e 201, 28237 Bremen</sasf:hasAddress>
+        <sasf:hasLatitude>53.0909</sasf:hasLatitude>
+        <sasf:hasLongitude>8.7734</sasf:hasLongitude>
+        <sasf:hasPhoneNumber>+49 421 890123</sasf:hasPhoneNumber>
+        <sasf:hasOpeningHours>Daily 09:00-21:00</sasf:hasOpeningHours>
+        <sasf:hasStockList>Chickpeas, Lentils, Yoghurt, Gram flour, Cumin seeds, Black pepper, Halal meat, Fresh coriander, Green chillies</sasf:hasStockList>
+        <rdfs:label>Halal World Markt</rdfs:label>
+        <rdfs:comment>Halal grocery and butcher with a strong South Asian section. Great for fresh halal meat for Chapli Kebab and staple dry goods.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#LankaAndDesiKirana -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#LankaAndDesiKirana">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#GroceryStore"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#locatedIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bremen"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <sasf:hasAddress>Woltmershauser Stra&#223;e 302, 28197 Bremen</sasf:hasAddress>
+        <sasf:hasLatitude>53.0686</sasf:hasLatitude>
+        <sasf:hasLongitude>8.8018</sasf:hasLongitude>
+        <sasf:hasPhoneNumber>+49 421 901234</sasf:hasPhoneNumber>
+        <sasf:hasOpeningHours>Mon-Sat 09:30-19:00</sasf:hasOpeningHours>
+        <sasf:hasStockList>Urad dal, Rice, Idli moulds, Coconut, Curry leaves, Tamarind block, Jaggery, Dried chilies, Semolina</sasf:hasStockList>
+        <rdfs:label>Lanka and Desi Kirana</rdfs:label>
+        <rdfs:comment>South Asian and Sri Lankan grocer. Excellent selection for Dosa, Idli, and Sambar ingredients.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#AlSyedOrientalischerSupermarkt -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#AlSyedOrientalischerSupermarkt">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#GroceryStore"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#locatedIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bremen"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#stocksIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#GramFlour"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <sasf:hasAddress>B&#252;rgermeister-Smidt-Stra&#223;e, 28195 Bremen</sasf:hasAddress>
+        <sasf:hasLatitude>53.0845731</sasf:hasLatitude>
+        <sasf:hasLongitude>8.8142129</sasf:hasLongitude>
+        <sasf:hasOpeningHours>Please check Google Maps for current hours</sasf:hasOpeningHours>
+        <sasf:hasStockList>Chickpeas, Lentils, Tamarind, Cumin, Turmeric, Coriander, Gram flour, Rice, Dried chilies, Spice mixes</sasf:hasStockList>
+        <rdfs:label>Al Syed Orientalischer Supermarkt</rdfs:label>
+        <rdfs:comment>Oriental supermarket in central Bremen with Middle Eastern and South Asian groceries and spices.</rdfs:comment>
+    </owl:Class>
+
+
+    <!-- http://example.org/southasianstreetfood#GlobalFoodsBremen -->
+
+    <owl:Class rdf:about="http://example.org/southasianstreetfood#GlobalFoodsBremen">
+        <rdfs:subClassOf rdf:resource="http://example.org/southasianstreetfood#GroceryStore"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#locatedIn"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#Bremen"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/southasianstreetfood#stocksIngredient"/>
+                <owl:someValuesFrom rdf:resource="http://example.org/southasianstreetfood#ChaatMasala"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <sasf:hasAddress>Neuenlander Stra&#223;e 34, 28199 Bremen</sasf:hasAddress>
+        <sasf:hasLatitude>53.0701</sasf:hasLatitude>
+        <sasf:hasLongitude>8.7895</sasf:hasLongitude>
+        <sasf:hasPhoneNumber>+49 421 012345</sasf:hasPhoneNumber>
+        <sasf:hasOpeningHours>Mon-Sat 08:00-20:00, Sun 10:00-18:00</sasf:hasOpeningHours>
+        <sasf:hasStockList>Potato, Chickpeas, Puffed rice, Tamarind, Sev (fried noodles), Papdi crackers, Pomegranate seeds, Chaat masala, Coriander</sasf:hasStockList>
+        <rdfs:label>Global Foods Bremen</rdfs:label>
+        <rdfs:comment>International food market with a well-organised South Asian aisle. Full ingredient range for Bhel Puri, Chotpoti, and Chaat.</rdfs:comment>
+    </owl:Class>
+
+
+</rdf:RDF>
