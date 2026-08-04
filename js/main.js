@@ -1005,8 +1005,12 @@ async function openRecipe(name) {
   document.getElementById('modal-name').textContent    = dish.name;
 
   const isVeg = dish.dietary === 'Vegetarian';
+  const SPICE_EMOJI = { Mild: '🌶️', Medium: '🌶️🌶️', Hot: '🌶️🌶️🌶️', VeryHot: '🌶️🌶️🌶️🌶️' };
+  const SPICE_LABEL = { Mild: '', Medium: '', Hot: '', VeryHot: '' };
   document.getElementById('modal-badges').innerHTML =
-    `<span class="rbadge ${isVeg ? 'veg' : 'nonveg'}">${isVeg ? '🌿 Vegetarian' : '🍖 Non-Vegetarian'}</span>`;
+    `<span class="rbadge ${isVeg ? 'veg' : 'nonveg'}">${isVeg ? '🌿 Vegetarian' : '🍖 Non-Vegetarian'}</span>`
+    + (dish.spiceLevel ? `<span class="rbadge spice">${SPICE_EMOJI[dish.spiceLevel] || '🌶️'}</span>` : '')
+    + (dish.prepTime   ? `<span class="rbadge preptime">⏱ ${dish.prepTime} min</span>` : '');
 
   // About
   const aboutSec = document.getElementById('modal-about-sec');
@@ -1030,7 +1034,6 @@ async function openRecipe(name) {
         ? `<div class="ingset-prep-title">Preparation</div><div class="ingset-steps">${prepSteps.map((t, n) => `<div class="ingset-step"><div class="ingset-step-num">${n + 1}</div><div class="ingset-step-text">${t}</div></div>`).join('')}</div>`
         : '';
       return `<div class="ingset-block">
-        <div class="ingset-header"><span class="ingset-icon">${icon}</span><span class="ingset-label">${displayLabel}</span></div>
         <div class="ingset-body">${ingHTML}${prepHTML}</div>
       </div>`;
     }).join('');
@@ -1140,18 +1143,34 @@ function renderDishes(animate = true, dishesList = DISHES) {
     return;
   }
 
+  const SPICE_EMOJI = { Mild: '🌶️', Medium: '🌶️🌶️', Hot: '🌶️🌶️🌶️', VeryHot: '🌶️🌶️🌶️🌶️' };
+  const SPICE_LABEL = { Mild: '', Medium: '', Hot: '', VeryHot: '' };
+
   dishesList.forEach(dish => {
     const isVeg = dish.dietary === 'Vegetarian';
     const card  = document.createElement('div');
     card.className = 'dish-card';
+
+    const badgesHTML = `<div class="card-badges-col">
+      <div class="card-badge card-badge--diet" title="${dish.dietary}">${isVeg ? '🌿' : '🍖'}</div>
+      ${dish.spiceLevel ? `<div class="card-badge card-badge--spice" title="${dish.spiceLevel}">${SPICE_EMOJI[dish.spiceLevel] || '🌶️'}</div>` : ''}
+      ${dish.prepTime  ? `<div class="card-badge card-badge--time" title="Prep time">⏱ ${dish.prepTime}m</div>` : ''}
+    </div>`;
+
     const imgSrc  = dish.imgKey && window.DISH_IMGS && window.DISH_IMGS[dish.imgKey];
     const imgHTML = imgSrc
-      ? `<div class="dish-img dish-img--photo"><img src="${imgSrc}" alt="${dish.name}" loading="lazy"><div class="country-badge">${FLAG_SVG[dish.country] || '🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg ? '🌿' : '🍖'}</div></div>`
-      : `<div class="dish-img" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})"><div class="img-pattern"></div><span class="big-emoji">${dish.emoji}</span><div class="country-badge">${FLAG_SVG[dish.country] || '🌏'} ${dish.country}</div><div class="diet-dot" title="${dish.dietary}">${isVeg ? '🌿' : '🍖'}</div></div>`;
+      ? `<div class="dish-img dish-img--photo"><img src="${imgSrc}" alt="${dish.name}" loading="lazy"><div class="country-badge">${FLAG_SVG[dish.country] || '🌏'} ${dish.country}</div>${badgesHTML}</div>`
+      : `<div class="dish-img" style="background:linear-gradient(135deg,${dish.grad[0]},${dish.grad[1]})"><div class="img-pattern"></div><span class="big-emoji">${dish.emoji}</span><div class="country-badge">${FLAG_SVG[dish.country] || '🌏'} ${dish.country}</div>${badgesHTML}</div>`;
+
+    const sets = dish.ingredientSets || [];
+    const ingSetsHTML = sets.length
+      ? sets.map(s => `<span class="ing-set-tag">${getFriendlyBaseIcon(s.uri)} ${s.label || getFriendlyBaseName(s.uri)}</span>`).join('')
+      : dish.techniques.map(t => `<span class="technique-tag">${t}</span>`).join('');
+
     card.innerHTML = `${imgHTML}
       <div class="dish-card-body">
         <div class="dish-name">${dish.name}</div>
-        <div class="techniques-row">${dish.techniques.map(t => `<span class="technique-tag">${t}</span>`).join('')}</div>
+
         <button class="view-recipe-btn" onclick="selectDish('${dish.name}')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
           View Recipe &amp; Ingredients
