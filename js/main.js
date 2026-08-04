@@ -51,26 +51,28 @@ const FLAG_SVG = {
 FLAG_SVG["India/Pakistan"] = FLAG_SVG.India + FLAG_SVG.Pakistan;
 const FLAGS = { India: "🇮🇳", Pakistan: "🇵🇰", Bangladesh: "🇧🇩", "India/Pakistan": "🇮🇳🇵🇰" };
 
-const SET_NAME_MAPPINGS = {
-  'IngSet9893': 'Mint-Coriander Chutney',
-  'IngSet9887': 'Spiced Potato & Chickpea Filling',
-  'IngSet9886': 'Semolina Pastry Dough (Puri Shells)',
-  'IngSet9891': 'Sweet & Sour Tamarind Sauce',
-  'IngSet9892': 'Spiced Gram Flour Batter',
-  'IngSet9894': 'Crispy Bhel Mix',
-  'IngSet9897': 'Sambar (Lentil Vegetable Stew)',
-  'IngSet9896': 'Lentil Dumplings Base',
-  'IngSet9885': 'Tangy Tamarind Water',
-  'IngSet9884': 'Spiced Mint-Tamarind Water',
-  'IngSet9883': 'Sweet & Sour Spiced Water',
-  'IngSet9889': 'Fermented Rice & Lentil Batter'
-};
+// const SET_NAME_MAPPINGS = {
+//   'IngSet9893': 'Mint-Coriander Chutney',
+//   'IngSet9887': 'Spiced Potato & Chickpea Filling',
+//   'IngSet9886': 'Semolina Pastry Dough (Puri Shells)',
+//   'IngSet9891': 'Sweet & Sour Tamarind Sauce',
+//   'IngSet9892': 'Spiced Gram Flour Batter',
+//   'IngSet9894': 'Crispy Bhel Mix',
+//   'IngSet9897': 'Sambar (Lentil Vegetable Stew)',
+//   'IngSet9896': 'Lentil Dumplings Base',
+//   'IngSet9885': 'Tangy Tamarind Water',
+//   'IngSet9884': 'Spiced Mint-Tamarind Water',
+//   'IngSet9883': 'Sweet & Sour Spiced Water',
+//   'IngSet9889': 'Fermented Rice & Lentil Batter'
+// };
 
+// Only emoji mappings for ingredient sets - names come from rdfs:label in Protégé
 const SET_ICONS = {
-  'IngSet9893': '🌿', 'IngSet9887': '🥔', 'IngSet9886': '🥟',
+  'IngSet9893': '🌿', 'IngSet9887': '🥔', 'IngSet9886': '🫓',
   'IngSet9891': '🫙', 'IngSet9892': '🥣', 'IngSet9894': '🌾',
   'IngSet9897': '🥕', 'IngSet9896': '🥣', 'IngSet9885': '🍋',
-  'IngSet9884': '🌶️','IngSet9883': '💧', 'IngSet9889': '🍚'
+  'IngSet9884': '🌶️','IngSet9883': '💧', 'IngSet9889': '🍚',
+  'IngSet9888': '🥟', 'IngSet9898': '🥟'  // Samosa & Shingara
 };
 
 /* ── RUNTIME STATE ── */
@@ -174,8 +176,9 @@ function uriLocalName(uri) {
 }
 
 function getFriendlyBaseName(uri) {
+  // Fallback: extract local name from URI if rdfs:label is not available
   const local = uri.replace(/^.*[#/]/, '');
-  return SET_NAME_MAPPINGS[local] || local.replace(/_/g, ' ');
+  return local.replace(/_/g, ' ');
 }
 
 function getFriendlyBaseIcon(uri) {
@@ -1005,7 +1008,7 @@ async function loadSharedBases() {
       const dishesStr = b.dishNames.value;
       const ingsStr   = b.ingredientNames.value;
 
-      const title  = getFriendlyBaseName(setURI);
+      const title = b.ingSetLabel?.value || getFriendlyBaseName(setURI);
       const icon   = getFriendlyBaseIcon(setURI);
 
       const dishChipsHTML = dishesStr.split(', ').map(dName =>
