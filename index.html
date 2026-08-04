@@ -113,9 +113,6 @@
         <div class="search-suggestions" id="search-suggestions"></div>
       </div>
     </div>
-    <div class="hero-scroll"><span>Explore</span>
-      <div class="scroll-arrow"></div>
-    </div>
   </section>
 
   <!-- DISH MARQUEE -->
@@ -317,31 +314,48 @@
                 </svg>
               </button>
               <div class="filter-panel-body" id="fp-dietary-body">
-                <label class="filter-check-label"><input type="checkbox" id="diet-veg" value="veg"> 🌿
+                <label class="filter-check-label"><input type="checkbox" id="diet-veg" value="veg"> 🥕
                   Vegetarian</label>
                 <label class="filter-check-label"><input type="checkbox" id="diet-nonveg" value="nonveg"> 🍖
                   Non-Vegetarian</label>
               </div>
             </div>
 
-            <!-- Ingredient Complexity (Q4) -->
-            <div class="filter-panel" id="fp-complexity">
-              <button class="filter-panel-toggle" aria-expanded="true" data-target="fp-complexity">
-                <span>🥄 Ingredient Complexity</span>
+            <!-- Preparation Time -->
+            <div class="filter-panel" id="fp-preptime">
+              <button class="filter-panel-toggle" aria-expanded="true" data-target="fp-preptime">
+                <span>⏱️ Prep Time</span>
                 <svg class="fp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2.5">
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
-              <div class="filter-panel-body" id="fp-complexity-body">
-                <label class="filter-radio-label"><input type="radio" name="f-maxing" value="any" id="f-ing-any"
+              <div class="filter-panel-body" id="fp-preptime-body">
+                <label class="filter-radio-label"><input type="radio" name="f-preptime" value="any" id="f-preptime-any"
                     checked> Any</label>
-                <label class="filter-radio-label"><input type="radio" name="f-maxing" value="8" id="f-ing-8"> Simple
-                  <span class="fp-meta">≤ 8 ingredients</span></label>
-                <label class="filter-radio-label"><input type="radio" name="f-maxing" value="12" id="f-ing-12"> Moderate
-                  <span class="fp-meta">≤ 12</span></label>
-                <label class="filter-radio-label"><input type="radio" name="f-maxing" value="20" id="f-ing-20">
-                  Elaborate <span class="fp-meta">≤ 20</span></label>
+                <label class="filter-radio-label"><input type="radio" name="f-preptime" value="30" id="f-preptime-30"> Quick
+                  <span class="fp-meta">≤ 30 min</span></label>
+                <label class="filter-radio-label"><input type="radio" name="f-preptime" value="60" id="f-preptime-60"> Medium
+                  <span class="fp-meta">≤ 60 min</span></label>
+                <label class="filter-radio-label"><input type="radio" name="f-preptime" value="90" id="f-preptime-90"> Long
+                  <span class="fp-meta">≤ 90 min</span></label>
+              </div>
+            </div>
+
+            <!-- Spice Level -->
+            <div class="filter-panel" id="fp-spice">
+              <button class="filter-panel-toggle" aria-expanded="true" data-target="fp-spice">
+                <span>🌶️ Spice Level</span>
+                <svg class="fp-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="filter-panel-body" id="fp-spice-body">
+                <label class="filter-check-label"><input type="checkbox" class="spice-check" value="Mild" id="spice-mild"> 🟢 Mild</label>
+                <label class="filter-check-label"><input type="checkbox" class="spice-check" value="Medium" id="spice-medium"> 🟡 Medium</label>
+                <label class="filter-check-label"><input type="checkbox" class="spice-check" value="Hot" id="spice-hot"> 🔴 Hot</label>
+                <label class="filter-check-label"><input type="checkbox" class="spice-check" value="VeryHot" id="spice-veryhot"> 🌶️ Very Hot</label>
               </div>
             </div>
 
