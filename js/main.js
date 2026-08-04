@@ -5,8 +5,8 @@ const SPARQL_ENDPOINT = 'https://triplydb.com/_api/datasets/Areesha/South-Asian-
 
 /* ── UI METADATA (not in KG: emoji, gradient, image key, prepTime, spiceLevel) ── */
 const DISH_UI = {
-  'Pani Puri':    { emoji: '🫙', grad: ['#006994','#00B4D8'],  imgKey: 'Golgappay',       prepTime: 45,  spiceLevel: 'Hot' },
-  'Gol Gappay':  { emoji: '🫙', grad: ['#6B21A8','#A855F7'],  imgKey: 'Golgappay',       prepTime: 45,  spiceLevel: 'Hot' },
+  'Pani Puri':    { emoji: '🫙', grad: ['#006994','#00B4D8'],  imgKey: 'Pani Puri',       prepTime: 45,  spiceLevel: 'Hot' },
+  'Gol Gappay':  { emoji: '🫙', grad: ['#6B21A8','#A855F7'],  imgKey: 'Gol Gappay',       prepTime: 45,  spiceLevel: 'Hot' },
   'Fuchka':      { emoji: '🫙', grad: ['#16633C','#2DC653'],   imgKey: 'Fuchka',          prepTime: 45,  spiceLevel: 'Hot' },
   'Aloo Tikki':  { emoji: '🥔', grad: ['#B7791F','#F6C90E'],  imgKey: 'Aloo Tikki Chaat',prepTime: 30,  spiceLevel: 'Medium' },
   'Beguni':      { emoji: '🍆', grad: ['#5B21B6','#8B5CF6'],  imgKey: 'Baingan Bhaja',   prepTime: 20,  spiceLevel: 'Mild' },
@@ -24,7 +24,7 @@ const DISH_UI = {
 };
 
 const STATIC_IMGS = {
-  "Golgappay":          "./images/golgappay.jpg",
+  "Gol Gappay":          "./images/golgappay.jpg",
   "Chotpoti":           "./images/chotpoti-fuchka.jpg",
   "Fuchka":             "./images/fuchka.jpg",
   "Aloo Tikki Chaat":   "./images/aloo-tikki-chaat.jpg",
@@ -38,8 +38,8 @@ const STATIC_IMGS = {
   "Jhalmuri":           "./images/jhalmuri.jpg",
   "Masala Dosa":        "./images/masala-dosa.jpg",
   "Samosa":             "./images/samosa.jpg",
-  "Shingara":           "./images/shingara.jpg"
-  
+  "Shingara":           "./images/shingara.jpg",
+  "Pani Puri":          "./images/panipuri.jpg"
 };
 window.DISH_IMGS = STATIC_IMGS;
 
