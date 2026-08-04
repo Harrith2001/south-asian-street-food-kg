@@ -82,6 +82,8 @@ let currentSPARQLQuery = '';
 let basesLoaded = false;
 let locationsLoaded = false;
 let locMap = null;
+let currentPage = 1;
+const PAGE_SIZE = 12;
 let locMarkers = [];
 let locData = { restaurants: [], groceries: [] };
 let chatGreeted = false;
@@ -1017,6 +1019,7 @@ async function applyAllFilters() {
     }
   }
 
+  currentPage = 1;
   renderDishes(false, result);
   updateResultsCount(result.length);
   document.getElementById('filter-ingredient-input').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1047,7 +1050,11 @@ function clearAllFilters() {
 
 function updateResultsCount(count) {
   const el = document.getElementById('results-count');
-  if (el) el.textContent = `${count} dish${count !== 1 ? 'es' : ''} found`;
+  if (!el) return;
+  if (count === 0) { el.textContent = '0 dishes found'; return; }
+  const from = (currentPage - 1) * PAGE_SIZE + 1;
+  const to   = Math.min(currentPage * PAGE_SIZE, count);
+  el.textContent = `Showing ${from}–${to} of ${count} dish${count !== 1 ? 'es' : ''}`;
 }
 
 /* ============================================================
@@ -1236,7 +1243,40 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeRecipe(
 /* ============================================================
    DISHES GRID RENDERING
    ============================================================ */
+function renderPagination(total, page) {
+  const bar = document.getElementById('pagination-bar');
+  if (!bar) return;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  if (totalPages <= 1) { bar.innerHTML = ''; return; }
+
+  const MAX_VISIBLE = 5;
+  let start = Math.max(1, page - Math.floor(MAX_VISIBLE / 2));
+  let end   = Math.min(totalPages, start + MAX_VISIBLE - 1);
+  if (end - start + 1 < MAX_VISIBLE) start = Math.max(1, end - MAX_VISIBLE + 1);
+
+  const btn = (label, p, disabled, active) =>
+    `<button class="pg-btn${active ? ' pg-active' : ''}${disabled ? ' pg-disabled' : ''}"
+      ${disabled ? 'disabled' : `onclick="goToPage(${p})"`}>${label}</button>`;
+
+  let html = btn('‹', page - 1, page === 1, false);
+  if (start > 1) html += btn('1', 1, false, false) + (start > 2 ? '<span class="pg-ellipsis">…</span>' : '');
+  for (let p = start; p <= end; p++) html += btn(p, p, false, p === page);
+  if (end < totalPages) html += (end < totalPages - 1 ? '<span class="pg-ellipsis">…</span>' : '') + btn(totalPages, totalPages, false, false);
+  html += btn('›', page + 1, page === totalPages, false);
+
+  bar.innerHTML = html;
+}
+
+function goToPage(p) {
+  currentPage = p;
+  const list = window._lastDishesList || DISHES;
+  renderDishes(true, list);
+  updateResultsCount(list.length);
+  document.getElementById('browse').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function renderDishes(animate = true, dishesList = DISHES) {
+  window._lastDishesList = dishesList;
   const grid = document.getElementById('dishes-grid');
   cardBatches.forEach(t => t.kill());
   cardBatches = [];
@@ -1248,13 +1288,18 @@ function renderDishes(animate = true, dishesList = DISHES) {
       <div style="font-size:1rem;font-weight:600">No dishes match your filters</div>
       <div style="font-size:.85rem;margin-top:8px">Try adjusting or clearing the active filters.</div>
     </div>`;
+    renderPagination(0, 1);
     return;
   }
+
+  const totalPages = Math.ceil(dishesList.length / PAGE_SIZE);
+  if (currentPage > totalPages) currentPage = totalPages;
+  const pageSlice = dishesList.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   const SPICE_EMOJI = { Mild: '🌶️', Medium: '🌶️🌶️', Hot: '🌶️🌶️🌶️', VeryHot: '🌶️🌶️🌶️🌶️' };
   const SPICE_LABEL = { Mild: '', Medium: '', Hot: '', VeryHot: '' };
 
-  dishesList.forEach(dish => {
+  pageSlice.forEach(dish => {
     const isVeg = dish.dietary === 'Vegetarian';
     const card  = document.createElement('div');
     card.className = 'dish-card';
@@ -1288,7 +1333,9 @@ function renderDishes(animate = true, dishesList = DISHES) {
     initCard3D(card);
   });
 
-  if (animate && dishesList.length) {
+  renderPagination(dishesList.length, currentPage);
+
+  if (animate && pageSlice.length) {
     gsap.set('.dish-card', { opacity: 0, y: 55, scale: 0.93 });
     cardBatches = ScrollTrigger.batch('.dish-card', {
       onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, scale: 1, duration: .65, stagger: .07, ease: 'power3.out', overwrite: true }),
