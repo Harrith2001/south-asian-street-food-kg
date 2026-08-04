@@ -3,24 +3,24 @@
    ============================================================ */
 const SPARQL_ENDPOINT = 'https://triplydb.com/_api/datasets/Areesha/South-Asian-Street-Food-KG/sparql';
 
-/* ── UI METADATA (not in KG: emoji, gradient, image key) ── */
+/* ── UI METADATA (not in KG: emoji, gradient, image key, prepTime, spiceLevel) ── */
 const DISH_UI = {
-  'Pani Puri':    { emoji: '🫙', grad: ['#006994','#00B4D8'],  imgKey: 'Golgappay' },
-  'Gol Gappay':  { emoji: '🫙', grad: ['#6B21A8','#A855F7'],  imgKey: 'Golgappay' },
-  'Fuchka':      { emoji: '🫙', grad: ['#16633C','#2DC653'],   imgKey: 'Fuchka' },
-  'Aloo Tikki':  { emoji: '🥔', grad: ['#B7791F','#F6C90E'],  imgKey: 'Aloo Tikki Chaat' },
-  'Beguni':      { emoji: '🍆', grad: ['#5B21B6','#8B5CF6'],  imgKey: 'Baingan Bhaja' },
-  'Bhel Puri':   { emoji: '🌾', grad: ['#C2410C','#FB923C'],  imgKey: 'Bhel Puri' },
-  'Chana Chaat': { emoji: '🫘', grad: ['#92400E','#F59E0B'],  imgKey: 'Chana Chaat' },
-  'Chapli Kebab':{ emoji: '🥩', grad: ['#7F1D1D','#DC2626'],  imgKey: 'Chapli Kabab' },
-  'Chotpoti':    { emoji: '🫘', grad: ['#14532D','#16A34A'],  imgKey: 'Chotpoti' },
-  'Dahi Bharay': { emoji: '🥣', grad: ['#1E3A5F','#3B82F6'],  imgKey: 'Dahi Baray' },
-  'Idli Sambar': { emoji: '🍚', grad: ['#78350F','#F59E0B'],  imgKey: 'Idli Sambhar' },
-  'Jhalmuri':    { emoji: '🌿', grad: ['#365314','#84CC16'],  imgKey: 'Jhalmuri' },
-  'Masala Dosa': { emoji: '🫓', grad: ['#9A3412','#EA580C'],  imgKey: 'Masala Dosa' },
-  'Samosa':      { emoji: '🥟', grad: ['#92400E','#D97706'],  imgKey: 'Samosa' },
-  'Shingara':    { emoji: '🥟', grad: ['#78350F','#A16207'],  imgKey: 'Shingara' },
-  'VadaPav':     { emoji: '🫓', grad: ['#9F1239','#E11D48'],  imgKey: 'Vada Pav' },
+  'Pani Puri':    { emoji: '🫙', grad: ['#006994','#00B4D8'],  imgKey: 'Golgappay',       prepTime: 45,  spiceLevel: 'Hot' },
+  'Gol Gappay':  { emoji: '🫙', grad: ['#6B21A8','#A855F7'],  imgKey: 'Golgappay',       prepTime: 45,  spiceLevel: 'Hot' },
+  'Fuchka':      { emoji: '🫙', grad: ['#16633C','#2DC653'],   imgKey: 'Fuchka',          prepTime: 45,  spiceLevel: 'Hot' },
+  'Aloo Tikki':  { emoji: '🥔', grad: ['#B7791F','#F6C90E'],  imgKey: 'Aloo Tikki Chaat',prepTime: 30,  spiceLevel: 'Medium' },
+  'Beguni':      { emoji: '🍆', grad: ['#5B21B6','#8B5CF6'],  imgKey: 'Baingan Bhaja',   prepTime: 20,  spiceLevel: 'Mild' },
+  'Bhel Puri':   { emoji: '🌾', grad: ['#C2410C','#FB923C'],  imgKey: 'Bhel Puri',       prepTime: 15,  spiceLevel: 'Medium' },
+  'Chana Chaat': { emoji: '🫘', grad: ['#92400E','#F59E0B'],  imgKey: 'Chana Chaat',     prepTime: 30,  spiceLevel: 'Medium' },
+  'Chapli Kebab':{ emoji: '🥩', grad: ['#7F1D1D','#DC2626'],  imgKey: 'Chapli Kabab',    prepTime: 60,  spiceLevel: 'Hot' },
+  'Chotpoti':    { emoji: '🫘', grad: ['#14532D','#16A34A'],  imgKey: 'Chotpoti',        prepTime: 45,  spiceLevel: 'Hot' },
+  'Dahi Bharay': { emoji: '🥣', grad: ['#1E3A5F','#3B82F6'],  imgKey: 'Dahi Baray',      prepTime: 90,  spiceLevel: 'Mild' },
+  'Idli Sambar': { emoji: '🍚', grad: ['#78350F','#F59E0B'],  imgKey: 'Idli Sambhar',    prepTime: 90,  spiceLevel: 'Medium' },
+  'Jhalmuri':    { emoji: '🌿', grad: ['#365314','#84CC16'],  imgKey: 'Jhalmuri',        prepTime: 15,  spiceLevel: 'VeryHot' },
+  'Masala Dosa': { emoji: '🫓', grad: ['#9A3412','#EA580C'],  imgKey: 'Masala Dosa',     prepTime: 90,  spiceLevel: 'Medium' },
+  'Samosa':      { emoji: '🥟', grad: ['#92400E','#D97706'],  imgKey: 'Samosa',          prepTime: 60,  spiceLevel: 'Medium' },
+  'Shingara':    { emoji: '🥟', grad: ['#78350F','#A16207'],  imgKey: 'Shingara',        prepTime: 60,  spiceLevel: 'Medium' },
+  'VadaPav':     { emoji: '🫓', grad: ['#9F1239','#E11D48'],  imgKey: 'Vada Pav',        prepTime: 45,  spiceLevel: 'Hot' },
 };
 
 const STATIC_IMGS = {
@@ -89,7 +89,8 @@ let locData = { restaurants: [], groceries: [] };
 const filterState = {
   country: 'all',       // 'all' | 'india' | 'pakistan' | 'bangladesh'
   dietary: [],          // [] | ['veg'] | ['nonveg'] | ['veg','nonveg']
-  maxIngredients: 'any',// 'any' | '8' | '12' | '20'
+  maxPrepTime: 'any',   // 'any' | '30' | '60' | '90'
+  spiceLevels: [],      // [] | ['Mild','Medium','Hot','VeryHot']
   excludeMethods: [],   // e.g. ['DeepFrying', 'Boiling']
   q6Ingredients: [],    // string array from input
   q6Results: null,      // Set<uri> from last Q6 SPARQL call | null = not yet fetched
@@ -482,7 +483,9 @@ async function loadDishData() {
         ingredients: [],
         variant: [],
         popularIn: [],
-        emoji: ui.emoji, grad: ui.grad, imgKey: ui.imgKey
+        emoji: ui.emoji, grad: ui.grad, imgKey: ui.imgKey,
+        prepTime: ui.prepTime || null,
+        spiceLevel: ui.spiceLevel || null,
       };
     }
     if (row.country?.value    && !map[uri].country)      map[uri].country      = row.country.value;
@@ -760,11 +763,12 @@ function initFilterPanels() {
    FILTER STATE MANAGEMENT
    ============================================================ */
 function getFilterState() {
-  const country = document.querySelector('input[name="f-country"]:checked')?.value || 'all';
-  const dietary = [...document.querySelectorAll('#fp-dietary-body input:checked')].map(cb => cb.value);
-  const maxIng  = document.querySelector('input[name="f-maxing"]:checked')?.value || 'any';
-  const excluded = [...document.querySelectorAll('.method-check:checked')].map(cb => cb.value);
-  return { country, dietary, maxIng, excluded };
+  const country      = document.querySelector('input[name="f-country"]:checked')?.value || 'all';
+  const dietary      = [...document.querySelectorAll('#fp-dietary-body input:checked')].map(cb => cb.value);
+  const maxPrepTime  = document.querySelector('input[name="f-preptime"]:checked')?.value || 'any';
+  const spiceLevels  = [...document.querySelectorAll('.spice-check:checked')].map(cb => cb.value);
+  const excluded     = [...document.querySelectorAll('.method-check:checked')].map(cb => cb.value);
+  return { country, dietary, maxPrepTime, spiceLevels, excluded };
 }
 
 /* ── Check if a dish technique matches an excluded method ── */
@@ -796,9 +800,19 @@ function renderActiveFilterTags() {
     }});
   });
 
-  if (filterState.maxIngredients !== 'any') {
-    tags.push({ label: `≤ ${filterState.maxIngredients} ingredients`, clear: () => { document.getElementById('f-ing-any').checked = true; filterState.maxIngredients = 'any'; applyAllFilters(); } });
+  if (filterState.maxPrepTime !== 'any') {
+    tags.push({ label: `≤ ${filterState.maxPrepTime} min`, clear: () => { document.getElementById('f-preptime-any').checked = true; filterState.maxPrepTime = 'any'; applyAllFilters(); } });
   }
+
+  filterState.spiceLevels.forEach(s => {
+    const nice = { Mild: '🟢 Mild', Medium: '🟡 Medium', Hot: '🔴 Hot', VeryHot: '🌶️ Very Hot' }[s] || s;
+    tags.push({ label: nice, clear: () => {
+      const cb = document.querySelector(`.spice-check[value="${s}"]`);
+      if (cb) cb.checked = false;
+      filterState.spiceLevels = filterState.spiceLevels.filter(x => x !== s);
+      applyAllFilters();
+    }});
+  });
 
   filterState.excludeMethods.forEach(m => {
     const nice = { DeepFrying: 'No Deep Frying', PanFrying: 'No Pan Frying', Boiling: 'No Boiling', Steaming: 'No Steaming' }[m] || ('No ' + m);
@@ -836,11 +850,12 @@ window.__clearTag = i => { if (window.__filterTagClears?.[i]) window.__filterTag
 async function applyAllFilters() {
   renderActiveFilterTags();
 
-  const { country, dietary, maxIng, excluded } = getFilterState();
-  filterState.country         = country;
-  filterState.dietary         = dietary;
-  filterState.maxIngredients  = maxIng;
-  filterState.excludeMethods  = excluded;
+  const { country, dietary, maxPrepTime, spiceLevels, excluded } = getFilterState();
+  filterState.country        = country;
+  filterState.dietary        = dietary;
+  filterState.maxPrepTime    = maxPrepTime;
+  filterState.spiceLevels    = spiceLevels;
+  filterState.excludeMethods = excluded;
 
   let result = [...DISHES];
 
@@ -857,10 +872,15 @@ async function applyAllFilters() {
     });
   }
 
-  // Max Ingredients / complexity (local, using loaded ingredient arrays — Q4)
-  if (maxIng !== 'any') {
-    const max = parseInt(maxIng);
-    result = result.filter(d => d.ingredients.length <= max);
+  // Prep time filter
+  if (maxPrepTime !== 'any') {
+    const max = parseInt(maxPrepTime);
+    result = result.filter(d => d.prepTime != null && d.prepTime <= max);
+  }
+
+  // Spice level filter
+  if (spiceLevels.length > 0) {
+    result = result.filter(d => d.spiceLevel != null && spiceLevels.includes(d.spiceLevel));
   }
 
   // Exclude cooking methods (local, using loaded technique data — Q5)
@@ -895,10 +915,11 @@ async function applyAllFilters() {
 }
 
 function clearAllFilters() {
-  document.getElementById('f-country-all').checked = true;
-  document.getElementById('diet-veg').checked      = false;
-  document.getElementById('diet-nonveg').checked   = false;
-  document.getElementById('f-ing-any').checked     = true;
+  document.getElementById('f-country-all').checked     = true;
+  document.getElementById('diet-veg').checked           = false;
+  document.getElementById('diet-nonveg').checked        = false;
+  document.getElementById('f-preptime-any').checked     = true;
+  document.querySelectorAll('.spice-check').forEach(cb => { cb.checked = false; });
   document.querySelectorAll('.method-check').forEach(cb => { cb.checked = false; });
   const inp = document.getElementById('filter-ingredient-input');
   if (inp) inp.value = '';
@@ -907,7 +928,8 @@ function clearAllFilters() {
 
   filterState.country        = 'all';
   filterState.dietary        = [];
-  filterState.maxIngredients = 'any';
+  filterState.maxPrepTime    = 'any';
+  filterState.spiceLevels    = [];
   filterState.excludeMethods = [];
   filterState.q6Ingredients  = [];
   filterState.q6Results      = null;
@@ -1544,8 +1566,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById(id)?.addEventListener('change', applyAllFilters);
   });
 
-  document.querySelectorAll('input[name="f-maxing"]').forEach(r =>
+  document.querySelectorAll('input[name="f-preptime"]').forEach(r =>
     r.addEventListener('change', applyAllFilters)
+  );
+
+  document.querySelectorAll('.spice-check').forEach(cb =>
+    cb.addEventListener('change', applyAllFilters)
   );
 
   document.querySelectorAll('.method-check').forEach(cb =>
