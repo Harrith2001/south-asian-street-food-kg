@@ -1,7 +1,7 @@
 /* ============================================================
    SPARQL ENDPOINT
    ============================================================ */
-const SPARQL_ENDPOINT = 'https://triplydb.com/_api/datasets/Areesha/South-Asian-Street-Food-KG/sparql';
+const SPARQL_ENDPOINT = 'https://api.triplydb.com/datasets/Areesha/South-Asian-Street-Food-KG/sparql';
 
 /* ── UI METADATA (not in KG: emoji, gradient, image key, prepTime, spiceLevel) ── */
 const DISH_UI = {
