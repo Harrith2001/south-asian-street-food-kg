@@ -1,0 +1,143 @@
+{
+  "restaurants": [
+    {
+      "id": "r1",
+      "name": "Maharaja Restaurant",
+      "type": "restaurant",
+      "address": "Sögestraße 40, 28195 Bremen",
+      "lat": 53.0761,
+      "lng": 8.8074,
+      "phone": "+49 421 123456",
+      "dishes": ["Samosa", "Chana Chaat", "Masala Dosa", "Idli Sambar"],
+      "cuisine": "Indian",
+      "description": "Authentic North and South Indian cuisine in the heart of Bremen. Known for their crispy samosas and aromatic chaats.",
+      "openingHours": "Mon–Sat 11:30–22:00, Sun 12:00–21:00"
+    },
+    {
+      "id": "r2",
+      "name": "Karachi Corner",
+      "type": "restaurant",
+      "address": "Ostertorsteinweg 58, 28203 Bremen",
+      "lat": 53.0767,
+      "lng": 8.8224,
+      "phone": "+49 421 234567",
+      "dishes": ["Gol Gappay", "Chapli Kebab", "Dahi Bharay", "Aloo Tikki"],
+      "cuisine": "Pakistani",
+      "description": "A cozy Pakistani street food spot in the Viertel district. Their Gol Gappay and Chapli Kebabs are crowd favourites.",
+      "openingHours": "Tue–Sun 12:00–22:00"
+    },
+    {
+      "id": "r3",
+      "name": "Dhaka Delight",
+      "type": "restaurant",
+      "address": "Herdentorsteinweg 12, 28195 Bremen",
+      "lat": 53.0797,
+      "lng": 8.8052,
+      "phone": "+49 421 345678",
+      "dishes": ["Fuchka", "Chotpoti", "Bhel Puri", "Jhalmuri"],
+      "cuisine": "Bangladeshi",
+      "description": "Bremen's favourite Bangladeshi spot. Serves authentic Fuchka and Chotpoti with tangy tamarind water just like the streets of Dhaka.",
+      "openingHours": "Mon–Sat 11:00–21:30"
+    },
+    {
+      "id": "r4",
+      "name": "Spice Route",
+      "type": "restaurant",
+      "address": "Fedelhören 90, 28203 Bremen",
+      "lat": 53.0780,
+      "lng": 8.8190,
+      "phone": "+49 421 456789",
+      "dishes": ["Vada Pav", "Bhel Puri", "Masala Dosa", "Idli Sambar"],
+      "cuisine": "Indian",
+      "description": "A modern South Indian and street food café. Try their classic Vada Pav and Mumbai-style Bhel Puri.",
+      "openingHours": "Mon–Fri 11:00–20:00, Sat–Sun 11:00–21:00"
+    },
+    {
+      "id": "r5",
+      "name": "Punjab Palace",
+      "type": "restaurant",
+      "address": "Am Dobben 47, 28203 Bremen",
+      "lat": 53.0755,
+      "lng": 8.8245,
+      "phone": "+49 421 567890",
+      "dishes": ["Samosa", "Chapli Kebab", "Chana Chaat", "Aloo Tikki"],
+      "cuisine": "Indian/Pakistani",
+      "description": "Popular Punjab-style eatery serving hearty Punjabi snacks including freshly fried samosas and a beloved Chana Chaat.",
+      "openingHours": "Daily 12:00–22:30"
+    }
+  ],
+  "groceries": [
+    {
+      "id": "g1",
+      "name": "Asia Supermarkt Bremen",
+      "type": "grocery",
+      "address": "Bahnhofsplatz 7, 28195 Bremen",
+      "lat": 53.0832,
+      "lng": 8.8134,
+      "phone": "+49 421 678901",
+      "stocks": ["Tamarind paste", "Chickpeas", "Cumin", "Coriander seeds", "Curry leaves", "Rice flour", "Semolina", "Lentils", "Gram flour"],
+      "description": "Large Asian supermarket near the central station. Stocks a wide range of South Asian spices, lentils, flours, and fresh produce.",
+      "openingHours": "Mon–Sat 09:00–20:00"
+    },
+    {
+      "id": "g2",
+      "name": "Bollywood Spices & Foods",
+      "type": "grocery",
+      "address": "Kornstraße 28, 28201 Bremen",
+      "lat": 53.0812,
+      "lng": 8.8081,
+      "phone": "+49 421 789012",
+      "stocks": ["Tamarind", "Mint chutney paste", "Puri shells", "Chaat masala", "Paneer", "Mustard seeds", "Turmeric", "Fenugreek", "Asafoetida"],
+      "description": "Specialist Indian grocery store with an impressive spice section. Best in Bremen for authentic chaat masala and hard-to-find South Asian pantry staples.",
+      "openingHours": "Mon–Sat 10:00–19:30, Sun 11:00–17:00"
+    },
+    {
+      "id": "g3",
+      "name": "Halal World Markt",
+      "type": "grocery",
+      "address": "Gröpelinger Heerstraße 201, 28237 Bremen",
+      "lat": 53.0909,
+      "lng": 8.7734,
+      "phone": "+49 421 890123",
+      "stocks": ["Chickpeas", "Lentils", "Yoghurt", "Gram flour", "Cumin seeds", "Black pepper", "Halal meat", "Fresh coriander", "Green chillies"],
+      "description": "Halal grocery and butcher with a strong South Asian section. Great source for fresh halal meat for Chapli Kebab and staple dry goods.",
+      "openingHours": "Daily 09:00–21:00"
+    },
+    {
+      "id": "g4",
+      "name": "Lanka & Desi Kirana",
+      "type": "grocery",
+      "address": "Woltmershauser Straße 302, 28197 Bremen",
+      "lat": 53.0686,
+      "lng": 8.8018,
+      "phone": "+49 421 901234",
+      "stocks": ["Urad dal", "Rice", "Idli moulds", "Coconut", "Curry leaves", "Tamarind block", "Jaggery", "Dried chilies", "Semolina"],
+      "description": "South Asian and Sri Lankan grocer well-stocked for South Indian cooking. Excellent selection of ingredients for Dosa, Idli, and Sambar.",
+      "openingHours": "Mon–Sat 09:30–19:00"
+    },
+    {
+      "id": "g6",
+      "name": "Al Syed Orientalischer Supermarkt",
+      "type": "grocery",
+      "address": "Bürgermeister-Smidt-Straße, 28195 Bremen",
+      "lat": 53.0845731,
+      "lng": 8.8142129,
+      "phone": "",
+      "stocks": ["Chickpeas", "Lentils", "Tamarind", "Cumin", "Turmeric", "Coriander", "Gram flour", "Rice", "Dried chilies", "Spice mixes"],
+      "description": "Oriental supermarket in central Bremen with a wide selection of Middle Eastern and South Asian groceries, spices, and pantry staples.",
+      "openingHours": "Please check Google Maps for current hours"
+    },
+    {
+      "id": "g5",
+      "name": "Global Foods Bremen",
+      "type": "grocery",
+      "address": "Neuenlander Straße 34, 28199 Bremen",
+      "lat": 53.0701,
+      "lng": 8.7895,
+      "phone": "+49 421 012345",
+      "stocks": ["Potato", "Chickpeas", "Puffed rice", "Tamarind", "Sev (fried noodles)", "Papdi crackers", "Pomegranate seeds", "Chat masala", "Coriander"],
+      "description": "International food market with a well-organized South Asian aisle. Perfect for sourcing the full ingredient list for Bhel Puri, Chotpoti, and Chaat.",
+      "openingHours": "Mon–Sat 08:00–20:00, Sun 10:00–18:00"
+    }
+  ]
+}

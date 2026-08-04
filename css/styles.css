@@ -1,0 +1,3463 @@
+/* ── TOKENS ───────────────────────────────────────────────────── */
+/* Palette: "Tandoori Paper" — blush-warm paper, tandoori red, curry green.
+   Deliberately avoids the generic beige+brass+espresso premium default. */
+:root {
+  /* Primary accent: TURMERIC GOLD, not the chili red.
+     On this plum-spice base chili red measures only 3.55:1 as text — it fails
+     AA. Turmeric hits 8.45:1. So gold is the one locked page accent and red
+     is demoted to semantic use (non-veg markers, destructive), never body
+     text or links. Gold-backed buttons take dark ink, never cream. */
+  --gold: #E8A73A;
+  --gold-l: #F3BE60;
+  --gold-dim: rgba(232, 167, 58, .12);
+  --gold-glow: rgba(232, 167, 58, .22);
+
+  /* Ink used on top of gold fills — 8.45:1 against --gold */
+  --on-gold: #2A1116;
+
+  --turmeric: #E8A73A;
+  --turmeric-l: #F3BE60;
+  --turmeric-dim: rgba(232, 167, 58, .14);
+
+  /* Chili red — semantic only, and as a CTA FILL (with near-white on top,
+     4.78:1), never as text on the page background. */
+  --chili: #C4453A;
+  --chili-l: #D9584B;
+  --on-chili: #FFF8F2;
+
+  /* Deeper band tone for sections that need to sit below the page */
+  --spice-deep: #1F0C11;
+  --spice-deep-2: #3A1620;
+
+  /* Semantic aliases — keeps component references intact */
+  --terra: var(--gold);
+  --terra-l: var(--gold-l);
+  --terra-dim: var(--gold-dim);
+  --amber: var(--gold);
+  --amber-l: #F7D08A;
+  --amber-dim: var(--turmeric-dim);
+
+  /* Accents lifted for a dark base — the light-theme greens went muddy */
+  --herb: #6FA87C;
+  --herb-l: #8CC49A;
+  --herb-dim: rgba(111, 168, 124, .14);
+  --crimson: #E0655A;
+  --crimson-dim: rgba(224, 101, 90, .14);
+
+  /* Night-market foundation — deep plum-spice, deliberately not black.
+     Cards sit a step ABOVE the page so elevation reads without glare. */
+  --bg: #2A1116;
+  --bg-card: #3A1A1F;
+  --surface: #331519;
+  --surface-raised: #45222A;
+  --text: #F5E9DC;
+  --text-muted: #B39A90;
+  --border: rgba(245, 233, 220, .12);
+  --border-strong: rgba(245, 233, 220, .24);
+  --sh-sm: 0 2px 12px rgba(0, 0, 0, .38);
+  --sh-md: 0 10px 34px rgba(0, 0, 0, .48);
+  --sh-lg: 0 26px 70px rgba(0, 0, 0, .60);
+  --nav-bg: rgba(42, 17, 22, .92);
+
+  /* Legacy map — prevents broken references in older rules */
+  --ink: #F5E9DC;
+  --ink-mid: #B39A90;
+  --cream: #2A1116;
+  --cream-mid: #331519;
+  --muted: #B39A90;
+}
+
+/* Single warm-paper theme — both attribute values resolve identically */
+:root[data-theme=light],
+:root[data-theme=dark] {
+  --bg: #2A1116;
+  --bg-card: #3A1A1F;
+  --surface: #331519;
+  --surface-raised: #45222A;
+  --text: #F5E9DC;
+  --text-muted: #B39A90;
+  --border: rgba(245, 233, 220, .12);
+  --border-strong: rgba(245, 233, 220, .24);
+  --nav-bg: rgba(42, 17, 22, .92);
+  --cream-mid: #331519;
+  --ink: #F5E9DC;
+  --muted: #B39A90;
+}
+
+@media(prefers-color-scheme:dark) {
+  :root {
+    --bg: #2A1116;
+    --bg-card: #3A1A1F;
+    --surface: #331519;
+    --text: #F5E9DC;
+    --text-muted: #B39A90;
+    --border: rgba(245, 233, 220, .12);
+    --nav-bg: rgba(42, 17, 22, .92);
+    --cream-mid: #331519;
+    --ink: #F5E9DC;
+    --muted: #B39A90;
+  }
+}
+
+/* ── RESET ────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Renders native UI — checkbox/radio boxes, scrollbars, select menus — on a
+     dark surface. Without it the UA paints bright white controls on the
+     plum-spice panels. */
+  color-scheme: dark;
+}
+
+/* Native controls take the page accent rather than the UA blue */
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--gold);
+}
+
+body {
+  font-family: 'Lora', Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16.5px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  transition: background .3s, color .3s;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  line-height: 1.08;
+  text-wrap: balance;
+  letter-spacing: -.005em;
+}
+
+/* Micro-UI chrome stays sans for legibility at small sizes */
+input,
+select,
+textarea,
+.chip,
+.badge,
+.dish-tag,
+.filter-group label,
+.section-label,
+.hero-eyebrow,
+.dm-eyebrow,
+.stat-label,
+.dm-card-origin {
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+a {
+  color: var(--terra);
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  border: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--terra);
+  outline-offset: 2px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 96px 0;
+}
+
+@media(prefers-reduced-motion:reduce) {
+  * {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ── SCROLL PROGRESS ──────────────────────────────────────────── */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 300;
+  background: linear-gradient(90deg, var(--terra), var(--amber), var(--amber-l));
+  transform-origin: left;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+
+/* ── NAV ──────────────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, .18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255, 245, 230, .06);
+  transition: background .4s, border-color .4s, backdrop-filter .4s, box-shadow .4s;
+}
+
+nav.nav--scrolled {
+  background: rgba(42, 17, 22, .72);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 24px rgba(90, 45, 35, .12);
+}
+
+/* Nav rides the hero photo at rest, then the page's own plum-spice once
+   scrolled. Both are dark, so these only re-seat the tokens. */
+nav.nav--scrolled .nav-logo-text {
+  color: var(--text);
+}
+
+nav.nav--scrolled .nav-links a {
+  color: var(--text-muted);
+}
+
+nav.nav--scrolled .nav-links a:hover {
+  color: var(--terra);
+}
+
+nav.nav--scrolled .hamburger span {
+  background: var(--text);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-logo-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--terra), var(--amber));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.nav-logo-text {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: 1.24rem;
+  letter-spacing: -.005em;
+  color: #FFF6EC;
+  line-height: 1.1;
+  transition: color .4s;
+}
+
+.nav-logo-text span {
+  display: block;
+  font-size: .62rem;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 400;
+  color: rgba(255, 245, 230, .55);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2px;
+}
+
+.nav-links a {
+  font-size: .95rem;
+  font-weight: 500;
+  color: rgba(255, 245, 230, .82);
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: color .25s, background .25s;
+}
+
+.nav-links a:hover {
+  color: #FFF5E6;
+  background: rgba(255, 245, 230, .12);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  padding: 8px;
+  width: 40px;
+}
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: #FFF5E6;
+  border-radius: 2px;
+  transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .25s ease, width .35s ease;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px 20px;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 199;
+}
+
+.mobile-menu a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 9px;
+  font-size: .95rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.mobile-menu a:hover {
+  background: var(--gold-dim);
+  color: var(--terra);
+}
+
+.mobile-menu.open {
+  display: flex;
+}
+
+@media(max-width:768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* ── RECIPE MODAL ─────────────────────────────────────────────── */
+.recipe-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 20, 16, .72);
+  backdrop-filter: blur(8px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+
+.recipe-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.recipe-modal {
+  background: var(--bg-card);
+  border-radius: 24px;
+  box-shadow: var(--sh-lg);
+  max-width: 700px;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  transform: scale(.94) translateY(18px);
+  transition: transform .35s cubic-bezier(.22, 1, .36, 1);
+  position: relative;
+}
+
+.recipe-overlay.open .recipe-modal {
+  transform: scale(1) translateY(0);
+}
+
+.recipe-modal-hero {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px 24px 0 0;
+}
+
+.dish-mega-emoji {
+  font-size: 6rem;
+  line-height: 1;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, .3));
+  position: relative;
+  z-index: 1;
+  user-select: none;
+}
+
+.hero-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: .18;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='1'%3E%3Ccircle cx='2' cy='2' r='1'/%3E%3Ccircle cx='10' cy='2' r='1'/%3E%3Ccircle cx='18' cy='2' r='1'/%3E%3Ccircle cx='6' cy='6' r='1'/%3E%3Ccircle cx='14' cy='6' r='1'/%3E%3Ccircle cx='2' cy='10' r='1'/%3E%3Ccircle cx='10' cy='10' r='1'/%3E%3Ccircle cx='18' cy='10' r='1'/%3E%3Ccircle cx='6' cy='14' r='1'/%3E%3Ccircle cx='14' cy='14' r='1'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.recipe-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, .2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #fff;
+  transition: background .2s;
+  z-index: 2;
+}
+
+.recipe-close:hover {
+  background: rgba(255, 255, 255, .38);
+}
+
+/* ── DISH CARD PHOTO ──────────────────────────────────────────── */
+.dish-img {
+  height: 175px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.dish-img--photo {
+  display: block;
+}
+
+.dish-img--photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s ease;
+}
+
+.dish-card:hover .dish-img--photo img {
+  transform: scale(1.06);
+}
+
+.recipe-modal-body {
+  padding: 28px 32px 32px;
+}
+
+.recipe-country-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.recipe-flag {
+  font-size: 1.5rem;
+}
+
+.recipe-country-label {
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.recipe-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.9rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.recipe-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 28px;
+}
+
+.rbadge {
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-size: .77rem;
+  font-weight: 600;
+}
+
+.rbadge.veg {
+  background: var(--herb-dim);
+  color: var(--herb-l);
+  border: 1px solid rgba(46, 125, 50, .22);
+}
+
+.rbadge.nonveg {
+  background: var(--crimson-dim);
+  color: var(--crimson);
+  border: 1px solid rgba(155, 27, 27, .2);
+}
+
+.rbadge.variant {
+  background: var(--gold-dim);
+  color: var(--gold);
+  border: 1px solid rgba(184, 51, 42, .25);
+}
+
+.rbadge.spice {
+  background: rgba(196, 80, 26, .12);
+  color: var(--terra);
+  border: 1px solid rgba(196, 80, 26, .25);
+}
+
+.rbadge.preptime {
+  background: rgba(59, 130, 246, .1);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, .22);
+}
+
+.rs-title {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 26px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rs-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.ingredients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(172px, 1fr));
+  gap: 9px;
+}
+
+/* About card */
+.about-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  font-size: .9rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  font-style: italic;
+}
+
+/* Ingredient set blocks */
+.ingset-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.ingset-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-strong);
+  background: var(--gold-dim);
+}
+
+.ingset-icon {
+  font-size: 1.1rem;
+}
+
+.ingset-label {
+  font-weight: 700;
+  font-size: .88rem;
+  color: var(--text);
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.ingset-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ingset-ing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 7px;
+}
+
+.ingset-prep-title {
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.ingset-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.ingset-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.ingset-step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--herb);
+  color: var(--on-gold);
+  font-weight: 700;
+  font-size: .72rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ingset-step-text {
+  font-size: .85rem;
+  color: var(--text);
+  line-height: 1.65;
+  padding-top: 2px;
+}
+
+/* Direct ingredients (no ingset) */
+.direct-ing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(172px, 1fr));
+  gap: 9px;
+  margin-bottom: 14px;
+}
+
+.ingredient-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .85rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.ing-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--amber);
+  flex-shrink: 0;
+}
+
+.steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.step-item {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.step-num {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--terra), var(--amber));
+  color: var(--on-gold);
+  font-weight: 700;
+  font-size: .82rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.step-text {
+  font-size: .9rem;
+  color: var(--text);
+  line-height: 1.7;
+  padding-top: 4px;
+}
+
+.technique-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.technique-chip {
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: .82rem;
+  font-weight: 500;
+}
+
+.variant-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.variant-link-chip {
+  padding: 7px 16px;
+  border-radius: 10px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(184, 51, 42, .3);
+  color: var(--gold);
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.variant-link-chip:hover {
+  background: rgba(184, 51, 42, .16);
+}
+
+.related-row {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.related-title {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.related-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.related-chip {
+  padding: 7px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+
+.related-chip:hover {
+  border-color: var(--terra);
+  color: var(--terra);
+}
+
+/* ── HERO ─────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  height: 100dvh;
+  min-height: 620px;
+  overflow: hidden;
+  background: var(--spice-deep);
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  will-change: transform;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 100px 24px 60px;
+  /* Warm spice scrim — plum-red, not black. Keeps AA contrast on the photo
+     while reading as "tandoor heat" instead of a grey overlay. */
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 45%, rgba(92, 30, 25, .34) 0%, transparent 70%),
+    linear-gradient(
+      to bottom,
+      rgba(48, 16, 20, .74) 0%,
+      rgba(48, 16, 20, .44) 32%,
+      rgba(44, 14, 18, .48) 62%,
+      rgba(38, 12, 16, .86) 100%
+    );
+  text-align: center;
+}
+
+/* Paper hand-off — hero melts into the page instead of a hard black edge */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 108px;
+  z-index: 3;
+  pointer-events: none;
+  /* Late, steep ramp — hands off to paper without bleaching the photo */
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(42, 17, 22, .45) 55%,
+    var(--bg) 100%
+  );
+}
+
+.hero-eyebrow {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(255, 245, 230, .5);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  justify-content: center;
+}
+
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: rgba(255, 245, 230, .25);
+}
+
+.hero-title {
+  /* Serif sets optically smaller than sans — scale up to compensate */
+  font-size: clamp(3.2rem, 8vw, 6.4rem);
+  font-weight: 600;
+  letter-spacing: -.012em;
+  color: #FFF6EC;
+  margin: 0 auto;
+  line-height: 1.04;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  text-shadow: 0 2px 30px rgba(30, 8, 10, .45);
+}
+
+/* Emphasis stays in the SAME family — italic, not a foreign font */
+.hero-title em {
+  font-style: italic;
+  font-weight: 600;
+}
+
+.hero-title em .ht-word {
+  background: linear-gradient(90deg, #F7C978 0%, #E0912A 25%, #FFF0D2 50%, #E0912A 75%, #F7C978 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: var(--turmeric-l);
+  animation: gold-shimmer 4s ease-in-out 1.8s infinite;
+}
+
+/* ── HERO WORD REVEAL ─────────────────────────────────────── */
+.clip-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  /* Italic serif descenders + the overflow clip need real reserve here */
+  padding-bottom: 0.16em;
+  padding-right: 0.06em;
+}
+
+.ht-word {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Hero canvas particles */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Stack above #hero-canvas (z-1) — must stay absolute, not relative,
+   or the overlay drops out of the hero and pushes the page down. */
+.hero-overlay {
+  z-index: 2;
+}
+
+/* ── GOLD SHIMMER KEYFRAME ─────────────────────────────── */
+@keyframes gold-shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* ── CARD 3D + SPOTLIGHT ───────────────────────────────── */
+.dishes-grid {
+  perspective: 1200px;
+}
+
+/* transform-style must stay FLAT. preserve-3d establishes a 3D rendering
+   context, and a 3D context cannot clip descendants with overflow:hidden —
+   the photo's square corners punch through the card's 18px radius the moment
+   GSAP applies rotateX/rotateY. The card is the only thing that rotates, so
+   its children gain nothing from preserve-3d. */
+.dish-card {
+  transform-style: flat;
+  will-change: transform;
+}
+
+/* Forces the rounded clip onto its own composited layer — WebKit otherwise
+   drops the border-radius clip on transformed, overflow-hidden elements. */
+.dish-card,
+.dish-img {
+  -webkit-mask-image: -webkit-radial-gradient(#fff, #000);
+  mask-image: radial-gradient(#fff, #000);
+}
+
+.card-spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .4s ease;
+  background: radial-gradient(
+    circle 220px at var(--sx, 50%) var(--sy, 50%),
+    rgba(232, 167, 58, .22) 0%,
+    rgba(232, 167, 58, .08) 40%,
+    transparent 70%
+  );
+  z-index: 3;
+  border-radius: inherit;
+}
+
+.dish-card:hover .card-spotlight {
+  opacity: 1;
+}
+
+/* ── SCROLL PROGRESS ───────────────────────────────────── */
+#scroll-progress {
+  background: linear-gradient(90deg, var(--gold-l), var(--gold), var(--turmeric));
+}
+
+/* ── SECTION CLIP REVEAL ───────────────────────────────── */
+.section-label,
+.section-title,
+.section-desc {
+  will-change: transform, opacity;
+}
+
+.hero-sub {
+  font-size: clamp(1.02rem, 1.6vw, 1.16rem);
+  color: rgba(255, 246, 236, .84);
+  max-width: 560px;
+  margin: 0 auto;
+  font-weight: 400;
+  line-height: 1.75;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.search-wrap {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Sits on the hero photo — a solid raised surface with a gold hairline so the
+   field reads as an affordance, not a faint glass panel over busy imagery. */
+.search-box {
+  display: flex;
+  background: rgba(58, 26, 31, .94);
+  backdrop-filter: blur(16px) saturate(150%);
+  border: 1.5px solid rgba(232, 167, 58, .34);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .48);
+}
+
+.search-box:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-glow), 0 18px 50px rgba(30, 8, 10, .34);
+}
+
+.search-input {
+  flex: 1;
+  padding: 16px 20px;
+  font-size: 1rem;
+  font-family: 'DM Sans', sans-serif;
+  background: none;
+  border: none;
+  color: var(--text);
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+  opacity: .75;
+}
+
+.search-btn {
+  padding: 10px 22px;
+  background: var(--gold);
+  color: var(--on-gold);
+  font-weight: 600;
+  font-size: .88rem;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: background .2s, transform .12s;
+  flex-shrink: 0;
+  margin: 7px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.search-btn:hover {
+  background: var(--gold-l);
+}
+
+.search-btn:active {
+  transform: scale(.97);
+}
+
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--sh-lg);
+  z-index: 50;
+  overflow: hidden;
+  display: none;
+}
+
+.search-suggestions.open {
+  display: block;
+}
+
+.suggestion-item {
+  padding: 12px 18px;
+  font-size: .9rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.suggestion-item:hover {
+  background: var(--terra-dim);
+  color: var(--terra);
+}
+
+.suggestion-meta {
+  font-size: .74rem;
+  color: var(--text-muted);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.country-cards {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.country-card {
+  background: rgba(255, 245, 230, .1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 245, 230, .2);
+  border-radius: 14px;
+  padding: 16px 22px;
+  cursor: pointer;
+  transition: transform .25s cubic-bezier(.22, 1, .36, 1), background .2s;
+  text-align: center;
+  min-width: 140px;
+}
+
+.country-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 245, 230, .18);
+}
+
+.country-card .flag {
+  font-size: 1.9rem;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.country-card .cname {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: .95rem;
+  color: #FFF5E6;
+}
+
+.country-card .ccount {
+  font-size: .72rem;
+  color: rgba(255, 245, 230, .5);
+  margin-top: 2px;
+}
+
+.hero-credits {
+  font-size: .75rem;
+  color: rgba(255, 245, 230, .42);
+  line-height: 1.7;
+}
+
+.hero-credits strong {
+  color: rgba(255, 245, 230, .7);
+  font-weight: 600;
+}
+
+.hero-scroll {
+  position: absolute;
+  /* Cleared above the paper hand-off gradient — inside it the composite is
+     mid-tone and neither ink nor light text holds contrast. */
+  bottom: 126px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 246, 236, .82);
+  text-shadow: 0 1px 12px rgba(30, 8, 10, .7);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  z-index: 4;
+}
+
+.scroll-arrow {
+  width: 20px;
+  height: 20px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  animation: bounce 1.6s ease-in-out infinite;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: rotate(45deg) translateY(0)
+  }
+
+  50% {
+    transform: rotate(45deg) translateY(5px)
+  }
+}
+
+/* ── SECTION HEADERS ──────────────────────────────────────────── */
+.section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.section-label {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 10px;
+  display: block;
+  position: relative;
+}
+
+.section-label::after {
+  content: '';
+  display: block;
+  height: 1.5px;
+  background: var(--terra);
+  width: 0;
+  margin: 6px auto 0;
+  border-radius: 1px;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -.026em;
+  color: var(--text);
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--terra);
+}
+
+.section-desc {
+  margin-top: 14px;
+  color: var(--text-muted);
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: .98rem;
+}
+
+/* ── DISH MARQUEE ─────────────────────────────────────────────── */
+/* Deep spice band — the page's one dark moment, warm plum-red not black.
+   Gives the light paper layout rhythm and makes the food photos pop. */
+.dish-marquee-section {
+  background:
+    linear-gradient(
+      100deg,
+      rgba(59, 20, 24, .96) 0%,
+      rgba(72, 24, 24, .90) 42%,
+      rgba(92, 30, 25, .80) 100%
+    ),
+    url('../images/section-overhead.jpg') center/cover no-repeat;
+  background-color: var(--spice-deep);
+  padding: 96px 0;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+}
+
+/* The photo layer is parallaxed by GSAP via this pseudo-free child */
+.dm-parallax-bg {
+  position: absolute;
+  inset: -12% 0;
+  z-index: -2;
+  background: url('../images/section-overhead.jpg') center/cover no-repeat;
+  opacity: .22;
+  will-change: transform;
+}
+
+/* --dm-sweep is scrubbed by ScrollTrigger — a warm light travelling across
+   the band as the section moves through the viewport. */
+@property --dm-sweep {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
+
+.dish-marquee-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 50% 40% at 50% -8%, rgba(224, 145, 42, .16) 0%, transparent 68%),
+    radial-gradient(ellipse 34% 90% at var(--dm-sweep, 0%) 50%, rgba(224, 145, 42, .13) 0%, transparent 70%);
+}
+
+/* Soft paper edges top and bottom so the band feels inset, not stamped on */
+.dish-marquee-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--bg) 0%,
+    transparent 14%,
+    transparent 86%,
+    var(--bg) 100%
+  );
+  opacity: .5;
+}
+
+.dish-marquee-inner {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.dish-marquee-head {
+  flex-shrink: 0;
+  width: 300px;
+  padding: 0 32px 0 56px;
+}
+
+.dm-eyebrow {
+  font-size: .62rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  font-weight: 600;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dm-eyebrow::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--amber);
+}
+
+.dm-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(3.1rem, 6vw, 5.4rem);
+  font-weight: 600;
+  line-height: .92;
+  letter-spacing: -.01em;
+  color: #FFF6EC;
+}
+
+.dm-title em {
+  color: var(--turmeric-l);
+  font-style: italic;
+  display: block;
+  /* italic serif descenders need reserve or the clip shaves them */
+  padding-bottom: .06em;
+}
+
+.dm-title span {
+  color: var(--turmeric-l);
+  font-style: italic;
+}
+
+.dm-desc {
+  font-size: .92rem;
+  color: rgba(255, 240, 228, .68);
+  line-height: 1.72;
+  margin-top: 22px;
+  max-width: 230px;
+}
+
+.dish-marquee-track-wrap {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+}
+
+/* NOTE: no CSS animation here on purpose.
+   Mutating `animation-duration` mid-flight makes the browser re-map elapsed
+   time onto the new duration, which snaps the track to a new position — that
+   was the "marquee goes rapidly fast" bug. GSAP drives these tracks instead
+   and scroll velocity modulates timeScale(), which is jump-free. */
+.dish-marquee-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  will-change: transform;
+}
+
+.dm-card {
+  flex-shrink: 0;
+  width: 240px;
+  height: 360px;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+
+.dm-card-bg {
+  width: 100%;
+  height: 100%;
+  transition: transform .65s cubic-bezier(.25, .46, .45, .94);
+}
+
+.dm-card:hover .dm-card-bg {
+  transform: scale(1.06);
+}
+
+.dm-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dm-card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 48px 16px 18px;
+  background: linear-gradient(to top, rgba(0, 0, 0, .82) 0%, transparent 100%);
+}
+
+.dm-card-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.dm-card-origin {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: .65rem;
+  color: var(--amber-l);
+  font-weight: 500;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ── STATS BAND ───────────────────────────────────────────────── */
+.stats-band {
+  background: linear-gradient(135deg, var(--terra) 0%, #8B2500 100%);
+  padding: 72px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.05'%3E%3Ccircle cx='20' cy='20' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  position: relative;
+}
+
+@media(max-width:768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.stat-card {
+  text-align: center;
+  padding: 20px 12px;
+}
+
+.stat-icon {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.stat-number {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #FFF5E6;
+  letter-spacing: -.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  font-size: .78rem;
+  color: rgba(255, 245, 230, .65);
+  margin-top: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+
+/* ── BROWSE SECTION ───────────────────────────────────────────── */
+/* Spice photo held way back so the paper stays the surface and the
+   dish cards keep all the visual weight. */
+.explore-bg {
+  background:
+    linear-gradient(rgba(42, 17, 22, .93), rgba(42, 17, 22, .96)),
+    url('../images/spices-bg.jpg') center/cover fixed no-repeat;
+  background-color: var(--bg);
+}
+
+.explorer-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.filter-group {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pill-btn {
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-size: .82rem;
+  font-weight: 500;
+  transition: all .2s;
+}
+
+.pill-btn:hover {
+  border-color: var(--terra);
+  color: var(--terra);
+}
+
+.pill-btn.active {
+  background: var(--terra);
+  border-color: var(--terra);
+  color: var(--on-gold);
+}
+
+.pill-btn.veg-btn.active {
+  background: var(--herb);
+  border-color: var(--herb);
+}
+
+.dishes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+}
+
+/* ── DISH CARDS ───────────────────────────────────────────────── */
+.dish-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  cursor: pointer;
+  transition: box-shadow .3s, border-color .3s;
+}
+
+/* No transform here — GSAP owns this element's transform for the 3D tilt,
+   and a CSS hover transform would fight it every mousemove. */
+.dish-card:hover {
+  box-shadow: var(--sh-lg), 0 0 0 1px var(--gold-glow);
+  border-color: rgba(184, 51, 42, .28);
+}
+
+.dish-img {
+  height: 175px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.big-emoji {
+  font-size: 5.5rem;
+  line-height: 1;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .28));
+  position: relative;
+  z-index: 1;
+  user-select: none;
+  transition: transform .35s cubic-bezier(.22, 1, .36, 1);
+}
+
+.dish-card:hover .big-emoji {
+  transform: scale(1.12) translateY(-4px);
+}
+
+.img-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: .14;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Ccircle cx='2' cy='2' r='1'/%3E%3Ccircle cx='10' cy='2' r='1'/%3E%3Ccircle cx='18' cy='2' r='1'/%3E%3Ccircle cx='6' cy='6' r='1'/%3E%3Ccircle cx='14' cy='6' r='1'/%3E%3Ccircle cx='2' cy='10' r='1'/%3E%3Ccircle cx='10' cy='10' r='1'/%3E%3Ccircle cx='18' cy='10' r='1'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.country-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  background: rgba(0, 0, 0, .45);
+  backdrop-filter: blur(6px);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: .72rem;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 1;
+}
+
+.flag-icon {
+  width: 18px;
+  height: 12px;
+  border-radius: 2px;
+  vertical-align: middle;
+  box-shadow: 0 0 1px rgba(0,0,0,.3);
+  flex-shrink: 0;
+}
+
+.card-badges-col {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  z-index: 1;
+}
+
+.card-badge {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(0, 0, 0, .48);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 20px;
+  font-size: .7rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.card-badge--diet {
+  width: 26px;
+  height: 26px;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: .82rem;
+}
+
+.card-badge--spice,
+.card-badge--time {
+  padding: 4px 8px;
+}
+
+.dish-card-body {
+  padding: 18px 20px;
+}
+
+.dish-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.techniques-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+
+.technique-tag {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: .72rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+}
+
+.ing-set-tag {
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: rgba(196, 80, 26, .12);
+  color: var(--terra);
+  font-size: .7rem;
+  font-weight: 500;
+  border: 1px solid rgba(196, 80, 26, .22);
+}
+
+.view-recipe-btn {
+  width: 100%;
+  padding: 11px 18px;
+  background: linear-gradient(135deg, var(--terra), var(--terra-l));
+  color: var(--on-gold);
+  border-radius: 11px;
+  font-weight: 600;
+  font-size: .85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity .2s, transform .2s;
+}
+
+.view-recipe-btn:hover {
+  opacity: .88;
+  transform: translateY(-1px);
+}
+
+/* ── STORY SECTION ────────────────────────────────────────────── */
+.story-section {
+  padding: 96px 0;
+  background: var(--bg);
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+@media(max-width:768px) {
+  .story-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.story-text p {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  line-height: 1.8;
+  font-size: .98rem;
+}
+
+.story-text strong {
+  color: var(--text);
+}
+
+.hierarchy-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: var(--sh-sm);
+}
+
+.hcard-title {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.h-node {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 500;
+  font-size: .88rem;
+  color: var(--text);
+}
+
+.h-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.h-connector {
+  margin: 6px 0 6px 20px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.h-line {
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+  margin-left: 4px;
+}
+
+.h-prop {
+  font-size: .7rem;
+  color: var(--terra);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+.deco-card {
+  position: absolute;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 18px;
+  box-shadow: var(--sh-md);
+  font-size: .82rem;
+  color: var(--text);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deco-card-emoji {
+  font-size: 1.3rem;
+}
+
+.deco-card.top-right {
+  top: -20px;
+  right: -20px;
+}
+
+.deco-card.bottom-left {
+  bottom: -20px;
+  left: -20px;
+}
+
+.story-visual {
+  position: relative;
+}
+
+@media(max-width:768px) {
+  .deco-card {
+    display: none;
+  }
+}
+
+/* ── ONTOLOGY ─────────────────────────────────────────────────── */
+.onto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-bottom: 44px;
+}
+
+@media(max-width:768px) {
+  .onto-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.onto-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+}
+
+.onto-card-head {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.onto-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.onto-icon.pkg {
+  background: rgba(121, 192, 255, .15);
+}
+
+.onto-icon.custom {
+  background: var(--terra-dim);
+}
+
+.onto-card-title {
+  font-weight: 700;
+  font-size: .93rem;
+  color: var(--text);
+}
+
+.onto-card-sub {
+  font-size: .72rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.onto-card-body {
+  padding: 18px 22px;
+}
+
+.ing-chip {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 7px;
+  font-size: .77rem;
+  font-weight: 500;
+  margin: 3px;
+}
+
+.ing-chip.pkg {
+  background: rgba(121, 192, 255, .1);
+  color: #79C0FF;
+  border: 1px solid rgba(121, 192, 255, .2);
+}
+
+.ing-chip.custom {
+  background: var(--terra-dim);
+  color: var(--terra);
+  border: 1px solid rgba(196, 80, 26, .2);
+}
+
+.sub-diagram {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  text-align: center;
+}
+
+.sub-level {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.sub-node {
+  padding: 7px 16px;
+  border-radius: 9px;
+  font-size: .79rem;
+  font-weight: 600;
+  border: 1.5px solid;
+}
+
+.sub-node.root {
+  background: var(--gold-dim);
+  color: var(--gold);
+  border-color: rgba(184, 51, 42, .3);
+}
+
+.sub-node.mid {
+  background: rgba(121, 192, 255, .1);
+  color: #79C0FF;
+  border-color: rgba(121, 192, 255, .25);
+}
+
+.sub-node.leaf {
+  background: var(--terra-dim);
+  color: var(--terra);
+  border-color: rgba(196, 80, 26, .2);
+  font-size: .72rem;
+}
+
+.sub-arrow {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin: 4px 0;
+}
+
+.sub-label {
+  font-size: .66rem;
+  color: var(--text-muted);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin: 1px 0 5px;
+}
+
+/* ── FOOTER ───────────────────────────────────────────────────── */
+/* Footer bookends the marquee band in the same deep spice tone,
+   so the page reads paper → spice → paper → spice rather than paper → black. */
+footer {
+  background: linear-gradient(160deg, var(--spice-deep) 0%, var(--spice-deep-2) 100%);
+  color: rgba(255, 240, 228, .68);
+  padding: 64px 0 28px;
+  border-top: none;
+  position: relative;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 44px;
+  margin-bottom: 36px;
+}
+
+@media(max-width:768px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.footer-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.footer-logo-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--terra), var(--amber));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.footer-logo-text {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #FFF6EC;
+  letter-spacing: -.02em;
+}
+
+.footer-brand p {
+  font-size: .83rem;
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.footer-team-name {
+  color: #FFF6EC;
+  font-weight: 500;
+  font-size: .82rem;
+  margin-bottom: 3px;
+  display: block;
+}
+
+.footer-col-title {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: rgba(255, 240, 228, .50);
+  margin-bottom: 12px;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.footer-links a {
+  font-size: .82rem;
+  color: rgba(255, 240, 228, .72);
+  transition: color .2s;
+}
+
+.footer-links a:hover {
+  color: var(--turmeric-l);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 240, 228, .14);
+  padding-top: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: .76rem;
+  color: rgba(255, 240, 228, .52);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.ns-badge {
+  font-family: monospace;
+  background: rgba(255, 245, 230, .06);
+  border: 1px solid rgba(255, 245, 230, .1);
+  padding: 3px 9px;
+  border-radius: 5px;
+  font-size: .7rem;
+  color: rgba(255, 240, 228, .60);
+}
+
+/* ── Q3: INGREDIENT SETS SECTION ──────────────────────────────── */
+#ingredient-sets-section {
+  padding: 96px 0;
+}
+
+.ingredient-sets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.ingredient-set-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--sh-sm);
+  transition: all .3s;
+  cursor: pointer;
+}
+
+.ingredient-set-card:hover {
+  box-shadow: var(--sh-md);
+  transform: translateY(-2px);
+}
+
+.set-name {
+  font-weight: 700;
+  font-size: .95rem;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.set-count {
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--terra), var(--amber));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 4px;
+}
+
+.set-label {
+  font-size: .72rem;
+  color: var(--text-muted);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+/* ── Q4 & Q5: FIND PERFECT SECTION ────────────────────────────── */
+#find-perfect {
+  padding: 96px 0;
+}
+
+.q4-section,
+.q5-section {
+  margin-bottom: 60px;
+}
+
+.subsection-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--text);
+}
+
+.action-btn {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--terra), var(--terra-l));
+  color: var(--on-gold);
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: .9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: opacity .2s, transform .2s;
+}
+
+.action-btn:hover {
+  opacity: .88;
+  transform: translateY(-2px);
+}
+
+.action-btn svg {
+  stroke-width: 2;
+}
+
+.filter-label {
+  display: block;
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.cooking-preferences {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+  padding: 24px;
+  background: var(--surface);
+  border-radius: 16px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: .92rem;
+  color: var(--text);
+  user-select: none;
+  padding: 8px 12px;
+  border-radius: 9px;
+  transition: background .2s;
+}
+
+.checkbox-label:hover {
+  background: rgba(196, 80, 26, .1);
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--gold);
+}
+
+.lightest-results,
+.preferences-results,
+.ingredient-results {
+  margin-top: 40px;
+}
+
+.results-header {
+  padding: 20px;
+  background: var(--surface);
+  border-radius: 14px;
+  margin-bottom: 24px;
+  font-size: .95rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+}
+
+/* ── Q6: INGREDIENT SEARCH SECTION ────────────────────────────── */
+#ingredient-search-section {
+  padding: 96px 0;
+}
+
+.ingredient-search-box {
+  margin: 40px 0;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: var(--sh-sm);
+}
+
+.ingredient-input-wrap {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ingredient-input-wrap input {
+  flex: 1;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: .9rem;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  transition: border-color .2s;
+}
+
+.ingredient-input-wrap input:focus {
+  outline: none;
+  border-color: var(--terra);
+}
+
+.search-btn-ingredient {
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--herb), var(--herb-l));
+  color: var(--on-gold);
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: .9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity .2s;
+}
+
+.search-btn-ingredient:hover {
+  opacity: .88;
+}
+
+.ingredient-suggestions {
+  font-size: .85rem;
+  color: var(--text-muted);
+}
+
+.ingredient-results {
+  margin-top: 40px;
+}
+
+/* ── RESPONSIVE ADJUSTMENTS ───────────────────────────────────── */
+@media(max-width:768px) {
+  .filter-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pill-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .ingredient-sets-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cooking-preferences {
+    grid-template-columns: 1fr;
+  }
+
+  .ingredient-input-wrap {
+    flex-direction: column;
+  }
+
+  .ingredient-input-wrap input {
+    width: 100%;
+  }
+
+  .search-btn-ingredient {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   SPARQL QUERY CONSOLE
+   ============================================================ */
+.sparql-console {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 420px;
+  max-height: 500px;
+  background: rgba(30, 24, 20, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 245, 230, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  color: #FFF5E6;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.sparql-console.minimized {
+  width: 280px;
+  max-height: 52px;
+  border-color: rgba(255, 245, 230, 0.08);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.sparql-console-header {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid rgba(255, 245, 230, 0.08);
+}
+
+.console-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--amber-l);
+}
+
+.console-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.console-status-pill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 245, 230, 0.1);
+  color: rgba(255, 245, 230, 0.7);
+  transition: all 0.3s;
+}
+
+.console-status-pill.running {
+  background: rgba(196, 80, 26, 0.25);
+  color: #FF8F5A;
+  animation: pulse 1.5s infinite;
+}
+
+.console-status-pill.success {
+  background: rgba(46, 125, 50, 0.25);
+  color: #84E296;
+}
+
+.console-status-pill.error {
+  background: rgba(155, 27, 27, 0.25);
+  color: #FFA3A3;
+}
+
+.console-toggle-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 245, 230, 0.5);
+  font-size: 0.7rem;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.console-toggle-btn:hover {
+  color: #FFF5E6;
+}
+
+.sparql-console-body {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+.console-query-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-sub-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 245, 230, 0.5);
+}
+
+.console-copy-btn {
+  background: rgba(255, 245, 230, 0.08);
+  border: 1px solid rgba(255, 245, 230, 0.12);
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255, 245, 230, 0.8);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.console-copy-btn:hover {
+  background: var(--amber-l);
+  color: #000;
+  border-color: var(--amber-l);
+}
+
+.console-code {
+  background: #120C08;
+  border: 1px solid rgba(255, 245, 230, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #DDA27A;
+  max-height: 220px;
+  overflow: auto;
+  white-space: pre;
+  word-break: break-all;
+}
+
+.console-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  border-top: 1px solid rgba(255, 245, 230, 0.08);
+  padding-top: 12px;
+}
+
+.console-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 245, 230, 0.4);
+}
+
+.stat-value {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 245, 230, 0.95);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* ============================================================
+   SHARED CULINARY BASES CARDS (Q3)
+   ============================================================ */
+.base-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--sh-sm);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.base-card:hover {
+  box-shadow: var(--sh-md);
+}
+
+.base-card.open {
+  grid-column: 1 / -1;
+}
+
+/* ── Clickable title row ── */
+.base-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+  gap: 12px;
+}
+
+.base-card-title:hover {
+  background: var(--surface);
+}
+
+.base-title-text {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.base-chevron {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform 0.25s ease;
+}
+
+.base-card.open .base-chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Expandable details ── */
+.base-card-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.base-card-details-inner {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0 22px;
+}
+
+.base-card.open .base-card-details {
+  grid-template-rows: 1fr;
+}
+
+.base-card.open .base-card-details-inner {
+  padding-bottom: 20px;
+}
+
+.base-dishes-box {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+
+.base-section-lbl {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.base-dishes-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.base-dish-chip-link {
+  font-size: 0.76rem;
+  font-weight: 600;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.base-dish-chip-link:hover {
+  border-color: var(--terra);
+  color: var(--terra);
+  background: var(--terra-dim);
+}
+
+.base-ings-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.base-ing-chip-item {
+  font-size: 0.72rem;
+  background: var(--surface);
+  color: var(--text);
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+}
+
+/* ============================================================
+   RESPONSIVE OVERLAY & MISC RESULTS
+   ============================================================ */
+@media(max-width:480px) {
+  .sparql-console {
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    border-radius: 16px 16px 0 0;
+  }
+}
+
+/* ============================================================
+   WIDE CONTAINER (Browse section)
+   ============================================================ */
+.container--wide {
+  max-width: 1380px;
+  margin-inline: auto;
+  padding-inline: 28px;
+}
+
+/* ============================================================
+   PAGE TAB SWITCHER
+   ============================================================ */
+.page-tabs-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.page-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--surface);
+  padding: 5px;
+  border-radius: 14px;
+  width: fit-content;
+  box-shadow: var(--sh-sm);
+}
+
+/* ── Quick ingredient search, beside the page tabs ── */
+.quick-ing-search {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  max-width: 380px;
+}
+
+.quick-ing-search .filter-ing-wrap input {
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  border-radius: 11px;
+}
+
+.quick-ing-search .filter-ing-btn {
+  padding: 10px 13px;
+  border-radius: 11px;
+}
+
+.quick-ing-search .filter-q6-status {
+  padding-inline: 2px;
+}
+
+.page-tab {
+  padding: 10px 22px;
+  border-radius: 10px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .22s ease;
+  letter-spacing: .01em;
+}
+
+.page-tab:hover {
+  color: var(--text);
+}
+
+.page-tab.active {
+  background: var(--bg-card);
+  color: var(--terra);
+  box-shadow: var(--sh-sm);
+}
+
+/* ============================================================
+   PAGE VIEWS
+   ============================================================ */
+.page-view {
+  display: none;
+}
+.page-view.active {
+  display: block;
+  animation: fadeIn .3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   BROWSE LAYOUT (sidebar + results grid)
+   ============================================================ */
+.browse-layout {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ── Filter Sidebar ── */
+.filter-sidebar {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  position: sticky;
+  top: 84px;
+}
+
+.filter-sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-sidebar-title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text);
+}
+
+.clear-filters-btn {
+  background: none;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--terra);
+  cursor: pointer;
+  padding: 3px 7px;
+  border-radius: 6px;
+  transition: background .15s;
+}
+
+.clear-filters-btn:hover {
+  background: var(--terra-dim);
+}
+
+/* ── Active Filter Tags (top of sidebar) ── */
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 10px 14px;
+  min-height: 0;
+}
+
+.active-filters:empty {
+  display: none;
+}
+
+.active-filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px 3px 8px;
+  background: var(--terra-dim);
+  border: 1px solid rgba(196,80,26,.18);
+  border-radius: 20px;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--terra);
+  white-space: nowrap;
+}
+
+.active-filter-tag button {
+  background: none;
+  border: none;
+  color: var(--terra);
+  font-size: 0.65rem;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
+  opacity: .7;
+  transition: opacity .15s;
+}
+
+.active-filter-tag button:hover {
+  opacity: 1;
+}
+
+/* ── Filter Panel (collapsible section) ── */
+.filter-panel {
+  border-top: 1px solid var(--border);
+}
+
+.filter-panel--last {
+  border-bottom: none;
+}
+
+.filter-panel-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: left;
+  transition: background .15s;
+}
+
+.filter-panel-toggle:hover {
+  background: var(--surface);
+}
+
+.fp-chevron {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform .2s;
+}
+
+.filter-panel.collapsed .fp-chevron {
+  transform: rotate(-90deg);
+}
+
+.filter-panel-body {
+  padding: 0 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  transition: max-height .25s ease, padding .25s ease;
+}
+
+.filter-panel.collapsed .filter-panel-body {
+  max-height: 0 !important;
+  padding-bottom: 0;
+}
+
+/* Radio + Checkbox rows */
+.filter-radio-label,
+.filter-check-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-sans);
+  font-size: 0.855rem;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+  transition: color .15s;
+}
+
+.filter-radio-label:hover,
+.filter-check-label:hover {
+  color: var(--terra);
+}
+
+.filter-radio-label input[type="radio"],
+.filter-check-label input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--terra);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.fp-meta {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* ── Ingredient input inside sidebar ── */
+.filter-ing-wrap {
+  display: flex;
+  gap: 6px;
+}
+
+.filter-ing-wrap input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  transition: border-color .18s;
+}
+
+.filter-ing-wrap input:focus {
+  outline: none;
+  border-color: var(--terra);
+  background: var(--bg-card);
+}
+
+.filter-ing-btn {
+  padding: 8px 11px;
+  background: var(--terra);
+  color: var(--on-gold);
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .18s, transform .12s;
+  flex-shrink: 0;
+}
+
+.filter-ing-btn:hover {
+  background: var(--terra-l);
+  transform: scale(1.05);
+}
+
+.fp-hint {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.filter-q6-status {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--terra);
+  font-weight: 600;
+  min-height: 0;
+  transition: all .2s;
+}
+
+/* ── Browse Results Area ── */
+.browse-results {
+  min-width: 0;
+}
+
+.browse-results-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.results-count {
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ============================================================
+   CULINARY BASES INTRO
+   ============================================================ */
+.bases-intro {
+  max-width: 780px;
+  margin-bottom: 34px;
+}
+
+.bases-intro-text {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.bases-intro-text strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ============================================================
+   RESPONSIVE — BROWSE LAYOUT
+   ============================================================ */
+@media(max-width:960px) {
+  .browse-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-sidebar {
+    position: static;
+  }
+
+  .container--wide {
+    padding-inline: 18px;
+  }
+}
+
+@media(max-width:600px) {
+  .page-tab {
+    padding: 9px 14px;
+    font-size: 0.8rem;
+  }
+  .page-tabs {
+    width: 100%;
+    justify-content: center;
+  }
+  .page-tabs-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .quick-ing-search {
+    max-width: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LOCATIONS PAGE
+   ═══════════════════════════════════════════════════════════════ */
+
+.loc-intro {
+  margin-bottom: 20px;
+}
+
+.loc-intro-text {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── Type toggle ── */
+.loc-type-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.loc-type-btn {
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.loc-type-btn:hover {
+  border-color: var(--gold);
+  color: var(--text);
+}
+
+.loc-type-btn.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--on-gold);
+}
+
+/* ── Layout: map + list side by side ── */
+.locations-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ── Map ── */
+#locations-map {
+  height: 560px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: sticky;
+  top: 80px;
+  z-index: 1;
+}
+
+/* Leaflet popup customisation */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,.18) !important;
+  font-family: inherit !important;
+  padding: 0 !important;
+}
+.leaflet-popup-content {
+  margin: 0 !important;
+  width: auto !important;
+}
+.loc-popup {
+  padding: 14px 16px;
+  min-width: 200px;
+  max-width: 260px;
+}
+.loc-popup-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+.loc-popup-address {
+  font-size: 0.78rem;
+  color: #666;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.loc-popup-desc {
+  font-size: 0.8rem;
+  color: #444;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.loc-popup-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+.loc-popup-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: #f0f0f0;
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: #333;
+}
+.loc-popup-hours {
+  font-size: 0.72rem;
+  color: #888;
+}
+
+/* ── Location list cards ── */
+#locations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 560px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.loc-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.loc-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 4px 20px var(--gold-glow);
+  transform: translateY(-1px);
+}
+
+.loc-card.highlighted {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-dim);
+}
+
+.loc-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.loc-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.loc-card-icon--restaurant {
+  background: rgba(220, 60, 60, 0.12);
+}
+
+.loc-card-icon--grocery {
+  background: rgba(40, 160, 100, 0.12);
+}
+
+.loc-card-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.loc-card-address {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.loc-card-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.loc-card-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.loc-chip {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+}
+
+.loc-card-hours {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.loc-list-loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.loc-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .locations-layout {
+    grid-template-columns: 1fr;
+  }
+
+  #locations-map {
+    height: 380px;
+    position: static;
+  }
+
+  #locations-list {
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  #locations-map {
+    height: 300px;
+  }
+}
