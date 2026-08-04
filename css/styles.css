@@ -3146,3 +3146,260 @@ footer::before {
     max-width: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   LOCATIONS PAGE
+   ═══════════════════════════════════════════════════════════════ */
+
+.loc-intro {
+  margin-bottom: 20px;
+}
+
+.loc-intro-text {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── Type toggle ── */
+.loc-type-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.loc-type-btn {
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.loc-type-btn:hover {
+  border-color: var(--gold);
+  color: var(--text);
+}
+
+.loc-type-btn.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--on-gold);
+}
+
+/* ── Layout: map + list side by side ── */
+.locations-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ── Map ── */
+#locations-map {
+  height: 560px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: sticky;
+  top: 80px;
+  z-index: 1;
+}
+
+/* Leaflet popup customisation */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,.18) !important;
+  font-family: inherit !important;
+  padding: 0 !important;
+}
+.leaflet-popup-content {
+  margin: 0 !important;
+  width: auto !important;
+}
+.loc-popup {
+  padding: 14px 16px;
+  min-width: 200px;
+  max-width: 260px;
+}
+.loc-popup-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+.loc-popup-address {
+  font-size: 0.78rem;
+  color: #666;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.loc-popup-desc {
+  font-size: 0.8rem;
+  color: #444;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.loc-popup-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+.loc-popup-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: #f0f0f0;
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: #333;
+}
+.loc-popup-hours {
+  font-size: 0.72rem;
+  color: #888;
+}
+
+/* ── Location list cards ── */
+#locations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 560px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.loc-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.loc-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 4px 20px var(--gold-glow);
+  transform: translateY(-1px);
+}
+
+.loc-card.highlighted {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-dim);
+}
+
+.loc-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.loc-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.loc-card-icon--restaurant {
+  background: rgba(220, 60, 60, 0.12);
+}
+
+.loc-card-icon--grocery {
+  background: rgba(40, 160, 100, 0.12);
+}
+
+.loc-card-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.loc-card-address {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.loc-card-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.loc-card-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.loc-chip {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+}
+
+.loc-card-hours {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.loc-list-loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.loc-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .locations-layout {
+    grid-template-columns: 1fr;
+  }
+
+  #locations-map {
+    height: 380px;
+    position: static;
+  }
+
+  #locations-list {
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  #locations-map {
+    height: 300px;
+  }
+}

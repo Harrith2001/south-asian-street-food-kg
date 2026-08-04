@@ -80,6 +80,10 @@ let DISHES = [];
 let cardBatches = [];
 let currentSPARQLQuery = '';
 let basesLoaded = false;
+let locationsLoaded = false;
+let locMap = null;
+let locMarkers = [];
+let locData = { restaurants: [], groceries: [] };
 
 /* ── FILTER STATE ── */
 const filterState = {
@@ -573,14 +577,160 @@ document.querySelectorAll('.mobile-menu a').forEach(a =>
 function switchPage(page) {
   document.querySelectorAll('.page-tab').forEach(t => t.classList.toggle('active', t.dataset.page === page));
   document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
-  const target = document.getElementById(page === 'dishes' ? 'dishes-page' : 'culinary-bases-page');
+  const pageIds = { dishes: 'dishes-page', 'culinary-bases': 'culinary-bases-page', locations: 'locations-page' };
+  const target = document.getElementById(pageIds[page]);
   if (target) target.classList.add('active');
 
-  // Lazy-load bases on first visit
   if (page === 'culinary-bases' && !basesLoaded) {
     basesLoaded = true;
     loadSharedBases();
   }
+  if (page === 'locations' && !locationsLoaded) {
+    locationsLoaded = true;
+    loadLocations();
+  }
+}
+
+/* ============================================================
+   LOCATIONS — BREMEN MAP
+   ============================================================ */
+function loadLocations() {
+  fetch('./data/locations.json')
+    .then(r => r.json())
+    .then(data => {
+      locData = data;
+      initLocMap();
+      renderLocList('all');
+      wireLocToggles();
+    })
+    .catch(() => {
+      document.getElementById('locations-list').innerHTML =
+        '<div class="loc-empty">Could not load location data. Please try again.</div>';
+    });
+}
+
+function initLocMap() {
+  if (locMap) return;
+  locMap = L.map('locations-map').setView([53.0793, 8.8017], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
+  }).addTo(locMap);
+  renderLocMarkers('all');
+}
+
+function makeIcon(type) {
+  const color = type === 'restaurant' ? '#DC3C3C' : '#28A064';
+  const emoji = type === 'restaurant' ? '🍽️' : '🛒';
+  return L.divIcon({
+    className: '',
+    html: `<div style="
+      width:36px;height:36px;border-radius:50%;
+      background:${color};border:3px solid #fff;
+      box-shadow:0 2px 8px rgba(0,0,0,.3);
+      display:flex;align-items:center;justify-content:center;
+      font-size:15px;cursor:pointer;">${emoji}</div>`,
+    iconSize: [36, 36],
+    iconAnchor: [18, 18],
+    popupAnchor: [0, -22]
+  });
+}
+
+function buildPopupHtml(loc) {
+  const tagItems = (loc.dishes || loc.stocks || []).slice(0, 5)
+    .map(t => `<span class="loc-popup-tag">${t}</span>`).join('');
+  const moreCount = (loc.dishes || loc.stocks || []).length - 5;
+  return `
+    <div class="loc-popup">
+      <div class="loc-popup-name">${loc.name}</div>
+      <div class="loc-popup-address">📍 ${loc.address}</div>
+      <div class="loc-popup-desc">${loc.description}</div>
+      ${tagItems ? `<div class="loc-popup-tags">${tagItems}${moreCount > 0 ? `<span class="loc-popup-tag">+${moreCount} more</span>` : ''}</div>` : ''}
+      <div class="loc-popup-hours">🕐 ${loc.openingHours}</div>
+    </div>`;
+}
+
+function renderLocMarkers(filterType) {
+  locMarkers.forEach(({ marker }) => locMap.removeLayer(marker));
+  locMarkers = [];
+
+  const all = [...locData.restaurants, ...locData.groceries];
+  all.forEach(loc => {
+    if (filterType !== 'all' && loc.type !== filterType) return;
+    const marker = L.marker([loc.lat, loc.lng], { icon: makeIcon(loc.type) })
+      .addTo(locMap)
+      .bindPopup(buildPopupHtml(loc), { maxWidth: 280 });
+    marker.on('click', () => highlightLocCard(loc.id));
+    locMarkers.push({ marker, id: loc.id });
+  });
+}
+
+function renderLocList(filterType) {
+  const list = document.getElementById('locations-list');
+  const all = [...locData.restaurants, ...locData.groceries];
+  const filtered = filterType === 'all' ? all : all.filter(l => l.type === filterType);
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="loc-empty">No locations found.</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(loc => {
+    const isRest = loc.type === 'restaurant';
+    const iconClass = isRest ? 'loc-card-icon--restaurant' : 'loc-card-icon--grocery';
+    const emoji = isRest ? '🍽️' : '🛒';
+    const chips = (loc.dishes || loc.stocks || []).slice(0, 6)
+      .map(t => `<span class="loc-chip">${t}</span>`).join('');
+    const moreCount = (loc.dishes || loc.stocks || []).length - 6;
+
+    return `
+      <div class="loc-card" data-id="${loc.id}">
+        <div class="loc-card-header">
+          <div class="loc-card-icon ${iconClass}">${emoji}</div>
+          <div>
+            <div class="loc-card-name">${loc.name}</div>
+            <div class="loc-card-address">📍 ${loc.address}</div>
+          </div>
+        </div>
+        <div class="loc-card-desc">${loc.description}</div>
+        <div class="loc-card-chips">
+          ${chips}
+          ${moreCount > 0 ? `<span class="loc-chip">+${moreCount} more</span>` : ''}
+        </div>
+        <div class="loc-card-hours">🕐 ${loc.openingHours}</div>
+      </div>`;
+  }).join('');
+
+  list.querySelectorAll('.loc-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const loc = all.find(l => l.id === card.dataset.id);
+      if (!loc || !locMap) return;
+      locMap.setView([loc.lat, loc.lng], 16, { animate: true });
+      const entry = locMarkers.find(m => m.id === loc.id);
+      if (entry) entry.marker.openPopup();
+      highlightLocCard(loc.id);
+    });
+  });
+}
+
+function highlightLocCard(id) {
+  document.querySelectorAll('.loc-card').forEach(c => {
+    c.classList.toggle('highlighted', c.dataset.id === id);
+  });
+  const card = document.querySelector(`.loc-card[data-id="${id}"]`);
+  if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function wireLocToggles() {
+  document.querySelectorAll('.loc-type-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.loc-type-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const type = btn.dataset.type;
+      renderLocMarkers(type);
+      renderLocList(type);
+    });
+  });
 }
 
 /* ============================================================

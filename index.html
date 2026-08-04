@@ -12,7 +12,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <link rel="stylesheet" href="css/styles.css?v=10">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/styles.css?v=11">
 </head>
 
 <body>
@@ -251,6 +253,7 @@
         <div class="page-tabs" id="page-tabs">
           <button class="page-tab active" data-page="dishes" id="tab-dishes">🍛 All Dishes</button>
           <button class="page-tab" data-page="culinary-bases" id="tab-culinary-bases">🫙 Culinary Bases</button>
+          <button class="page-tab" data-page="locations" id="tab-locations">📍 Find in Bremen</button>
         </div>
 
         <div class="quick-ing-search" id="quick-ing-search">
@@ -388,6 +391,25 @@
             from knowledge graph…</div>
         </div>
       </div><!-- end culinary-bases-page -->
+
+      <!-- ─── LOCATIONS PAGE VIEW ─── -->
+      <div class="page-view" id="locations-page">
+        <div class="loc-intro">
+          <p class="loc-intro-text">Discover places in <strong>Bremen</strong> where you can enjoy South Asian street
+            food or buy the ingredients to cook at home. Click any marker or card to explore.</p>
+        </div>
+        <div class="loc-type-toggle" id="loc-type-toggle">
+          <button class="loc-type-btn active" data-type="all">🗺️ All Places</button>
+          <button class="loc-type-btn" data-type="restaurant">🍽️ Restaurants</button>
+          <button class="loc-type-btn" data-type="grocery">🛒 Grocery Stores</button>
+        </div>
+        <div class="locations-layout">
+          <div id="locations-map"></div>
+          <div id="locations-list">
+            <div class="loc-list-loading">Loading locations…</div>
+          </div>
+        </div>
+      </div><!-- end locations-page -->
 
     </div>
   </section>
