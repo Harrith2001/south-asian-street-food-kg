@@ -912,6 +912,7 @@ async function applyAllFilters() {
 
   renderDishes(false, result);
   updateResultsCount(result.length);
+  document.getElementById('filter-ingredient-input').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function clearAllFilters() {
