@@ -564,11 +564,17 @@ async function loadDishData() {
   onScroll();
 })();
 
-document.getElementById('hamburger').addEventListener('click', () =>
-  document.getElementById('mobile-menu').classList.toggle('open')
-);
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
 document.querySelectorAll('.mobile-menu a').forEach(a =>
-  a.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('open'))
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  })
 );
 
 /* ============================================================
@@ -884,7 +890,7 @@ async function applyAllFilters() {
     }
   }
 
-  renderDishes(true, result);
+  renderDishes(false, result);
   updateResultsCount(result.length);
 }
 

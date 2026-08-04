@@ -214,17 +214,19 @@ nav {
   left: 0;
   right: 0;
   z-index: 200;
-  background: transparent;
-  border-bottom: 1px solid transparent;
-  transition: background .4s, border-color .4s, backdrop-filter .4s;
+  background: rgba(0, 0, 0, .18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255, 245, 230, .06);
+  transition: background .4s, border-color .4s, backdrop-filter .4s, box-shadow .4s;
 }
 
 nav.nav--scrolled {
-  background: var(--nav-bg);
+  background: rgba(42, 17, 22, .72);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 1px 24px rgba(90, 45, 35, .06);
+  box-shadow: 0 1px 24px rgba(90, 45, 35, .12);
 }
 
 /* Nav rides the hero photo at rest, then the page's own plum-spice once
@@ -326,7 +328,18 @@ nav.nav--scrolled .hamburger span {
   height: 2px;
   background: #FFF5E6;
   border-radius: 2px;
-  transition: transform .3s, opacity .3s;
+  transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .25s ease, width .35s ease;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 .mobile-menu {
