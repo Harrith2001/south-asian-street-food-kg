@@ -1340,74 +1340,6 @@ function initMarquee() {
   });
 }
 
-/* ── Marquee section scroll graphics ──
-   Counter-drift, photo parallax and a velocity skew so the band feels like
-   it is moving through the viewport rather than sitting behind it. */
-function initMarqueeGraphics() {
-  const section = document.querySelector('.dish-marquee-section');
-  if (!section) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  /* Parallax photo layer, injected so the section keeps its flat background */
-  if (!section.querySelector('.dm-parallax-bg')) {
-    const bg = document.createElement('div');
-    bg.className = 'dm-parallax-bg';
-    section.prepend(bg);
-    gsap.fromTo(bg, { yPercent: -8 }, {
-      yPercent: 8, ease: 'none',
-      scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true }
-    });
-  }
-
-  /* Vertical parallax only — the head and the track column share a row, so
-     any horizontal drift slides the cards straight over the copy. */
-  gsap.fromTo('.dish-marquee-head', { y: 54 }, {
-    y: -54, ease: 'none',
-    scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1 }
-  });
-
-  /* Rows counter-drift against each other for depth */
-  gsap.utils.toArray('.dish-marquee-track').forEach((track, i) => {
-    const dir = i % 2 === 0 ? 1 : -1;
-    gsap.fromTo(track, { y: 26 * dir }, {
-      y: -26 * dir, ease: 'none',
-      scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1.2 }
-    });
-  });
-
-  /* Warm glow sweeps across as you scroll through */
-  gsap.fromTo(section, { '--dm-sweep': '0%' }, {
-    '--dm-sweep': '100%', ease: 'none',
-    scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true }
-  });
-
-  /* Velocity skew — cards lean into the scroll direction, then settle */
-  const cards = gsap.utils.toArray('.dm-card');
-  if (!cards.length) return;
-
-  const skewSetter = gsap.quickSetter(cards, 'skewX', 'deg');
-  const scaleSetter = gsap.quickSetter(cards, 'scaleY');
-  let skew = 0;
-
-  ScrollTrigger.create({
-    trigger: section,
-    start: 'top bottom',
-    end: 'bottom top',
-    onUpdate(self) {
-      skew = gsap.utils.clamp(-9, 9, self.getVelocity() / -260);
-      skewSetter(skew);
-      scaleSetter(1 + Math.abs(skew) * 0.006);
-    }
-  });
-
-  /* Ease the skew back to flat every frame the user is not scrolling */
-  gsap.ticker.add(() => {
-    if (Math.abs(skew) < 0.01) return;
-    skew *= 0.88;
-    skewSetter(skew);
-    scaleSetter(1 + Math.abs(skew) * 0.006);
-  });
-}
 
 /* ── Per-card 3D tilt + spotlight ── */
 function initCard3D(card) {
@@ -1487,7 +1419,6 @@ function initGSAP() {
 
   /* marquee: GSAP-driven loop + scroll graphics */
   initMarquee();
-  initMarqueeGraphics();
 
   /* marquee head stagger — no opacity tween on the section itself, it would
      fight the parallax transforms running on its children */
