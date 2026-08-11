@@ -1,30 +1,30 @@
 /* ============================================================
    SPARQL ENDPOINT
    ============================================================ */
-const SPARQL_ENDPOINT = 'https://triplydb.com/_api/datasets/Areesha/South-Asian-Street-Food-KG/sparql';
+const SPARQL_ENDPOINT = 'https://api.triplydb.com/datasets/Areesha/South-Asian-Street-Food-KG/sparql';
 
 /* ── UI METADATA (not in KG: emoji, gradient, image key, prepTime, spiceLevel) ── */
 const DISH_UI = {
-  'Pani Puri':    { emoji: '🫙', grad: ['#006994','#00B4D8'],  imgKey: 'Golgappay',       prepTime: 45,  spiceLevel: 'Hot' },
-  'Gol Gappay':  { emoji: '🫙', grad: ['#6B21A8','#A855F7'],  imgKey: 'Golgappay',       prepTime: 45,  spiceLevel: 'Hot' },
-  'Fuchka':      { emoji: '🫙', grad: ['#16633C','#2DC653'],   imgKey: 'Fuchka',          prepTime: 45,  spiceLevel: 'Hot' },
-  'Aloo Tikki':  { emoji: '🥔', grad: ['#B7791F','#F6C90E'],  imgKey: 'Aloo Tikki Chaat',prepTime: 30,  spiceLevel: 'Medium' },
-  'Beguni':      { emoji: '🍆', grad: ['#5B21B6','#8B5CF6'],  imgKey: 'Baingan Bhaja',   prepTime: 20,  spiceLevel: 'Mild' },
-  'Bhel Puri':   { emoji: '🌾', grad: ['#C2410C','#FB923C'],  imgKey: 'Bhel Puri',       prepTime: 15,  spiceLevel: 'Medium' },
+  'Pani Puri':    { emoji: '🫙', grad: ['#006994','#00B4D8'],  imgKey: 'Pani Puri',       prepTime: 60,  spiceLevel: 'Hot' },
+  'Gol Gappay':  { emoji: '🫙', grad: ['#6B21A8','#A855F7'],  imgKey: 'Gol Gappay',       prepTime: 60,  spiceLevel: 'Hot' },
+  'Fuchka':      { emoji: '🫙', grad: ['#16633C','#2DC653'],   imgKey: 'Fuchka',          prepTime: 60,  spiceLevel: 'Hot' },
+  'Aloo Tikki':  { emoji: '🥔', grad: ['#B7791F','#F6C90E'],  imgKey: 'Aloo Tikki Chaat',prepTime: 45,  spiceLevel: 'Medium' },
+  'Beguni':      { emoji: '🍆', grad: ['#5B21B6','#8B5CF6'],  imgKey: 'Baingan Bhaja',   prepTime: 25,  spiceLevel: 'Mild' },
+  'Bhel Puri':   { emoji: '🌾', grad: ['#C2410C','#FB923C'],  imgKey: 'Bhel Puri',       prepTime: 20,  spiceLevel: 'Medium' },
   'Chana Chaat': { emoji: '🫘', grad: ['#92400E','#F59E0B'],  imgKey: 'Chana Chaat',     prepTime: 30,  spiceLevel: 'Medium' },
-  'Chapli Kebab':{ emoji: '🥩', grad: ['#7F1D1D','#DC2626'],  imgKey: 'Chapli Kabab',    prepTime: 60,  spiceLevel: 'Hot' },
-  'Chotpoti':    { emoji: '🫘', grad: ['#14532D','#16A34A'],  imgKey: 'Chotpoti',        prepTime: 45,  spiceLevel: 'Hot' },
+  'Chapli Kebab':{ emoji: '🥩', grad: ['#7F1D1D','#DC2626'],  imgKey: 'Chapli Kabab',    prepTime: 70,  spiceLevel: 'Hot' },
+  'Chotpoti':    { emoji: '🫘', grad: ['#14532D','#16A34A'],  imgKey: 'Chotpoti',        prepTime: 35,  spiceLevel: 'Hot' },
   'Dahi Bharay': { emoji: '🥣', grad: ['#1E3A5F','#3B82F6'],  imgKey: 'Dahi Baray',      prepTime: 90,  spiceLevel: 'Mild' },
-  'Idli Sambar': { emoji: '🍚', grad: ['#78350F','#F59E0B'],  imgKey: 'Idli Sambhar',    prepTime: 90,  spiceLevel: 'Medium' },
+  'Idli Sambar': { emoji: '🍚', grad: ['#78350F','#F59E0B'],  imgKey: 'Idli Sambhar',    prepTime: 120, spiceLevel: 'Medium' },
   'Jhalmuri':    { emoji: '🌿', grad: ['#365314','#84CC16'],  imgKey: 'Jhalmuri',        prepTime: 15,  spiceLevel: 'VeryHot' },
   'Masala Dosa': { emoji: '🫓', grad: ['#9A3412','#EA580C'],  imgKey: 'Masala Dosa',     prepTime: 90,  spiceLevel: 'Medium' },
-  'Samosa':      { emoji: '🥟', grad: ['#92400E','#D97706'],  imgKey: 'Samosa',          prepTime: 60,  spiceLevel: 'Medium' },
-  'Shingara':    { emoji: '🥟', grad: ['#78350F','#A16207'],  imgKey: 'Shingara',        prepTime: 60,  spiceLevel: 'Medium' },
+  'Samosa':      { emoji: '🥟', grad: ['#92400E','#D97706'],  imgKey: 'Samosa',          prepTime: 80,  spiceLevel: 'Medium' },
+  'Shingara':    { emoji: '🥟', grad: ['#78350F','#A16207'],  imgKey: 'Shingara',        prepTime: 80,  spiceLevel: 'Medium' },
   'VadaPav':     { emoji: '🫓', grad: ['#9F1239','#E11D48'],  imgKey: 'Vada Pav',        prepTime: 45,  spiceLevel: 'Hot' },
 };
 
 const STATIC_IMGS = {
-  "Golgappay":          "./images/golgappay.jpg",
+  "Gol Gappay":          "./images/golgappay.jpg",
   "Chotpoti":           "./images/chotpoti-fuchka.jpg",
   "Fuchka":             "./images/fuchka.jpg",
   "Aloo Tikki Chaat":   "./images/aloo-tikki-chaat.jpg",
@@ -38,8 +38,8 @@ const STATIC_IMGS = {
   "Jhalmuri":           "./images/jhalmuri.jpg",
   "Masala Dosa":        "./images/masala-dosa.jpg",
   "Samosa":             "./images/samosa.jpg",
-  "Shingara":           "./images/shingara.jpg"
-  
+  "Shingara":           "./images/shingara.jpg",
+  "Pani Puri":          "./images/panipuri.jpg"
 };
 window.DISH_IMGS = STATIC_IMGS;
 
@@ -82,15 +82,33 @@ let currentSPARQLQuery = '';
 let basesLoaded = false;
 let locationsLoaded = false;
 let locMap = null;
+let currentPage = 1;
+const PAGE_SIZE = 12;
 let locMarkers = [];
 let locData = { restaurants: [], groceries: [] };
+let chatGreeted = false;
+const KNOWN_INGREDIENTS = new Set([
+  // Common South Asian ingredients — seeded immediately so fuzzy matching works before SPARQL loads
+  'potato','chickpea','chickpeas','tamarind','mint','coriander','cumin','turmeric','semolina',
+  'rice flour','gram flour','lentil','lentils','yoghurt','yogurt','onion','tomato',
+  'green chili','green chilli','ginger','garlic','mustard seeds','curry leaves','coconut',
+  'urad dal','fenugreek','asafoetida','puffed rice','sev','papdi','pomegranate',
+  'chaat masala','black pepper','salt','oil','water','tamarind paste','tamarind water',
+  'chickpea flour','rice','semolina dough','bread','puri','bread roll','vada',
+  'lamb','beef','meat','minced meat','egg','paneer','cottage cheese',
+  'mustard','fennel','carom seeds','dried red chili','bay leaf','cloves','cardamom',
+  'cinnamon','black cardamom','star anise','mace','nutmeg','saffron','rose water',
+  'vermicelli','lemon','lime','vinegar','sugar','jaggery','ghee','butter',
+  'baingan','eggplant','aubergine','potato filling','spiced potato',
+  'idli','sambar','dosa','chutney','coconut chutney','tomato chutney',
+]);
 
 /* ── FILTER STATE ── */
 const filterState = {
   country: 'all',       // 'all' | 'india' | 'pakistan' | 'bangladesh'
   dietary: [],          // [] | ['veg'] | ['nonveg'] | ['veg','nonveg']
-  maxPrepTime: 'any',   // 'any' | '30' | '60' | '90'
-  spiceLevels: [],      // [] | ['Mild','Medium','Hot','VeryHot']
+  maxPrepTime: 'any',   // 'any' | 'lte30' | '31to60' | 'gt60'
+
   excludeMethods: [],   // e.g. ['DeepFrying', 'Boiling']
   q6Ingredients: [],    // string array from input
   q6Results: null,      // Set<uri> from last Q6 SPARQL call | null = not yet fetched
@@ -603,15 +621,106 @@ function switchPage(page) {
 /* ============================================================
    LOCATIONS — BREMEN MAP
    ============================================================ */
+
+async function loadLocationsFromSPARQL() {
+  const PFX = `
+    PREFIX sasf: <http://example.org/southasianstreetfood#>
+    PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX owl:   <http://www.w3.org/2002/07/owl#>
+  `;
+
+  const [restRows, grocRows] = await Promise.all([
+    querySPARQL(PFX + `
+      SELECT ?place ?name ?comment ?address ?lat ?lng ?phone ?hours
+             (GROUP_CONCAT(DISTINCT ?resolvedDishLabel; separator="|||") AS ?dishList)
+      WHERE {
+        ?place rdfs:subClassOf sasf:Restaurant .
+        FILTER(?place != sasf:Restaurant)
+        ?place rdfs:label ?name .
+        OPTIONAL { ?place rdfs:comment ?comment }
+        OPTIONAL { ?place sasf:hasAddress ?address }
+        OPTIONAL { ?place sasf:hasLatitude ?lat }
+        OPTIONAL { ?place sasf:hasLongitude ?lng }
+        OPTIONAL { ?place sasf:hasPhoneNumber ?phone }
+        OPTIONAL { ?place sasf:hasOpeningHours ?hours }
+        OPTIONAL {
+          ?place rdfs:subClassOf ?r .
+          ?r owl:onProperty sasf:servesDish ; owl:someValuesFrom ?dish .
+          OPTIONAL { ?dish rdfs:label ?dLabel }
+          BIND(COALESCE(?dLabel, REPLACE(STR(?dish), "^.*[#]", "")) AS ?resolvedDishLabel)
+        }
+      }
+      GROUP BY ?place ?name ?comment ?address ?lat ?lng ?phone ?hours
+    `),
+    querySPARQL(PFX + `
+      SELECT ?place ?name ?comment ?address ?lat ?lng ?phone ?hours ?stockList
+      WHERE {
+        ?place rdfs:subClassOf sasf:GroceryStore .
+        FILTER(?place != sasf:GroceryStore)
+        ?place rdfs:label ?name .
+        OPTIONAL { ?place rdfs:comment ?comment }
+        OPTIONAL { ?place sasf:hasAddress ?address }
+        OPTIONAL { ?place sasf:hasLatitude ?lat }
+        OPTIONAL { ?place sasf:hasLongitude ?lng }
+        OPTIONAL { ?place sasf:hasPhoneNumber ?phone }
+        OPTIONAL { ?place sasf:hasOpeningHours ?hours }
+        OPTIONAL { ?place sasf:hasStockList ?stockList }
+      }
+    `)
+  ]);
+
+  const restaurants = restRows.map(row => {
+    const id = row.place.value.replace(/^.*[#/]/, '');
+    return {
+      id,
+      type:         'restaurant',
+      name:         row.name?.value || id,
+      description:  row.comment?.value || '',
+      address:      row.address?.value || '',
+      lat:          parseFloat(row.lat?.value  || '0'),
+      lng:          parseFloat(row.lng?.value  || '0'),
+      phone:        row.phone?.value || '',
+      openingHours: row.hours?.value || '',
+      dishes: row.dishList?.value
+        ? row.dishList.value.split('|||').map(s => s.trim()).filter(Boolean)
+        : [],
+    };
+  });
+
+  const groceries = grocRows.map(row => {
+    const id = row.place.value.replace(/^.*[#/]/, '');
+    return {
+      id,
+      type:         'grocery',
+      name:         row.name?.value || id,
+      description:  row.comment?.value || '',
+      address:      row.address?.value || '',
+      lat:          parseFloat(row.lat?.value  || '0'),
+      lng:          parseFloat(row.lng?.value  || '0'),
+      phone:        row.phone?.value || '',
+      openingHours: row.hours?.value || '',
+      stocks: row.stockList?.value
+        ? row.stockList.value.split(',').map(s => s.trim()).filter(Boolean)
+        : [],
+    };
+  });
+
+  return { restaurants, groceries };
+}
+
 function loadLocations() {
-  fetch('./data/locations.json')
-    .then(r => r.json())
-    .then(data => {
-      locData = data;
-      initLocMap();
-      renderLocList('all');
-      wireLocToggles();
-    })
+  const init = data => {
+    locData = data;
+    initLocMap();
+    renderLocList('all');
+    wireLocToggles();
+  };
+  if (locData.restaurants.length || locData.groceries.length) {
+    init(locData);
+    return;
+  }
+  loadLocationsFromSPARQL()
+    .then(init)
     .catch(() => {
       document.getElementById('locations-list').innerHTML =
         '<div class="loc-empty">Could not load location data. Please try again.</div>';
@@ -766,9 +875,8 @@ function getFilterState() {
   const country      = document.querySelector('input[name="f-country"]:checked')?.value || 'all';
   const dietary      = [...document.querySelectorAll('#fp-dietary-body input:checked')].map(cb => cb.value);
   const maxPrepTime  = document.querySelector('input[name="f-preptime"]:checked')?.value || 'any';
-  const spiceLevels  = [...document.querySelectorAll('.spice-check:checked')].map(cb => cb.value);
   const excluded     = [...document.querySelectorAll('.method-check:checked')].map(cb => cb.value);
-  return { country, dietary, maxPrepTime, spiceLevels, excluded };
+  return { country, dietary, maxPrepTime, excluded };
 }
 
 /* ── Check if a dish technique matches an excluded method ── */
@@ -801,18 +909,10 @@ function renderActiveFilterTags() {
   });
 
   if (filterState.maxPrepTime !== 'any') {
-    tags.push({ label: `≤ ${filterState.maxPrepTime} min`, clear: () => { document.getElementById('f-preptime-any').checked = true; filterState.maxPrepTime = 'any'; applyAllFilters(); } });
+    const ptLabel = { lte30: '≤ 30 min', '31to60': '30–60 min', gt60: '> 60 min' }[filterState.maxPrepTime] || filterState.maxPrepTime;
+    tags.push({ label: ptLabel, clear: () => { document.getElementById('f-preptime-any').checked = true; filterState.maxPrepTime = 'any'; applyAllFilters(); } });
   }
 
-  filterState.spiceLevels.forEach(s => {
-    const nice = { Mild: '🟢 Mild', Medium: '🟡 Medium', Hot: '🔴 Hot', VeryHot: '🌶️ Very Hot' }[s] || s;
-    tags.push({ label: nice, clear: () => {
-      const cb = document.querySelector(`.spice-check[value="${s}"]`);
-      if (cb) cb.checked = false;
-      filterState.spiceLevels = filterState.spiceLevels.filter(x => x !== s);
-      applyAllFilters();
-    }});
-  });
 
   filterState.excludeMethods.forEach(m => {
     const nice = { DeepFrying: 'No Deep Frying', PanFrying: 'No Pan Frying', Boiling: 'No Boiling', Steaming: 'No Steaming' }[m] || ('No ' + m);
@@ -850,11 +950,10 @@ window.__clearTag = i => { if (window.__filterTagClears?.[i]) window.__filterTag
 async function applyAllFilters() {
   renderActiveFilterTags();
 
-  const { country, dietary, maxPrepTime, spiceLevels, excluded } = getFilterState();
+  const { country, dietary, maxPrepTime, excluded } = getFilterState();
   filterState.country        = country;
   filterState.dietary        = dietary;
   filterState.maxPrepTime    = maxPrepTime;
-  filterState.spiceLevels    = spiceLevels;
   filterState.excludeMethods = excluded;
 
   let result = [...DISHES];
@@ -873,15 +972,14 @@ async function applyAllFilters() {
   }
 
   // Prep time filter
-  if (maxPrepTime !== 'any') {
-    const max = parseInt(maxPrepTime);
-    result = result.filter(d => d.prepTime != null && d.prepTime <= max);
+  if (maxPrepTime === 'lte30') {
+    result = result.filter(d => d.prepTime != null && d.prepTime <= 30);
+  } else if (maxPrepTime === '31to60') {
+    result = result.filter(d => d.prepTime != null && d.prepTime > 30 && d.prepTime <= 60);
+  } else if (maxPrepTime === 'gt60') {
+    result = result.filter(d => d.prepTime != null && d.prepTime > 60);
   }
 
-  // Spice level filter
-  if (spiceLevels.length > 0) {
-    result = result.filter(d => d.spiceLevel != null && spiceLevels.includes(d.spiceLevel));
-  }
 
   // Exclude cooking methods (local, using loaded technique data — Q5)
   if (excluded.length > 0) {
@@ -910,6 +1008,7 @@ async function applyAllFilters() {
     }
   }
 
+  currentPage = 1;
   renderDishes(false, result);
   updateResultsCount(result.length);
   document.getElementById('filter-ingredient-input').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -920,7 +1019,7 @@ function clearAllFilters() {
   document.getElementById('diet-veg').checked           = false;
   document.getElementById('diet-nonveg').checked        = false;
   document.getElementById('f-preptime-any').checked     = true;
-  document.querySelectorAll('.spice-check').forEach(cb => { cb.checked = false; });
+
   document.querySelectorAll('.method-check').forEach(cb => { cb.checked = false; });
   const inp = document.getElementById('filter-ingredient-input');
   if (inp) inp.value = '';
@@ -930,7 +1029,7 @@ function clearAllFilters() {
   filterState.country        = 'all';
   filterState.dietary        = [];
   filterState.maxPrepTime    = 'any';
-  filterState.spiceLevels    = [];
+
   filterState.excludeMethods = [];
   filterState.q6Ingredients  = [];
   filterState.q6Results      = null;
@@ -940,7 +1039,11 @@ function clearAllFilters() {
 
 function updateResultsCount(count) {
   const el = document.getElementById('results-count');
-  if (el) el.textContent = `${count} dish${count !== 1 ? 'es' : ''} found`;
+  if (!el) return;
+  if (count === 0) { el.textContent = '0 dishes found'; return; }
+  const from = (currentPage - 1) * PAGE_SIZE + 1;
+  const to   = Math.min(currentPage * PAGE_SIZE, count);
+  el.textContent = `Showing ${from}–${to} of ${count} dish${count !== 1 ? 'es' : ''}`;
 }
 
 /* ============================================================
@@ -1023,7 +1126,7 @@ async function openRecipe(name) {
   const sets    = dish.ingredientSets || [];
   if (sets.length) {
     ingWrap.innerHTML = sets.map(s => {
-      const displayLabel = getFriendlyBaseName(s.uri);
+      const displayLabel = s.label;
       const icon         = getFriendlyBaseIcon(s.uri);
       const ingHTML      = s.ingredients.length
         ? `<div class="ingset-ing-grid">${s.ingredients.map(ing => `<div class="ingredient-item"><div class="ing-dot"></div>${ing}</div>`).join('')}</div>`
@@ -1035,6 +1138,7 @@ async function openRecipe(name) {
         ? `<div class="ingset-prep-title">Preparation</div><div class="ingset-steps">${prepSteps.map((t, n) => `<div class="ingset-step"><div class="ingset-step-num">${n + 1}</div><div class="ingset-step-text">${t}</div></div>`).join('')}</div>`
         : '';
       return `<div class="ingset-block">
+        <div class="ingset-header"><span class="ingset-icon">${icon}</span><span class="ingset-label">${displayLabel}</span></div>
         <div class="ingset-body">${ingHTML}${prepHTML}</div>
       </div>`;
     }).join('');
@@ -1129,7 +1233,40 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeRecipe(
 /* ============================================================
    DISHES GRID RENDERING
    ============================================================ */
+function renderPagination(total, page) {
+  const bar = document.getElementById('pagination-bar');
+  if (!bar) return;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  if (totalPages <= 1) { bar.innerHTML = ''; return; }
+
+  const MAX_VISIBLE = 5;
+  let start = Math.max(1, page - Math.floor(MAX_VISIBLE / 2));
+  let end   = Math.min(totalPages, start + MAX_VISIBLE - 1);
+  if (end - start + 1 < MAX_VISIBLE) start = Math.max(1, end - MAX_VISIBLE + 1);
+
+  const btn = (label, p, disabled, active) =>
+    `<button class="pg-btn${active ? ' pg-active' : ''}${disabled ? ' pg-disabled' : ''}"
+      ${disabled ? 'disabled' : `onclick="goToPage(${p})"`}>${label}</button>`;
+
+  let html = btn('‹', page - 1, page === 1, false);
+  if (start > 1) html += btn('1', 1, false, false) + (start > 2 ? '<span class="pg-ellipsis">…</span>' : '');
+  for (let p = start; p <= end; p++) html += btn(p, p, false, p === page);
+  if (end < totalPages) html += (end < totalPages - 1 ? '<span class="pg-ellipsis">…</span>' : '') + btn(totalPages, totalPages, false, false);
+  html += btn('›', page + 1, page === totalPages, false);
+
+  bar.innerHTML = html;
+}
+
+function goToPage(p) {
+  currentPage = p;
+  const list = window._lastDishesList || DISHES;
+  renderDishes(true, list);
+  updateResultsCount(list.length);
+  document.getElementById('browse').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function renderDishes(animate = true, dishesList = DISHES) {
+  window._lastDishesList = dishesList;
   const grid = document.getElementById('dishes-grid');
   cardBatches.forEach(t => t.kill());
   cardBatches = [];
@@ -1141,13 +1278,18 @@ function renderDishes(animate = true, dishesList = DISHES) {
       <div style="font-size:1rem;font-weight:600">No dishes match your filters</div>
       <div style="font-size:.85rem;margin-top:8px">Try adjusting or clearing the active filters.</div>
     </div>`;
+    renderPagination(0, 1);
     return;
   }
+
+  const totalPages = Math.ceil(dishesList.length / PAGE_SIZE);
+  if (currentPage > totalPages) currentPage = totalPages;
+  const pageSlice = dishesList.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   const SPICE_EMOJI = { Mild: '🌶️', Medium: '🌶️🌶️', Hot: '🌶️🌶️🌶️', VeryHot: '🌶️🌶️🌶️🌶️' };
   const SPICE_LABEL = { Mild: '', Medium: '', Hot: '', VeryHot: '' };
 
-  dishesList.forEach(dish => {
+  pageSlice.forEach(dish => {
     const isVeg = dish.dietary === 'Vegetarian';
     const card  = document.createElement('div');
     card.className = 'dish-card';
@@ -1181,7 +1323,9 @@ function renderDishes(animate = true, dishesList = DISHES) {
     initCard3D(card);
   });
 
-  if (animate && dishesList.length) {
+  renderPagination(dishesList.length, currentPage);
+
+  if (animate && pageSlice.length) {
     gsap.set('.dish-card', { opacity: 0, y: 55, scale: 0.93 });
     cardBatches = ScrollTrigger.batch('.dish-card', {
       onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, scale: 1, duration: .65, stagger: .07, ease: 'power3.out', overwrite: true }),
@@ -1520,11 +1664,283 @@ function initGSAP() {
 }
 
 /* ============================================================
+   CHATBOT — INGREDIENT ASSISTANT
+   ============================================================ */
+
+/* ── Levenshtein edit distance ── */
+function levenshtein(a, b) {
+  const m = a.length, n = b.length;
+  const dp = Array.from({ length: m + 1 }, (_, i) => Array.from({ length: n + 1 }, (_, j) => i === 0 ? j : j === 0 ? i : 0));
+  for (let i = 1; i <= m; i++)
+    for (let j = 1; j <= n; j++)
+      dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+  return dp[m][n];
+}
+
+/* ── Fuzzy-correct a single ingredient word ── */
+function fuzzyCorrectIngredient(word) {
+  const lower = word.toLowerCase().trim();
+  if (!lower) return { corrected: lower, changed: false };
+  if (KNOWN_INGREDIENTS.has(lower)) return { corrected: lower, changed: false };
+
+  // Also seed from grocery stocks at query time
+  const allKnown = new Set([...KNOWN_INGREDIENTS]);
+  locData.groceries.forEach(g => (g.stocks || []).forEach(s => allKnown.add(s.toLowerCase())));
+
+  const maxDist = lower.length <= 5 ? 2 : lower.length <= 9 ? 3 : 4;
+  let best = null, bestDist = Infinity;
+  for (const known of allKnown) {
+    // Quick prefix check to skip obviously distant words
+    if (Math.abs(known.length - lower.length) > maxDist) continue;
+    const d = levenshtein(lower, known);
+    if (d < bestDist) { bestDist = d; best = known; }
+  }
+  if (best && bestDist <= maxDist) return { corrected: best, changed: best !== lower };
+  return { corrected: lower, changed: false };
+}
+
+/* ── Parse user message into corrected ingredient list ── */
+function parseIngredients(text) {
+  const tokens = text.split(/[,&+]|\band\b/i)
+    .map(t => t.trim().toLowerCase())
+    .filter(t => t.length > 1);
+
+  const corrected = [];
+  const corrections = [];
+  for (const token of tokens) {
+    const { corrected: c, changed } = fuzzyCorrectIngredient(token);
+    corrected.push(c);
+    if (changed) corrections.push({ from: token, to: c });
+  }
+  return { corrected, corrections };
+}
+
+/* ── Append a message bubble to chat ── */
+function appendBubble(html, type = 'bot', wide = false) {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `chat-bubble chat-bubble--${type}${wide ? ' chat-bubble--wide' : ''}`;
+  div.innerHTML = html;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function appendTyping() {
+  const msgs = document.getElementById('chat-messages');
+  const el = document.createElement('div');
+  el.className = 'chat-typing';
+  el.id = 'chat-typing-indicator';
+  el.innerHTML = '<span></span><span></span><span></span>';
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  return el;
+}
+
+function removeTyping() {
+  document.getElementById('chat-typing-indicator')?.remove();
+}
+
+/* ── Match locations relevant to found dishes / ingredients ── */
+function chatMatchLocations(dishNames, ingredients) {
+  const dishSet   = new Set(dishNames.map(n => n.toLowerCase()));
+  // Squished set handles URI-local-name fallbacks e.g. "IdliSambar" vs "Idli Sambar"
+  const squishSet = new Set([...dishSet].map(n => n.replace(/\s+/g, '')));
+  const ingSet    = new Set(ingredients.map(i => i.toLowerCase()));
+
+  const restaurants = locData.restaurants.filter(r =>
+    (r.dishes || []).some(d => {
+      const dl = d.toLowerCase();
+      return dishSet.has(dl) || squishSet.has(dl.replace(/\s+/g, ''));
+    })
+  );
+
+  const groceries = locData.groceries.filter(g =>
+    (g.stocks || []).some(s => ingSet.has(s.toLowerCase()) ||
+      [...ingSet].some(ing => s.toLowerCase().includes(ing) || ing.includes(s.toLowerCase())))
+  );
+
+  return { restaurants, groceries };
+}
+
+/* ── Render bot result cards ── */
+function renderChatResults(matchedDishes, restaurants, groceries) {
+  const msgs = document.getElementById('chat-messages');
+
+  // Dishes
+  if (matchedDishes.length) {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-bubble chat-bubble--bot chat-bubble--wide';
+    wrap.innerHTML = `<div class="chat-results-label">🍽️ Dishes you can make</div>` +
+      matchedDishes.map(dish => {
+        const imgKey = dish.imgKey;
+        const imgSrc = imgKey && window.DISH_IMGS && window.DISH_IMGS[imgKey];
+        const thumb = imgSrc
+          ? `<img src="${imgSrc}" style="width:34px;height:34px;border-radius:8px;object-fit:cover;flex-shrink:0;" alt="${dish.name}">`
+          : `<div class="chat-dish-emoji">${dish.emoji || '🍛'}</div>`;
+        return `<div class="chat-dish-card" onclick="selectDish('${dish.name.replace(/'/g,"\\'")}');document.getElementById('chat-panel').classList.remove('open');document.getElementById('chat-fab').classList.remove('open');document.getElementById('browse').scrollIntoView({behavior:'smooth'});">
+          ${thumb}
+          <div class="chat-dish-info">
+            <div class="chat-dish-name">${dish.name}</div>
+            <div class="chat-dish-meta">${dish.country || ''} · ${dish.dietary || ''}</div>
+          </div>
+          <button class="chat-view-btn">View</button>
+        </div>`;
+      }).join('');
+    msgs.appendChild(wrap);
+  }
+
+  // Restaurants
+  if (restaurants.length) {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-bubble chat-bubble--bot chat-bubble--wide';
+    wrap.innerHTML = `<div class="chat-results-label">📍 Where to eat in Bremen</div>` +
+      restaurants.map(r => `
+        <div class="chat-loc-card">
+          <div class="chat-loc-icon">🍽️</div>
+          <div>
+            <div class="chat-loc-name">${r.name}</div>
+            <div class="chat-loc-addr">${r.address}</div>
+          </div>
+        </div>`).join('');
+    msgs.appendChild(wrap);
+  }
+
+  // Groceries
+  if (groceries.length) {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-bubble chat-bubble--bot chat-bubble--wide';
+    wrap.innerHTML = `<div class="chat-results-label">🛒 Buy ingredients nearby</div>` +
+      groceries.map(g => `
+        <div class="chat-loc-card">
+          <div class="chat-loc-icon">🛒</div>
+          <div>
+            <div class="chat-loc-name">${g.name}</div>
+            <div class="chat-loc-addr">${g.address}</div>
+          </div>
+        </div>`).join('');
+    msgs.appendChild(wrap);
+  }
+
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+/* ── Main message handler ── */
+async function handleChatSend() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  // User bubble
+  appendBubble(text.replace(/</g,'&lt;'), 'user');
+
+  // Typing indicator
+  const typing = appendTyping();
+
+  // Parse + fuzzy correct
+  const { corrected, corrections } = parseIngredients(text);
+
+  if (!corrected.length) {
+    removeTyping();
+    appendBubble("I didn't catch any ingredients there. Try something like: <em>potato, chickpea, tamarind</em>", 'bot');
+    return;
+  }
+
+  // Small delay so typing animation is visible
+  await new Promise(r => setTimeout(r, 600));
+  removeTyping();
+
+  // Correction note
+  if (corrections.length) {
+    const msgs = document.getElementById('chat-messages');
+    const note = document.createElement('div');
+    note.className = 'chat-correction';
+    note.innerHTML = '✏️ Corrected: ' + corrections.map(c =>
+      `<em>${c.from}</em> → <strong>${c.to}</strong>`).join(', ');
+    msgs.appendChild(note);
+  }
+
+  appendBubble(`Searching for dishes with <strong>${corrected.join(', ')}</strong>…`, 'bot');
+  appendTyping();
+
+  try {
+    // SPARQL Q6 query (reuse existing function)
+    const bindings = await getDishesFromIngredients(corrected);
+    removeTyping();
+
+    const uriSet = new Set(bindings.map(b => b.dish.value));
+    const matchedDishes = DISHES.filter(d => uriSet.has(d.uri));
+
+    if (!matchedDishes.length) {
+      appendBubble(
+        `<span class="chat-no-results">No dishes found for those ingredients. Try other combinations like <em>tamarind, mint, semolina</em> or <em>lentil, yoghurt</em>.</span>`,
+        'bot'
+      );
+      return;
+    }
+
+    const dishNames = matchedDishes.map(d => d.name);
+    const { restaurants, groceries } = chatMatchLocations(dishNames, corrected);
+
+    appendBubble(`Found <strong>${matchedDishes.length} dish${matchedDishes.length > 1 ? 'es' : ''}</strong> matching your ingredients! 🎉`, 'bot');
+    renderChatResults(matchedDishes, restaurants, groceries);
+
+    if (!restaurants.length && !groceries.length) {
+      appendBubble('💡 Open the <strong>📍 Find in Bremen</strong> tab to explore all restaurants and grocery stores on the map.', 'bot');
+    }
+  } catch {
+    removeTyping();
+    appendBubble('Sorry, something went wrong querying the knowledge graph. Please try again.', 'bot');
+  }
+}
+
+/* ── Init chatbot ── */
+function initChatbot() {
+  const fab   = document.getElementById('chat-fab');
+  const panel = document.getElementById('chat-panel');
+  const close = document.getElementById('chat-close');
+  const send  = document.getElementById('chat-send');
+  const input = document.getElementById('chat-input');
+
+  function openChat() {
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    fab.classList.add('open');
+    input.focus();
+    if (!chatGreeted) {
+      chatGreeted = true;
+      setTimeout(() => {
+        appendBubble('👋 Hi! Tell me what ingredients you have and I\'ll find South Asian dishes you can make — plus where to eat or buy them in Bremen.', 'bot');
+        setTimeout(() => appendBubble('Try typing something like: <em>potato, chickpea, tamarind</em>', 'bot'), 500);
+      }, 200);
+    }
+  }
+
+  function closeChat() {
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    fab.classList.remove('open');
+  }
+
+  fab.addEventListener('click', () => panel.classList.contains('open') ? closeChat() : openChat());
+  close.addEventListener('click', closeChat);
+  send.addEventListener('click', handleChatSend);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') handleChatSend(); });
+}
+
+/* ============================================================
    DOM READY INITIALIZATION
    ============================================================ */
 document.addEventListener('DOMContentLoaded', async () => {
   initSPARQLConsole();
   initFilterPanels();
+
+  // Eagerly load location data so chatbot fuzzy matching has grocery stocks available immediately
+  loadLocationsFromSPARQL().then(data => {
+    locData = data;
+    data.groceries.forEach(g => (g.stocks || []).forEach(s => KNOWN_INGREDIENTS.add(s.toLowerCase())));
+  }).catch(() => {});
 
   // Show loading state
   const grid = document.getElementById('dishes-grid');
@@ -1540,6 +1956,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     DISHES = await loadDishData();
+    DISHES.forEach(d => d.ingredients.forEach(i => KNOWN_INGREDIENTS.add(i.toLowerCase())));
     console.log("Loaded dishes:", DISHES.length);
 
       console.table(
@@ -1590,9 +2007,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     r.addEventListener('change', applyAllFilters)
   );
 
-  document.querySelectorAll('.spice-check').forEach(cb =>
-    cb.addEventListener('change', applyAllFilters)
-  );
 
   document.querySelectorAll('.method-check').forEach(cb =>
     cb.addEventListener('change', applyAllFilters)
@@ -1618,6 +2032,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   /* ── Clear All Filters button ── */
   document.getElementById('clear-filters-btn')?.addEventListener('click', clearAllFilters);
+
+  /* ── Chatbot ── */
+  initChatbot();
 
   /* ── Init GSAP ── */
   requestAnimationFrame(() => {
