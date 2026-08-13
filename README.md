@@ -21,7 +21,7 @@ An interactive web app for exploring iconic street foods from India, Pakistan, a
 
 | Layer | Tool |
 |---|---|
-| Knowledge Graph | [TriplyDB](https://triplydb.com) — SPARQL endpoint |
+| Knowledge Graph | [TriplyDB]([https://triplydb.com](https://triplydb.com/Areesha/South-Asian-Street-Food-KG/)) — SPARQL endpoint |
 | Frontend | Vanilla HTML / CSS / JavaScript |
 | Animations | GSAP 3 + ScrollTrigger |
 | Map | Leaflet.js |
